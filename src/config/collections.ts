@@ -1,47 +1,63 @@
 import type { FileSystemSource, MDXContent } from "mdxts/collections"
+import { createSource, mergeSources } from "mdxts"
 import { createCollection } from "mdxts/collections"
 
 export interface PostSchema {
   default: MDXContent
-  frontmatter?: {
+  frontmatter: {
     title: string
-    description: string
+    summary: string
   }
 }
 
-export interface DocsSchema {
+export interface DocSchema {
   default: MDXContent
-  frontmatter?: {
+  frontmatter: {
     title: string
-    description: string
+    summary: string
   }
 }
 
-export type PostSource = FileSystemSource<
-  { default: PostSchema["default"] } & {
-    frontmatter?: PostSchema["frontmatter"]
-  }
->
+interface FrontMatter {
+  title: string
+  date: Date
+  summary?: string
+  tags?: string[]
+}
+
+export type PostSource = FileSystemSource<PostSchema>
 
 export type DocsSource = FileSystemSource<{
-  default: DocsSchema["default"]
-  frontmatter?: DocsSchema["frontmatter"]
+  default: DocSchema["default"]
+  frontmatter?: DocSchema["frontmatter"]
 }>
 
-export const PostsCollection = createCollection<{
-  default: PostSchema["default"]
-  frontmatter?: PostSchema["frontmatter"]
-}>("@/content/posts/**/*.{ts,mdx}", {
-  title: "Posts",
+// export const PostsCollection = createCollection<PostSchema>(
+//   "@/content/posts/**/*.{ts,mdx}",
+//   {
+//     title: "Posts",
+//     baseDirectory: "posts",
+//     basePath: "posts",
+//   },
+// )
+
+// export const DocsCollection = createCollection<DocsSchema>(
+//   "@/content/docs/**/*.{ts,mdx}",
+//   {
+//     title: "Docs",
+//     baseDirectory: "docs",
+//     basePath: "docs",
+//   },
+// )
+
+export const PostsSource = createSource("../content/posts/**/*.mdx", {
   baseDirectory: "posts",
-  basePath: "posts",
+  basePathname: "posts",
 })
 
-export const DocsCollection = createCollection<{
-  default: DocsSchema["default"]
-  frontmatter?: DocsSchema["frontmatter"]
-}>("@/content/docs/**/*.{ts,mdx}", {
-  title: "Docs",
+export const DocsSource = createSource("../content/docs/**/*.mdx", {
   baseDirectory: "docs",
-  basePath: "docs",
+  basePathname: "docs",
 })
+
+export const allContent = mergeSources(PostsSource, DocsSource)

@@ -16,7 +16,7 @@ Let's start by creating our `Button` component. This button will be customizable
 ```jsx filename="Button.tsx"
 import React from 'react'
 
-export function Button({ label, onClick, className }) {
+export function Button({ label, onClick, className }: {label: string, onClick: () => void, className: string}) {
   return (
     <button className={className} onClick={onClick}>
       {label}

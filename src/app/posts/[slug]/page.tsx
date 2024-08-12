@@ -1,15 +1,22 @@
-import { PostsCollection } from "@/config/collections"
+import { PostsSource } from "@/config/collections"
 
-export default function PostsPage({ params }: { params: { slug: string[] } }) {
-  const data = PostsCollection.getSource(params.slug)
+export default async function PostsPage({
+  params,
+}: {
+  params: { slug: string[] }
+}) {
+  const data = await PostsSource.get(params.slug)
 
-  console.log({ data })
   if (!data) {
     return <>Is this the correct page</>
   }
+
+  const { Content } = data
+
   return (
     <>
-      <h2>{data.getTitle()}</h2>
+      <h2>{data.title}</h2>
+      <div>{Content ? <Content /> : <>No Content</>}</div>
     </>
   )
 }

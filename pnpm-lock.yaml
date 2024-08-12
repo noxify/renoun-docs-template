@@ -9,10 +9,10 @@ importers:
   .:
     dependencies:
       '@radix-ui/react-dropdown-menu':
-        specifier: ^2.1.1
+        specifier: 2.1.1
         version: 2.1.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@radix-ui/react-slot':
-        specifier: ^1.1.0
+        specifier: 1.1.0
         version: 1.1.0(@types/react@18.3.3)(react@18.3.1)
       class-variance-authority:
         specifier: 0.7.0
@@ -24,8 +24,8 @@ importers:
         specifier: 0.427.0
         version: 0.427.0(react@18.3.1)
       mdxts:
-        specifier: 1.6.0
-        version: 1.6.0(next@14.2.5(@babel/core@7.25.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4)(webpack@5.93.0)
+        specifier: 1.6.1
+        version: 1.6.1(next@14.2.5(@babel/core@7.25.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4)(webpack@5.93.0)
       next:
         specifier: 14.2.5
         version: 14.2.5(@babel/core@7.25.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -39,7 +39,7 @@ importers:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
       tailwind-merge:
-        specifier: ^2.5.0
+        specifier: 2.5.0
         version: 2.5.0
       tailwindcss-animate:
         specifier: 1.0.7
@@ -2279,8 +2279,8 @@ packages:
   mdast-util-to-string@4.0.0:
     resolution: {integrity: sha512-0H44vDimn51F0YwvxSJSm0eCDOJTRlmN0R1yBh4HLj9wiV1Dn0QoXGbvFAWj2hSItVTlCmBF1hqKlIyUBVFLPg==}
 
-  mdxts@1.6.0:
-    resolution: {integrity: sha512-LwZ/rEeH1gNuItP6JT4MvNM4dX0VPubhNCe5mu/fAKWYhTlQW5wzJdqVPCA5zst9cHTRvvb9oFESBr8UIRlpVw==}
+  mdxts@1.6.1:
+    resolution: {integrity: sha512-Eh603E5Tyz5ci513/H80dAgJEWXFhobZ83PKcbZ1ehvyMf6rma8sNc4HpbV/d+oNsEHtxRCn3C0gRkW3WN250A==}
     hasBin: true
     peerDependencies:
       next: '>=13.0.0'
@@ -6451,7 +6451,7 @@ snapshots:
     dependencies:
       '@types/mdast': 4.0.4
 
-  mdxts@1.6.0(next@14.2.5(@babel/core@7.25.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4)(webpack@5.93.0):
+  mdxts@1.6.1(next@14.2.5(@babel/core@7.25.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1))(prettier@3.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(typescript@5.5.4)(webpack@5.93.0):
     dependencies:
       '@manypkg/find-root': 2.2.3
       '@mdx-js/loader': 2.3.0(webpack@5.93.0)
