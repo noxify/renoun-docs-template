@@ -4,10 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "_dev": "concurrently \"mdxts watch\" \"next dev\"",
     "build": "mdxts next build",
     "deps:check": "pnpm outdated -r",
     "deps:update": "pnpm update -i -L -r",
-    "dev": "concurrently \"mdxts watch\" \"next dev\"",
+    "dev": "next dev",
     "format": "prettier --check . --ignore-path .gitignore",
     "format:fix": "prettier --check --write . --ignore-path .gitignore",
     "itaps": "tsx src/itaps.ts",

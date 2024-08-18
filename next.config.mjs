@@ -1,7 +1,9 @@
-import createMDXPlugin from "@next/mdx"
+//import createMDXPlugin from "@next/mdx"
+import { createMdxtsPlugin } from "mdxts/next"
 import webpack from "webpack"
 
-const withMdxts = createMDXPlugin({
+// const withMdxts = createMDXPlugin({
+const withMdxts = createMdxtsPlugin({
   theme: "nord",
   gitSource: "https://github.com/noxify/mdxts-docs-template",
 })
