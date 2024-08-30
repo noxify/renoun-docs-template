@@ -20,7 +20,7 @@
     ],
     "paths": {
       "@/*": ["./src/*"],
-      "content/*": ["./content/*"],
+      "@content/*": ["./content/*"],
       "omnidoc/*": [".omnidoc/*.ts"]
     }
   },

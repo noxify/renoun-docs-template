@@ -13,7 +13,7 @@ export interface DocSchema {
 export type DocsSource = FileSystemSource<DocSchema>
 
 export const DocsCollection = createCollection<DocSchema>(
-  "content/docs/**/*.{ts,tsx,mdx}",
+  "@content/docs/**/*.{ts,tsx,mdx}",
   {
     title: "Docs",
     baseDirectory: "docs",
