@@ -27,6 +27,9 @@ export default withMDX({
           return data
         },
       ),
+      new webpack.IgnorePlugin({
+        resourceRegExp: /^perf_hooks$/,
+      }),
     )
     return config
   },
