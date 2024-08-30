@@ -3,7 +3,7 @@ import type {
   CollectionSource,
   FileExports,
   FileSystemSource,
-} from "mdxts/collections"
+} from "omnidoc/collections"
 import { notFound } from "next/navigation"
 import SectionGrid from "@/components/section-grid"
 import Siblings from "@/components/siblings"
@@ -12,11 +12,9 @@ import { DocsCollection } from "@/config/collections"
 export async function generateStaticParams() {
   const sources = await DocsCollection.getSources()
 
-  return (
-    sources
-      //.filter((source) => source.isFile())
-      .map((source) => ({ slug: source.getPathSegments() }))
-  )
+  return sources
+    .filter((source) => source.isFile())
+    .map((source) => ({ slug: source.getPathSegments() }))
 }
 interface TreeItem {
   title: string
@@ -81,11 +79,10 @@ export default async function DocsPage({
 
   const tree = await getTree<DocSchema>({ input: DocsCollection })
 
-  console.log({ source: source })
+  console.log({ tree })
 
   return (
     <>
-      <h1>{source.getTitle()}</h1>
       <Content />
 
       <SectionGrid sections={sections} />

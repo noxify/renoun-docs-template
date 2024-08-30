@@ -1,5 +1,5 @@
-import type { FileSystemSource, MDXContent } from "mdxts/collections"
-import { createCollection } from "mdxts/collections"
+import type { FileSystemSource, MDXContent } from "omnidoc/collections"
+import { createCollection } from "omnidoc/collections"
 
 export interface DocSchema {
   default: MDXContent

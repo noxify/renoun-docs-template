@@ -1,22 +1,22 @@
-//import createMDXPlugin from "@next/mdx"
-import { createMdxtsPlugin } from "mdxts/next"
-import webpack from "webpack"
+import createMDXPlugin from "@next/mdx"
+import remarkFrontmatter from "remark-frontmatter"
+import remarkMdxFrontmatter from "remark-mdx-frontmatter"
 
-// const withMdxts = createMDXPlugin({
-const withMdxts = createMdxtsPlugin({
-  theme: "nord",
-  gitSource: "https://github.com/noxify/mdxts-docs-template",
+const withMDX = createMDXPlugin({
+  extension: /\.mdx?$/,
+  options: {
+    remarkPlugins: [remarkFrontmatter, remarkMdxFrontmatter],
+  },
 })
 
-/** @type {import('next').NextConfig} */
-const nextConfig = withMdxts({
+export default withMDX({
+  output: "export",
   reactStrictMode: true,
 
-  /** We already do linting and typechecking as separate tasks in CI */
+  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
-  pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
-  webpack(config) {
+  webpack(config, { webpack }) {
     config.plugins.push(
       new webpack.ContextReplacementPlugin(
         /\/(@ts-morph\/common)\//,
@@ -27,12 +27,7 @@ const nextConfig = withMdxts({
           return data
         },
       ),
-      new webpack.IgnorePlugin({
-        resourceRegExp: /^perf_hooks$/,
-      }),
     )
     return config
   },
 })
-
-export default nextConfig
