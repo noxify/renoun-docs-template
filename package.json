@@ -3,6 +3,7 @@
   "version": "0.1.1",
   "private": true,
   "type": "module",
+  "workspaces": {},
   "scripts": {
     "build": "mdxts next build",
     "deps:check": "pnpm outdated -r",
@@ -37,7 +38,8 @@
     "restyle": "2.1.0",
     "tailwind-merge": "2.5.2",
     "tailwindcss-animate": "1.0.7",
-    "tm-themes": "1.8.1"
+    "tm-themes": "1.8.1",
+    "zod": "3.23.8"
   },
   "devDependencies": {
     "@eslint/compat": "1.1.1",

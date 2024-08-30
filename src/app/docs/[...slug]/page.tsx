@@ -1,13 +1,13 @@
-import type { DocSchema } from "@/config/collections"
+import type { DocSchema } from "@/collections"
 import type {
   CollectionSource,
   FileExports,
   FileSystemSource,
 } from "omnidoc/collections"
 import { notFound } from "next/navigation"
+import { DocsCollection } from "@/collections"
 import SectionGrid from "@/components/section-grid"
 import Siblings from "@/components/siblings"
-import { DocsCollection } from "@/config/collections"
 
 export async function generateStaticParams() {
   const sources = await DocsCollection.getSources()

@@ -68,6 +68,9 @@ importers:
       tm-themes:
         specifier: 1.8.1
         version: 1.8.1
+      zod:
+        specifier: 3.23.8
+        version: 3.23.8
     devDependencies:
       '@eslint/compat':
         specifier: 1.1.1
