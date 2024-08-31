@@ -42,8 +42,8 @@ importers:
         specifier: 0.3.0
         version: 0.3.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       omnidoc:
-        specifier: 3.0.0
-        version: 3.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 3.0.1
+        version: 3.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       react:
         specifier: 18.3.1
         version: 18.3.1
@@ -2639,8 +2639,8 @@ packages:
     resolution: {integrity: sha512-yBYjY9QX2hnRmZHAjG/f13MzmBzxzYgQhFrke06TTyKY5zSTEqkOeukBzIdVA3j3ulu8Qa3MbVFShV7T2RmGtQ==}
     engines: {node: '>= 0.4'}
 
-  omnidoc@3.0.0:
-    resolution: {integrity: sha512-FJFhxSJhwap77ODJgwwbMjjjcauu1w7tDB/C8J31caq+KQxYqwg48TKRVhLOzmTgkbu3uQUdGWK67EAKkQeA2Q==}
+  omnidoc@3.0.1:
+    resolution: {integrity: sha512-1SaSS8QI7nxDVrhowJVmzx4PGdYXbCJSoCoS3EoB9C95gWNqSrg48UaV+UZm716SO4QccivdSZwSskbN7xyH4A==}
     hasBin: true
     peerDependencies:
       react: '>=18.0.0'
@@ -6556,7 +6556,7 @@ snapshots:
       define-properties: 1.2.1
       es-object-atoms: 1.0.0
 
-  omnidoc@3.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  omnidoc@3.0.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@mdx-js/mdx': 3.0.1
       fast-glob: 3.3.2
