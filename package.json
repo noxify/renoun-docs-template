@@ -5,7 +5,7 @@
   "type": "module",
   "workspaces": {},
   "scripts": {
-    "build": "mdxts next build",
+    "build": "omnidoc next build",
     "deps:check": "pnpm outdated -r",
     "deps:update": "pnpm update -i -L -r",
     "dev": "omnidoc next dev",
