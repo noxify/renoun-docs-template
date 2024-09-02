@@ -1,4 +1,4 @@
-import type { DocsSource } from "@/config/collections"
+import type { DocsSource } from "@/collections"
 import Link from "next/link"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 
