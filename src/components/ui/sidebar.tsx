@@ -8,10 +8,38 @@ import { useSidebarStore } from "@/hooks/use-sidebar"
 import { cn } from "@/lib/utils"
 import { PanelLeft } from "lucide-react"
 
+const SidebarLayout = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"div">
+>(({ className, ...props }, ref) => {
+  const { showSidebar } = useSidebarStore()
+  const isMobile = useIsMobile()
+
+  const state = showSidebar && !isMobile ? "open" : "closed"
+
+  return (
+    <div
+      ref={ref}
+      data-sidebar={state}
+      style={
+        {
+          "--sidebar-width": "16rem",
+        } as React.CSSProperties
+      }
+      className={cn(
+        "top-20 flex min-h-screen bg-accent/50 pl-0 transition-all duration-300 ease-in-out data-[sidebar=closed]:pl-0 sm:pl-[--sidebar-width]",
+        className,
+      )}
+      {...props}
+    />
+  )
+})
+SidebarLayout.displayName = "SidebarLayout"
+
 const SidebarTrigger = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<"button">
->(({ className, ...props }, ref) => {
+>(({ ...props }, ref) => {
   const { toggleSidebar } = useSidebarStore()
 
   return (
@@ -19,7 +47,6 @@ const SidebarTrigger = React.forwardRef<
       ref={ref}
       variant="ghost"
       size="icon"
-      className={cn("h-8 w-8", className)}
       onClick={() => toggleSidebar()}
       {...props}
     >
@@ -48,7 +75,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
       return (
         <Sheet open={!showSidebar} onOpenChange={() => toggleSidebar()}>
           <SheetContent
-            className="w-[260px] p-0 md:hidden [&>button]:hidden"
+            className="w-[--sidebar-width] p-0 [&>button]:hidden"
             side="left"
           >
             {sidebar}
@@ -58,7 +85,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
     }
 
     return (
-      <aside className="fixed inset-y-0 left-0 z-10 hidden transition-all duration-300 ease-in-out md:block md:w-[--sidebar-width] [[data-sidebar=closed]_&]:left-[calc(var(--sidebar-width)*-1)]">
+      <aside className="fixed inset-y-0 left-0 z-10 w-[--sidebar-width] transition-all duration-300 ease-in-out md:block [[data-sidebar=closed]_&]:left-[calc(var(--sidebar-width)*-1)]">
         {sidebar}
       </aside>
     )
@@ -143,4 +170,5 @@ export {
   SidebarItem,
   SidebarLabel,
   SidebarTrigger,
+  SidebarLayout,
 }

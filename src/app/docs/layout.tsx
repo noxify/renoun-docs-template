@@ -1,8 +1,11 @@
 import type { DocSchema } from "@/collections"
 import { DocsCollection } from "@/collections"
 import { SiteSidebar } from "@/components/sidebar"
-import { SidebarTrigger } from "@/components/ui/sidebar"
+import { ThemeToggle } from "@/components/theme-toggle"
+import { Button } from "@/components/ui/button"
+import { SidebarLayout, SidebarTrigger } from "@/components/ui/sidebar"
 import { getTree } from "@/lib/tree"
+import { SearchIcon } from "lucide-react"
 
 export default async function DocsLayout({
   children,
@@ -11,14 +14,28 @@ export default async function DocsLayout({
 }>) {
   const items = await getTree<DocSchema>({ input: DocsCollection })
   return (
-    <>
+    <SidebarLayout>
       <SiteSidebar items={items} />
-      <main className="flex flex-1 flex-col p-2 transition-all duration-300 ease-in-out">
-        <div className="h-full rounded-md border-2 border-dashed p-2">
-          <SidebarTrigger />
-        </div>
-        {children}
+      <main className="flex w-full flex-1 flex-col transition-all duration-300 ease-in-out">
+        <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+          <div className="container">
+            <nav
+              className="mx-auto flex h-12 items-center justify-between"
+              aria-label="Global"
+            >
+              <div></div>
+              <div className="flex gap-2">
+                <Button variant="ghost" size="icon">
+                  <SearchIcon className="h-4 w-4" />
+                </Button>
+                <SidebarTrigger />
+                <ThemeToggle />
+              </div>
+            </nav>
+          </div>
+        </header>
+        <div className="container py-6">{children}</div>
       </main>
-    </>
+    </SidebarLayout>
   )
 }

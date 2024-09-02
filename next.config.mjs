@@ -12,7 +12,8 @@ const withMDX = createMDXPlugin({
 export default withMDX({
   output: "export",
   reactStrictMode: true,
-
+  trailingSlash: true,
+  poweredByHeader: false,
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
