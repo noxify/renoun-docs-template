@@ -53,6 +53,7 @@ export async function getTree<T extends FileExports>({
             })
           : [],
     }
+
     tree.push(treeItem)
   }
   return tree

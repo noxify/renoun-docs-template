@@ -2,7 +2,7 @@
 
 import type { TreeItem } from "@/lib/tree"
 import Link from "next/link"
-import { Navigation } from "@/components/navigation"
+import { Navigation } from "@/components/docs-navigation"
 import {
   Sidebar,
   SidebarContent,
@@ -12,7 +12,7 @@ import {
 
 export function SiteSidebar({ items }: { items: TreeItem[] }) {
   return (
-    <Sidebar>
+    <Sidebar className="mt-12">
       <SidebarContent>
         {items.map((item) => {
           if (item.children) {

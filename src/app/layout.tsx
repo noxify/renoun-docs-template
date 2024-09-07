@@ -2,6 +2,8 @@ import type { Metadata } from "next"
 
 import "./globals.css"
 
+import { Navbar } from "@/components/main-navbar"
+import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 
 export const metadata: Metadata = {
@@ -24,7 +26,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
+          <Navbar />
           {children}
+          <TailwindIndicator />
         </ThemeProvider>
       </body>
     </html>
