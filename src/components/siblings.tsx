@@ -1,7 +1,6 @@
-import type { DocsSource } from "@/config/collections"
+import type { DocsSource } from "@/collections"
 import Link from "next/link"
-import { Arrow } from "@radix-ui/react-dropdown-menu"
-import { ArrowRightIcon, ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 export default async function Siblings({
   source,
@@ -17,7 +16,7 @@ export default async function Siblings({
   })
 
   return (
-    <nav className="flex items-center justify-between">
+    <nav className="mt-6 flex items-center justify-between border-t pt-6">
       <div className="flex w-0 flex-1">
         {previousPage && (
           <>
@@ -27,12 +26,12 @@ export default async function Siblings({
               title={`Go to previous page: ${previousPage.getTitle()}`}
             >
               <div className="group flex shrink-0 items-center gap-x-4">
-                <ChevronLeftIcon className="h-5 w-5 flex-none text-gray-500 transition-colors duration-200 group-hover:text-foreground" />
+                <ChevronLeftIcon className="h-5 w-5 flex-none text-gray-500 transition-colors duration-200 group-hover:text-foreground dark:text-gray-400" />
                 <div className="flex flex-col items-start">
                   <p className="text-xs leading-5 text-gray-500">
                     Previous page
                   </p>
-                  <p className="text-sm font-medium leading-5 text-gray-500 transition-colors duration-200 group-hover:text-foreground">
+                  <p className="text-sm font-medium leading-5 text-gray-500 transition-colors duration-200 group-hover:text-foreground dark:text-gray-400">
                     {previousPage.getTitle()}
                   </p>
                 </div>
@@ -53,11 +52,11 @@ export default async function Siblings({
               <div className="group flex shrink-0 items-center gap-x-4">
                 <div className="flex flex-col items-end">
                   <p className="text-xs leading-5 text-gray-500">Next page</p>
-                  <p className="text-sm leading-5 text-gray-500 transition-colors duration-200 group-hover:text-foreground">
+                  <p className="text-sm leading-5 text-gray-500 transition-colors duration-200 group-hover:text-foreground dark:text-gray-400">
                     {nextPage.getTitle()}
                   </p>
                 </div>
-                <ChevronRightIcon className="h-5 w-5 flex-none text-gray-500 transition-colors duration-200 group-hover:text-foreground" />
+                <ChevronRightIcon className="h-5 w-5 flex-none text-gray-500 transition-colors duration-200 group-hover:text-foreground dark:text-gray-400" />
               </div>
             </Link>
           </>

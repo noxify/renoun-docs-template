@@ -38,6 +38,7 @@ export default async function DocsPage({
           "w-full max-w-full",
         )}
       >
+        <h1>{source.getTitle()}</h1>
         <Content />
       </article>
 
