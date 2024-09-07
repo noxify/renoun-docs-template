@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation"
 import { DocsCollection } from "@/collections"
+import { Comments } from "@/components/comments"
 import SectionGrid from "@/components/section-grid"
 import Siblings from "@/components/siblings"
 import { cn } from "@/lib/utils"
@@ -48,6 +49,9 @@ export default async function DocsPage({
 
         <Siblings source={source} />
       </article>
+      <div>
+        <Comments />
+      </div>
     </>
   )
 }
