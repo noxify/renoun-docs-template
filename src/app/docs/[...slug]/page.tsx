@@ -2,6 +2,7 @@ import { notFound } from "next/navigation"
 import { DocsCollection } from "@/collections"
 import SectionGrid from "@/components/section-grid"
 import Siblings from "@/components/siblings"
+import { cn } from "@/lib/utils"
 
 export async function generateStaticParams() {
   const sources = await DocsCollection.getSources()
@@ -27,7 +28,18 @@ export default async function DocsPage({
 
   return (
     <>
-      <Content />
+      <article
+        className={cn(
+          // default prose
+          "prose dark:prose-invert",
+          // remove backtick from inline code block
+          "prose-code:before:hidden prose-code:after:hidden",
+          // use full width
+          "w-full max-w-full",
+        )}
+      >
+        <Content />
+      </article>
 
       <SectionGrid sections={sections} />
 

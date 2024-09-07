@@ -1,7 +1,11 @@
 "use client"
 
 import type { TreeItem } from "@/lib/tree"
+import { useEffect, useState } from "react"
+import { resolveHref } from "next/dist/client/resolve-href"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
+import Router from "next/router"
 import { Button } from "@/components/ui/button"
 import {
   Collapsible,
@@ -10,6 +14,28 @@ import {
 } from "@/components/ui/collapsible"
 import { cn } from "@/lib/utils"
 import { ChevronRight } from "lucide-react"
+import multimatch from "multimatch"
+
+function isActive(
+  currentPath: string | string[],
+  checkPath: string | string[],
+) {
+  return multimatch(currentPath, checkPath).length > 0
+}
+
+const current = ({ pathname, item }: { pathname: string; item: TreeItem }) => {
+  const active = isActive(
+    pathname,
+    [item.path, ...(item.children ?? []).map((ele) => ele.path)]
+      .map((ele) => {
+        const resolvedUrl = resolveHref(Router, ele)
+        return [resolvedUrl, `${resolvedUrl}/**`]
+      })
+      .flat(),
+  )
+
+  return active
+}
 
 export function Navigation({
   className,
@@ -17,79 +43,117 @@ export function Navigation({
 }: {
   items: TreeItem[]
 } & React.ComponentProps<"ul">) {
+  const pathname = usePathname()
+
   return (
     <ul className={cn("grid gap-0.5", className)}>
       {items.map((item) =>
         (item.children ?? []).length > 0 ? (
-          <Collapsible key={item.path} asChild defaultOpen={true}>
-            <li>
-              <div className="relative flex items-center">
-                {item.isFile ? (
-                  <Link
-                    href={item.path}
-                    className="flex h-8 min-w-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2"
-                  >
-                    <div className="flex flex-1 overflow-hidden">
-                      <div className="line-clamp-1 pr-6">{item.title}</div>
-                    </div>
-                  </Link>
-                ) : (
-                  <div className="flex flex-1 overflow-hidden">
-                    <div className="line-clamp-1 pr-6">{item.title}</div>
-                  </div>
-                )}
-
-                <CollapsibleTrigger asChild>
-                  <Button
-                    variant="ghost"
-                    className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
-                  >
-                    <ChevronRight className="h-4 w-4 text-muted-foreground" />
-                    <span className="sr-only">Toggle</span>
-                  </Button>
-                </CollapsibleTrigger>
-              </div>
-              <CollapsibleContent className="px-4 py-0.5">
-                <ul className="grid border-l px-2">
-                  {item.children?.map((subItem) => {
-                    if ((subItem.children ?? []).length > 0) {
-                      return (
-                        <li key={subItem.path}>
-                          <Navigation items={[subItem]} />
-                        </li>
-                      )
-                    }
-
-                    return (
-                      <li key={subItem.path}>
-                        <Link
-                          href={subItem.path}
-                          className="flex h-8 min-w-8 items-center gap-2 overflow-hidden rounded-md px-2 text-sm text-muted-foreground ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2"
-                        >
-                          <div className="line-clamp-1">{subItem.title}</div>
-                        </Link>
-                      </li>
-                    )
-                  })}
-                </ul>
-              </CollapsibleContent>
-            </li>
-          </Collapsible>
+          <CollapsibleItem pathname={pathname} item={item} key={item.path} />
         ) : (
           <li key={item.path}>
             <div className="relative flex items-center">
               <Link
                 href={item.path}
-                className="flex h-8 min-w-8 flex-1 items-center gap-2 overflow-hidden rounded-md px-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2"
+                className={cn(
+                  "flex h-8 min-w-8 flex-1 items-center gap-2 px-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                  current({ pathname, item }) ? "font-medium" : "",
+                )}
               >
-                <div className="flex flex-1 overflow-hidden">
-                  <div className="line-clamp-1 pr-6">{item.title}</div>
-                </div>
+                <div className="line-clamp-1 pr-6">{item.title}</div>
               </Link>
             </div>
           </li>
         ),
       )}
     </ul>
+  )
+}
+
+function CollapsibleItem({
+  pathname,
+  item,
+}: {
+  pathname: string
+  item: TreeItem
+}) {
+  const isCurrent = current({ pathname, item })
+  const [open, setOpen] = useState(isCurrent)
+
+  useEffect(() => {
+    setOpen(isCurrent)
+  }, [isCurrent])
+
+  return (
+    <Collapsible key={item.path} asChild open={open} onOpenChange={setOpen}>
+      <li>
+        <div className="relative flex items-center">
+          {item.isFile ? (
+            <Link
+              href={item.path}
+              className={cn(
+                "flex h-8 min-w-8 flex-1 items-center gap-2 px-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                current({ pathname, item }) ? "font-medium" : "",
+              )}
+            >
+              {current({ pathname, item }) && (
+                <div
+                  aria-hidden="true"
+                  className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/30"
+                ></div>
+              )}
+              <div className="line-clamp-1 pr-6">{item.title}</div>
+            </Link>
+          ) : (
+            <div className="flex flex-1 overflow-hidden">
+              <div className="line-clamp-1 pr-6">{item.title}</div>
+            </div>
+          )}
+
+          <CollapsibleTrigger asChild>
+            <Button
+              variant="ghost"
+              className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
+            >
+              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              <span className="sr-only">Toggle</span>
+            </Button>
+          </CollapsibleTrigger>
+        </div>
+        <CollapsibleContent className="px-2 py-0.5">
+          <ul className="grid border-l px-2">
+            {item.children?.map((subItem) => {
+              if ((subItem.children ?? []).length > 0) {
+                return (
+                  <li key={subItem.path}>
+                    <Navigation items={[subItem]} />
+                  </li>
+                )
+              }
+
+              return (
+                <li key={subItem.path}>
+                  <Link
+                    href={subItem.path}
+                    className={cn(
+                      "relative flex h-8 min-w-8 items-center gap-2 px-2 text-sm text-muted-foreground ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                      current({ pathname, item: subItem }) ? "font-medium" : "",
+                    )}
+                  >
+                    {current({ pathname, item: subItem }) && (
+                      <div
+                        aria-hidden="true"
+                        className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/30"
+                      ></div>
+                    )}
+                    <div className="line-clamp-1">{subItem.title}</div>
+                  </Link>
+                </li>
+              )
+            })}
+          </ul>
+        </CollapsibleContent>
+      </li>
+    </Collapsible>
   )
 }

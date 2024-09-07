@@ -21,13 +21,8 @@ const SidebarLayout = React.forwardRef<
     <div
       ref={ref}
       data-sidebar={state}
-      style={
-        {
-          "--sidebar-width": "16rem",
-        } as React.CSSProperties
-      }
       className={cn(
-        "top-20 flex min-h-screen bg-accent/50 pl-0 transition-all duration-300 ease-in-out data-[sidebar=closed]:pl-0 sm:pl-[--sidebar-width]",
+        "top-20 flex min-h-screen bg-accent/50 pl-0 transition-all duration-300 ease-in-out data-[sidebar=closed]:pl-0 sm:pl-[calc(theme(width.64))]",
         className,
       )}
       {...props}
@@ -74,10 +69,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
     if (isMobile) {
       return (
         <Sheet open={!showSidebar} onOpenChange={() => toggleSidebar()}>
-          <SheetContent
-            className="w-[--sidebar-width] p-0 [&>button]:hidden"
-            side="left"
-          >
+          <SheetContent className="w-72 p-0 [&>button]:hidden" side="left">
             {sidebar}
           </SheetContent>
         </Sheet>
@@ -85,7 +77,7 @@ const Sidebar = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
     }
 
     return (
-      <aside className="fixed inset-y-0 left-0 z-10 w-[--sidebar-width] transition-all duration-300 ease-in-out md:block [[data-sidebar=closed]_&]:left-[calc(var(--sidebar-width)*-1)]">
+      <aside className="fixed inset-y-0 left-0 z-10 w-64 transition-all duration-300 ease-in-out md:block [[data-sidebar=closed]_&]:left-[calc(theme(width.64)*-1)]">
         {sidebar}
       </aside>
     )
