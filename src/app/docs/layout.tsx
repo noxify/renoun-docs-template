@@ -12,7 +12,7 @@ export default async function DocsLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const items = await getTree<DocSchema>({ input: DocsCollection })
+  const items = await getTree<DocSchema>({ input: DocsCollection, maxDepth: 3 })
   return (
     <SidebarLayout>
       <SiteSidebar items={items} />
