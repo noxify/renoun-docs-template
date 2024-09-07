@@ -18,7 +18,7 @@ export default async function DocsLayout({
 
   const items = await getTree({
     input: collection,
-    maxDepth: 3,
+    maxDepth: 4,
   })
 
   return (
