@@ -8,6 +8,7 @@ export interface DocSchema {
     summary: string
     tags?: string[]
   }
+  headings: { text: string; id: string; depth: number }[]
 }
 
 export type DocsSource = FileSystemSource<DocSchema>

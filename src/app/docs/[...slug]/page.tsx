@@ -24,27 +24,30 @@ export default async function DocsPage({
   }
   const sections = await source.getSources({ depth: 1 })
 
+  const headings = await source.getNamedExport("headings").getValue()
   const Content = await source.getDefaultExport().getValue()
 
   return (
     <>
-      <article
-        className={cn(
-          // default prose
-          "prose dark:prose-invert",
-          // remove backtick from inline code block
-          "prose-code:before:hidden prose-code:after:hidden",
-          // use full width
-          "w-full max-w-full",
-        )}
-      >
-        <h1>{source.getTitle()}</h1>
-        <Content />
+      <article>
+        <div
+          className={cn(
+            // default prose
+            "prose dark:prose-invert",
+            // remove backtick from inline code block
+            "prose-code:before:hidden prose-code:after:hidden",
+            // use full width
+            "w-full max-w-full",
+          )}
+        >
+          <h1>{source.getTitle()}</h1>
+          <Content />
+        </div>
+
+        <SectionGrid sections={sections} />
+
+        <Siblings source={source} />
       </article>
-
-      <SectionGrid sections={sections} />
-
-      <Siblings source={source} />
     </>
   )
 }

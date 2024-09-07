@@ -13,7 +13,7 @@
     "info": "next info",
     "lint": "eslint",
     "lint:fix": "eslint --fix",
-    "start": "tsx src/localserver.ts",
+    "preview": "tsx src/localserver.ts",
     "typecheck": "tsc --noEmit",
     "ui": "shadcn"
   },
