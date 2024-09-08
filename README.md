@@ -20,4 +20,35 @@ This is a nextjs template with omnidoc integration to render mdx content.
 
 ## Known errors
 
-- [ ] The sidebar is currently flickering if you resize the window to check how it looks like in the mobile view. **This seems to be only a problem while running `pnpm dev`**
+### Sidebar flickering
+
+The sidebar is currently flickering if you resize the window to check how it looks like in the mobile view.
+
+> **This seems to be only a problem while running `pnpm dev`**
+
+### content structure
+
+With the current template setup, we expect a content structure as follows:
+
+```
+- /content
+  - /docs
+    - /<product-name> ( e.g. aria-docs)
+      - index.mdx ( optional )
+      - /<section-name> ( e.g. getting-started )
+        - index.mdx ( optional )
+        - <file-name>.mdx ( e.g. introduction.mdx)
+```
+
+If you have something like this:
+
+```
+- /content
+  - /docs
+    - /<product-name> ( e.g. aria-docs)
+      - index.mdx ( optional )
+      - <file-name>.mdx ( e.g. getting-started.mdx )
+
+```
+
+Then the sidebar will render the `<file-name>` ( e.g. `Getting Started` ) as a clickable section and not as normal link.
