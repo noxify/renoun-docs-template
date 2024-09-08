@@ -75,7 +75,7 @@ export function SiteSidebar({
         </SidebarHeader>
       )}
       <SidebarContent>
-        <SidebarItem>
+        <SidebarItem className="border-b pb-5 md:hidden">
           <SidebarLabel>Navigation</SidebarLabel>
           <Navigation items={headerNavigation as TreeItem[]} />
         </SidebarItem>
