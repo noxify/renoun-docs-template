@@ -17,3 +17,7 @@ This is a nextjs template with omnidoc integration to render mdx content.
 - Site Header: https://github.com/nisabmohd/Aria-Docs
 - Home Page: https://github.com/nisabmohd/Aria-Docs
 - Omnidoc: https://github.com/souporserious/omnidoc
+
+## Known errors
+
+- [ ] The sidebar is currently flickering if you resize the window to check how it looks like in the mobile view. **This seems to be only a problem while running `pnpm dev`**
