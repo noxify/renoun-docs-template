@@ -38,6 +38,7 @@ export function Navbar() {
             </div>
           </div>
           <div className="flex gap-2">
+            <SidebarTrigger />
             <Button variant="ghost" size="icon">
               <SearchIcon className="h-4 w-4" />
             </Button>

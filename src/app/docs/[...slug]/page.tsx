@@ -110,7 +110,7 @@ export default async function DocsPage({
 
   return (
     <>
-      <div className="gap-8 md:flex">
+      <div className="gap-8 xl:grid xl:grid-cols-[1fr_300px]">
         <div>
           <article>
             <div
@@ -120,7 +120,8 @@ export default async function DocsPage({
                 // remove backtick from inline code block
                 "prose-code:before:hidden prose-code:after:hidden",
                 // use full width
-                "w-full max-w-[952px]",
+                "max-w-auto w-full min-w-full",
+                "grow",
               )}
             >
               <h1>{source.getTitle()}</h1>

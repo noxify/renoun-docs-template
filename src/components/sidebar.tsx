@@ -1,10 +1,9 @@
 "use client"
 
-import type { DocSchema, collections as omniCollections } from "@/collections"
 import type { TreeItem } from "@/lib/tree"
-import type { CollectionSource } from "omnidoc/collections"
 import Link from "next/link"
 import { Navigation } from "@/components/docs-navigation"
+import { headerNavigation } from "@/components/main-navbar"
 import {
   Sidebar,
   SidebarContent,
@@ -12,14 +11,13 @@ import {
   SidebarItem,
   SidebarLabel,
 } from "@/components/ui/sidebar"
-import { ChevronsUpDown, PlusIcon } from "lucide-react"
+import { ChevronsUpDown } from "lucide-react"
 
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
 
@@ -33,7 +31,7 @@ export function SiteSidebar({
   activeCollection: string
 }) {
   return (
-    <Sidebar className="mt-12">
+    <Sidebar className="md:mt-12">
       <SidebarHeader>
         <DropdownMenu>
           <DropdownMenuTrigger className="w-full rounded-md ring-ring hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 data-[state=open]:bg-accent">
@@ -70,6 +68,10 @@ export function SiteSidebar({
         </DropdownMenu>
       </SidebarHeader>
       <SidebarContent>
+        <SidebarItem>
+          <SidebarLabel>Navigation</SidebarLabel>
+          <Navigation items={headerNavigation as TreeItem[]} />
+        </SidebarItem>
         {items.map((item) => {
           if (item.children) {
             return (
