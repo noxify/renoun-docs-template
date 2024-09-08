@@ -1,5 +1,4 @@
 import type { AvailableCollections } from "@/collections"
-import Link from "next/link"
 import { notFound } from "next/navigation"
 import { collections } from "@/collections"
 import { Comments } from "@/components/comments"
