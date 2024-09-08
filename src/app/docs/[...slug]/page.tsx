@@ -57,8 +57,6 @@ export async function generateStaticParams() {
     slugs.push(...collectionSlugs)
   }
 
-  console.log(inspect({ slugs }, { depth: 4 }))
-
   return slugs
 }
 
