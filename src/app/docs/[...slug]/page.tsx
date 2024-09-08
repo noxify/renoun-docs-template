@@ -1,4 +1,6 @@
-import type { AvailableCollections } from "@/collections"
+import { inspect } from "node:util"
+import type { AvailableCollections, DocSchema } from "@/collections"
+import type { FileSystemSource } from "omnidoc/collections"
 import { notFound } from "next/navigation"
 import { collections } from "@/collections"
 import { Comments } from "@/components/comments"
@@ -46,11 +48,16 @@ export async function generateStaticParams() {
   const slugs = []
 
   for (const collection of Object.keys(collections)) {
+    // force add the root page to the available pages
+    // otherwise you can't call `/docs/<product>` directly
+    slugs.push({ slug: [collection] })
     const collectionSlugs = await getSlugsFromCollection(
       collection as AvailableCollections,
     )
     slugs.push(...collectionSlugs)
   }
+
+  console.log(inspect({ slugs }, { depth: 4 }))
 
   return slugs
 }
@@ -60,9 +67,26 @@ export default async function DocsPage({
 }: {
   params: { slug: string[] }
 }) {
-  const source = collections[params.slug[0] as AvailableCollections].getSource(
-    removeFromArray(params.slug, [params.slug[0]]),
-  )
+  const sources =
+    await collections[params.slug[0] as AvailableCollections].getSources()
+
+  let source: FileSystemSource<DocSchema> | undefined
+
+  // to support something like `/docs/<product>/`
+  // we have to check the slug length - In our case we know that the first element in the slug array
+  // is always the collection name - so we can use this to load the `index.mdx` if there is any
+  // if there are two or more elements, we just load the requested page content
+  if (params.slug.length > 1) {
+    source = collections[params.slug[0] as AvailableCollections].getSource(
+      removeFromArray(params.slug, [params.slug[0]]),
+    )
+  } else {
+    source = collections[params.slug[0] as AvailableCollections].getSource([
+      ...removeFromArray(params.slug, [params.slug[0]]),
+      "index",
+    ])
+  }
+
   // if we can't find the source then return a 404
   if (!source) {
     return notFound()
