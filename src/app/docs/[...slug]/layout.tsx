@@ -1,5 +1,5 @@
 import type { AvailableCollections } from "@/collections"
-import { AriaDocsCollection, collections } from "@/collections"
+import { collections } from "@/collections"
 import { SiteSidebar } from "@/components/sidebar"
 import { SidebarLayout } from "@/components/ui/sidebar"
 import { getTree } from "@/lib/tree"

@@ -11,6 +11,7 @@ import {
   SidebarItem,
   SidebarLabel,
 } from "@/components/ui/sidebar"
+import { cn } from "@/lib/utils"
 import { ChevronsUpDown } from "lucide-react"
 
 import {
@@ -25,48 +26,54 @@ export function SiteSidebar({
   items,
   collections,
   activeCollection,
+  hideSwitcher,
+  defaultHidden,
 }: {
   items: TreeItem[]
   collections: string[]
   activeCollection: string
+  hideSwitcher?: boolean
+  defaultHidden?: boolean
 }) {
   return (
-    <Sidebar className="md:mt-12">
-      <SidebarHeader>
-        <DropdownMenu>
-          <DropdownMenuTrigger className="w-full rounded-md ring-ring hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 data-[state=open]:bg-accent">
-            <div className="flex items-center gap-1.5 overflow-hidden px-2 py-1.5 text-left text-sm transition-all">
-              <div className="line-clamp-1 flex-1 pr-2 font-medium">
-                {activeCollection}
+    <Sidebar className="md:mt-12" defaultHidden={defaultHidden}>
+      {!hideSwitcher && (
+        <SidebarHeader>
+          <DropdownMenu>
+            <DropdownMenuTrigger className="w-full rounded-md ring-ring hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 data-[state=open]:bg-accent">
+              <div className="flex items-center gap-1.5 overflow-hidden px-2 py-1.5 text-left text-sm transition-all">
+                <div className="line-clamp-1 flex-1 pr-2 font-medium">
+                  {activeCollection}
+                </div>
+                <ChevronsUpDown className="ml-auto h-4 w-4 text-muted-foreground/50" />
               </div>
-              <ChevronsUpDown className="ml-auto h-4 w-4 text-muted-foreground/50" />
-            </div>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent
-            className="w-64"
-            align="start"
-            side="right"
-            sideOffset={4}
-          >
-            <DropdownMenuLabel className="text-xs text-muted-foreground">
-              Collections
-            </DropdownMenuLabel>
-            {collections.map((element) => (
-              <DropdownMenuItem
-                key={element}
-                className="items-start gap-2 px-1.5"
-                asChild
-              >
-                <Link href={`/docs/${element}`}>
-                  <div className="grid flex-1 leading-tight">
-                    <div className="line-clamp-1 font-medium">{element}</div>
-                  </div>
-                </Link>
-              </DropdownMenuItem>
-            ))}
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </SidebarHeader>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              className="w-64"
+              align="start"
+              side="right"
+              sideOffset={4}
+            >
+              <DropdownMenuLabel className="text-xs text-muted-foreground">
+                Collections
+              </DropdownMenuLabel>
+              {collections.map((element) => (
+                <DropdownMenuItem
+                  key={element}
+                  className="items-start gap-2 px-1.5"
+                  asChild
+                >
+                  <Link href={`/docs/${element}`}>
+                    <div className="grid flex-1 leading-tight">
+                      <div className="line-clamp-1 font-medium">{element}</div>
+                    </div>
+                  </Link>
+                </DropdownMenuItem>
+              ))}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </SidebarHeader>
+      )}
       <SidebarContent>
         <SidebarItem>
           <SidebarLabel>Navigation</SidebarLabel>

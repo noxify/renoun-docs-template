@@ -16,7 +16,7 @@ export type DocsSource = FileSystemSource<DocSchema>
 export const AriaDocsCollection = createCollection<DocSchema>(
   "@content/docs/aria-docs/**/*.{ts,tsx,mdx}",
   {
-    title: "AriaDocs",
+    title: "Aria Docs",
     baseDirectory: "content/docs/aria-docs",
     basePath: "docs/aria-docs",
   },
@@ -25,7 +25,7 @@ export const AriaDocsCollection = createCollection<DocSchema>(
 export const OmnidocDocsCollection = createCollection<DocSchema>(
   "@content/docs/omnidoc-docs/**/*.{ts,tsx,mdx}",
   {
-    title: "OmnidocDocs",
+    title: "Omnidoc Docs",
     baseDirectory: "content/docs/omnidoc-docs",
     basePath: "docs/omnidoc-docs",
   },

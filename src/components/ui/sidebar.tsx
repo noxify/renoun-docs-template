@@ -52,40 +52,48 @@ const SidebarTrigger = React.forwardRef<
 })
 SidebarTrigger.displayName = "SidebarTrigger"
 
-const Sidebar = React.forwardRef<HTMLDivElement, React.ComponentProps<"div">>(
-  ({ className, children }, ref) => {
-    const isMobile = useIsMobile()
-    const { showSidebar, toggleSidebar } = useSidebarStore()
+const Sidebar = React.forwardRef<
+  HTMLDivElement,
+  React.ComponentProps<"div"> & { defaultHidden?: boolean }
+>(({ className, children, defaultHidden }, ref) => {
+  const isMobile = useIsMobile()
+  const { showSidebar, toggleSidebar } = useSidebarStore()
 
-    const sidebar = (
-      <div
-        ref={ref}
-        className={cn(
-          "flex h-full flex-col border-r bg-background pb-12",
-          className,
-        )}
-      >
-        {children}
-      </div>
-    )
+  const sidebar = (
+    <div
+      ref={ref}
+      className={cn(
+        "flex h-full flex-col border-r bg-background pb-12",
+        className,
+      )}
+    >
+      {children}
+    </div>
+  )
 
-    if (isMobile) {
-      return (
+  if (isMobile === true) {
+    return (
+      <div className="md:hidden">
         <Sheet open={!showSidebar} onOpenChange={() => toggleSidebar()}>
           <SheetContent className="w-72 p-0 [&>button]:hidden" side="left">
             {sidebar}
           </SheetContent>
         </Sheet>
-      )
-    }
-
+      </div>
+    )
+  } else {
     return (
-      <aside className="fixed inset-y-0 left-0 z-10 w-64 transition-all duration-300 ease-in-out md:block [[data-sidebar=closed]_&]:left-[calc(theme(width.64)*-1)]">
+      <aside
+        className={cn(
+          "fixed inset-y-0 left-0 z-10 w-64 transition-all duration-300 ease-in-out [[data-sidebar=closed]_&]:left-[calc(theme(width.64)*-1)]",
+          defaultHidden ? "hidden" : "hidden md:block",
+        )}
+      >
         {sidebar}
       </aside>
     )
-  },
-)
+  }
+})
 Sidebar.displayName = "Sidebar"
 
 const SidebarHeader = React.forwardRef<
