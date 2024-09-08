@@ -12,6 +12,8 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { useSidebarStore } from "@/hooks/use-sidebar"
 import { cn } from "@/lib/utils"
 import { ChevronRight } from "lucide-react"
 import multimatch from "multimatch"
@@ -44,6 +46,9 @@ export function Navigation({
   items: TreeItem[]
 } & React.ComponentProps<"ul">) {
   const pathname = usePathname()
+  const { toggleSidebar } = useSidebarStore()
+
+  const isMobile = useIsMobile()
 
   return (
     <ul className={cn("grid gap-0.5", className)}>
@@ -54,6 +59,7 @@ export function Navigation({
           <li key={item.path}>
             <div className="relative flex items-center">
               <Link
+                onClick={isMobile ? () => toggleSidebar() : undefined}
                 href={item.path}
                 className={cn(
                   "flex h-8 min-w-8 flex-1 items-center gap-2 px-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
@@ -77,8 +83,10 @@ function CollapsibleItem({
   pathname: string
   item: TreeItem
 }) {
+  const isMobile = useIsMobile()
   const isCurrent = current({ pathname, item })
   const [open, setOpen] = useState(isCurrent)
+  const { toggleSidebar } = useSidebarStore()
 
   useEffect(() => {
     setOpen(isCurrent)
@@ -91,6 +99,7 @@ function CollapsibleItem({
           {item.isFile ? (
             <Link
               href={item.path}
+              onClick={isMobile ? () => toggleSidebar() : undefined}
               className={cn(
                 "flex h-8 min-w-8 flex-1 items-center gap-2 px-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
                 current({ pathname, item }) ? "font-medium" : "",
@@ -146,6 +155,7 @@ function CollapsibleItem({
                 <li key={subItem.path}>
                   <Link
                     href={subItem.path}
+                    onClick={isMobile ? () => toggleSidebar() : undefined}
                     className={cn(
                       "relative flex h-8 min-w-8 items-center gap-2 px-2 text-sm text-muted-foreground ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
                       current({ pathname, item: subItem }) ? "font-medium" : "",
