@@ -1,4 +1,3 @@
-import { inspect } from "node:util"
 import type { AvailableCollections, DocSchema } from "@/collections"
 import type { FileSystemSource } from "omnidoc/collections"
 import { notFound } from "next/navigation"
@@ -65,9 +64,6 @@ export default async function DocsPage({
 }: {
   params: { slug: string[] }
 }) {
-  const sources =
-    await collections[params.slug[0] as AvailableCollections].getSources()
-
   let source: FileSystemSource<DocSchema> | undefined
 
   // to support something like `/docs/<product>/`
