@@ -2,10 +2,8 @@
 
 import type { TreeItem } from "@/lib/tree"
 import { useEffect, useState } from "react"
-import { resolveHref } from "next/dist/client/resolve-href"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
-import Router from "next/router"
 import { Button } from "@/components/ui/button"
 import {
   Collapsible,
@@ -14,30 +12,9 @@ import {
 } from "@/components/ui/collapsible"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useSidebarStore } from "@/hooks/use-sidebar"
+import { current } from "@/lib/navigation"
 import { cn } from "@/lib/utils"
 import { ChevronRight } from "lucide-react"
-import multimatch from "multimatch"
-
-function isActive(
-  currentPath: string | string[],
-  checkPath: string | string[],
-) {
-  return multimatch(currentPath, checkPath).length > 0
-}
-
-const current = ({ pathname, item }: { pathname: string; item: TreeItem }) => {
-  const active = isActive(
-    pathname,
-    [item.path, ...(item.children ?? []).map((ele) => ele.path)]
-      .map((ele) => {
-        const resolvedUrl = resolveHref(Router, ele)
-        return [resolvedUrl, `${resolvedUrl}/**`]
-      })
-      .flat(),
-  )
-
-  return active
-}
 
 export function Navigation({
   className,

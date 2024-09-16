@@ -2,6 +2,7 @@
 
 import type { TreeItem } from "@/lib/tree"
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { Navigation } from "@/components/docs-navigation"
 import { headerNavigation } from "@/components/main-navbar"
 import {
@@ -11,6 +12,7 @@ import {
   SidebarItem,
   SidebarLabel,
 } from "@/components/ui/sidebar"
+import { current } from "@/lib/navigation"
 import { cn } from "@/lib/utils"
 import { ChevronsUpDown } from "lucide-react"
 
@@ -35,6 +37,8 @@ export function SiteSidebar({
   hideSwitcher?: boolean
   defaultHidden?: boolean
 }) {
+  const pathname = usePathname()
+
   return (
     <Sidebar className="md:mt-12" defaultHidden={defaultHidden}>
       {!hideSwitcher && (
@@ -83,13 +87,23 @@ export function SiteSidebar({
           if (item.children) {
             return (
               <SidebarItem key={item.path}>
-                {item.isFile ? (
+                {item.isFile && item.children.length === 0 && (
+                  <Link
+                    href={item.path}
+                    className={cn(
+                      "flex min-w-8 flex-1 items-center px-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                      current({ pathname, item }) ? "font-medium" : "",
+                    )}
+                  >
+                    {item.title}
+                  </Link>
+                )}
+                {item.isFile && item.children.length > 0 && (
                   <Link href={item.path}>
                     <SidebarLabel>{item.title}</SidebarLabel>
                   </Link>
-                ) : (
-                  <SidebarLabel>{item.title}</SidebarLabel>
                 )}
+                {!item.isFile && <SidebarLabel>{item.title}</SidebarLabel>}
                 <Navigation items={item.children} />
               </SidebarItem>
             )
