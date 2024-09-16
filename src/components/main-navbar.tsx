@@ -61,7 +61,7 @@ export function Logo() {
   return (
     <Link href="/" className="flex items-center gap-2.5">
       <HexagonIcon className="h-7 w-7 fill-current text-muted-foreground" />
-      <h2 className="text-md hidden font-bold sm:flex">renoun Template</h2>
+      <h2 className="text-md font-bold">renoun Template</h2>
     </Link>
   )
 }
