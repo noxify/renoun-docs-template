@@ -16,7 +16,7 @@ export const headerNavigation = [
     path: `/docs/aria-docs/getting-started/introduction/`,
   },
   {
-    title: "Omnidoc Docs",
+    title: "renoun Docs",
     path: `/docs/omnidoc-docs/getting-started/`,
   },
 ]

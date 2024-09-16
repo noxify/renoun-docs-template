@@ -2,7 +2,7 @@ import type { MDXComponents } from "mdx/types"
 import type { ReactNode } from "react"
 import Link from "next/link"
 import { ExternalLinkIcon } from "lucide-react"
-import { CodeBlock, CodeInline } from "omnidoc/components"
+import { CodeBlock, CodeInline } from "renoun/components"
 
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert"
 import { Stepper, StepperItem } from "./components/ui/stepper"

@@ -21,7 +21,7 @@
     "paths": {
       "@/*": ["./src/*"],
       "@content/*": ["./content/*"],
-      "omnidoc/*": [".omnidoc/*.ts"]
+      "renoun/*": [".renoun/*.ts"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

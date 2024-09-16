@@ -1,5 +1,5 @@
 import type { AvailableCollections, DocSchema } from "@/collections"
-import type { FileSystemSource } from "omnidoc/collections"
+import type { FileSystemSource } from "renoun/collections"
 import { notFound } from "next/navigation"
 import { collections } from "@/collections"
 import { Comments } from "@/components/comments"

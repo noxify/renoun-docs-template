@@ -35,6 +35,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# omnidoc
-.omnidoc
-!.omnidoc/config.json
+# renoun
+.renoun
+!.renoun/config.json

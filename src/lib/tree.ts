@@ -2,7 +2,7 @@ import type {
   CollectionSource,
   FileExports,
   FileSystemSource,
-} from "omnidoc/collections"
+} from "renoun/collections"
 
 export interface TreeItem {
   title: string

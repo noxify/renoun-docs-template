@@ -1,5 +1,5 @@
 import createMDXPlugin from "@next/mdx"
-import { rehypePlugins, remarkPlugins } from "@omnidoc/mdx-plugins"
+import { rehypePlugins, remarkPlugins } from "@renoun/mdx-plugins"
 
 const withMDX = createMDXPlugin({
   extension: /\.mdx?$/,

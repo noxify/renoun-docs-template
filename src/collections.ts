@@ -1,5 +1,5 @@
-import type { FileSystemSource, MDXContent } from "omnidoc/collections"
-import { createCollection } from "omnidoc/collections"
+import type { FileSystemSource, MDXContent } from "renoun/collections"
+import { createCollection } from "renoun/collections"
 
 export interface DocSchema {
   default: MDXContent
@@ -22,18 +22,18 @@ export const AriaDocsCollection = createCollection<DocSchema>(
   },
 )
 
-export const OmnidocDocsCollection = createCollection<DocSchema>(
-  "@content/docs/omnidoc-docs/**/*.{ts,tsx,mdx}",
+export const RenounDocsCollection = createCollection<DocSchema>(
+  "@content/docs/renoun-docs/**/*.{ts,tsx,mdx}",
   {
-    title: "Omnidoc Docs",
-    baseDirectory: "content/docs/omnidoc-docs",
-    basePath: "docs/omnidoc-docs",
+    title: "renoun Docs",
+    baseDirectory: "content/docs/renoun-docs",
+    basePath: "docs/renoun-docs",
   },
 )
 
 export const collections = {
   "aria-docs": AriaDocsCollection,
-  "omnidoc-docs": OmnidocDocsCollection,
+  "renoun-docs": RenounDocsCollection,
 }
 
 export type AvailableCollections = keyof typeof collections
