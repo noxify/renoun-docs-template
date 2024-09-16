@@ -140,6 +140,7 @@ export default async function DocsPage({
                 // use full width
                 "max-w-auto w-full min-w-full",
                 "grow",
+                "prose-headings:scroll-mt-20",
               )}
             >
               <h1>{source.getTitle()}</h1>
