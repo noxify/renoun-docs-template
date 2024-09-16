@@ -17,7 +17,7 @@ export const headerNavigation = [
   },
   {
     title: "renoun Docs",
-    path: `/docs/omnidoc-docs/getting-started/`,
+    path: `/docs/renoun-docs/getting-started/`,
   },
 ]
 
@@ -44,7 +44,7 @@ export function Navbar() {
             </Button>
             <ThemeToggle />
             <Link
-              href="https://github.com/noxify/omnidoc-docs-template"
+              href="https://github.com/noxify/renoun-docs-template"
               target="_blank"
               className={buttonVariants({ variant: "ghost", size: "icon" })}
             >
@@ -61,7 +61,7 @@ export function Logo() {
   return (
     <Link href="/" className="flex items-center gap-2.5">
       <HexagonIcon className="h-7 w-7 fill-current text-muted-foreground" />
-      <h2 className="text-md hidden font-bold sm:flex">Omnidoc Template</h2>
+      <h2 className="text-md hidden font-bold sm:flex">renoun Template</h2>
     </Link>
   )
 }

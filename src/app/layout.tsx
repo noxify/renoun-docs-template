@@ -6,7 +6,6 @@ import { Navbar } from "@/components/main-navbar"
 import { SiteSidebar } from "@/components/sidebar"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
-import { Sidebar } from "@/components/ui/sidebar"
 
 export const metadata: Metadata = {
   title: "Create Next App",

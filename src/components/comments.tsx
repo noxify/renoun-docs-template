@@ -8,7 +8,7 @@ export function Comments() {
   return (
     <Giscus
       id="comments"
-      repo="noxify/omnidoc-docs-template"
+      repo="noxify/renoun-docs-template"
       repoId="R_kgDOMk9HrQ"
       category="Comments"
       categoryId="DIC_kwDOMk9Hrc4CiRy7"
