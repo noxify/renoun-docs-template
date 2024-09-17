@@ -1,3 +1,4 @@
+import createLitWrapper from "@lit-labs/nextjs"
 import createMDXPlugin from "@next/mdx"
 import { rehypePlugins, remarkPlugins } from "@renoun/mdx-plugins"
 
@@ -8,6 +9,8 @@ const withMDX = createMDXPlugin({
     rehypePlugins,
   },
 })
+
+const withLit = createLitWrapper({ addDeclarativeShadowDomPolyfill: true })
 
 export default withMDX({
   output: "export",

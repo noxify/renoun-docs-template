@@ -1,4 +1,6 @@
+import { Suspense } from "react"
 import Link from "next/link"
+import { CanarySearch } from "@/components/canary-search"
 import { MoveUpRightIcon } from "lucide-react"
 
 export default function Home() {
@@ -20,6 +22,8 @@ export default function Home() {
         sleek and responsive design, perfect for all your project documentation
         needs.
       </p>
+
+      <CanarySearch />
     </div>
   )
 }

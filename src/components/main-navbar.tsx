@@ -1,9 +1,10 @@
 import Link from "next/link"
 import { SheetClose } from "@/components/ui/sheet"
-import { GithubIcon, HexagonIcon, SearchIcon } from "lucide-react"
+import { GithubIcon, HexagonIcon } from "lucide-react"
 
+import { Search } from "./search"
 import { ThemeToggle } from "./theme-toggle"
-import { Button, buttonVariants } from "./ui/button"
+import { buttonVariants } from "./ui/button"
 import { SidebarTrigger } from "./ui/sidebar"
 
 export const headerNavigation = [
@@ -39,9 +40,7 @@ export function Navbar() {
           </div>
           <div className="flex gap-2">
             <SidebarTrigger />
-            <Button variant="ghost" size="icon">
-              <SearchIcon className="h-4 w-4" />
-            </Button>
+            {/* <Search /> */}
             <ThemeToggle />
             <Link
               href="https://github.com/noxify/renoun-docs-template"
