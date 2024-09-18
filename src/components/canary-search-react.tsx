@@ -1,13 +1,14 @@
 "use client"
 
 import { useEffect } from "react"
+import dynamic from "next/dynamic"
 
-import { CanarySearch } from "./canary-search"
-import { CanaryContent } from "./canary/content"
-import { CanaryInput } from "./canary/input"
-import { CanaryProviderMock } from "./canary/provider-mock"
-import { CanaryRoot } from "./canary/root"
-import { CanarySearchResults } from "./canary/search-results"
+//import { CanarySearch } from "./canary-search"
+//import { CanaryContent } from "./canary/content"
+//import { CanaryInput } from "./canary/input"
+//import { CanaryProviderMock } from "./canary/provider-mock"
+//import { CanaryRoot } from "./canary/root"
+//import { CanarySearchResults } from "./canary/search-results"
 
 declare global {
   interface Window {
@@ -17,6 +18,25 @@ declare global {
 }
 export const CanarySearchReact = () => {
   //const [loaded, setLoaded] = useState(false)
+
+  const CanaryContent = dynamic(() =>
+    import("./canary/content").then((mod) => mod.CanaryContent),
+  )
+  const CanaryInput = dynamic(() =>
+    import("./canary/input").then((mod) => mod.CanaryInput),
+  )
+  const CanarySearch = dynamic(() =>
+    import("./canary/search").then((mod) => mod.CanarySearch),
+  )
+  const CanaryProviderMock = dynamic(() =>
+    import("./canary/provider-mock").then((mod) => mod.CanaryProviderMock),
+  )
+  const CanaryRoot = dynamic(() =>
+    import("./canary/root").then((mod) => mod.CanaryRoot),
+  )
+  const CanarySearchResults = dynamic(() =>
+    import("./canary/search-results").then((mod) => mod.CanarySearchResults),
+  )
 
   // try to load pagefind
   // if not found, use mock provider
