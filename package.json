@@ -20,9 +20,8 @@
   },
   "prettier": "./prettier.config.js",
   "dependencies": {
-    "@getcanary/web": "0.0.106",
+    "@getcanary/web": "1.0.0-rc.0",
     "@giscus/react": "3.0.0",
-    "@lit-labs/nextjs": "0.2.0",
     "@mdx-js/loader": "3.0.1",
     "@mdx-js/react": "3.0.1",
     "@next/mdx": "14.2.11",

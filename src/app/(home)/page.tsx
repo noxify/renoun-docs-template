@@ -1,4 +1,3 @@
-import { Suspense } from "react"
 import Link from "next/link"
 import { CanarySearch } from "@/components/canary-search"
 import { MoveUpRightIcon } from "lucide-react"
