@@ -4,7 +4,6 @@ import { useEffect, useState } from "react"
 import { SearchIcon } from "lucide-react"
 
 import { Button, buttonVariants } from "./ui/button"
-import { Skeleton } from "./ui/skeleton"
 
 export const CanarySearch = () => {
   const [loaded, setLoaded] = useState(false)
