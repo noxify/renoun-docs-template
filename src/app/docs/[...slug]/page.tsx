@@ -7,6 +7,7 @@ import SectionGrid from "@/components/section-grid"
 import Siblings from "@/components/siblings"
 import { TableOfContents } from "@/components/table-of-contents"
 import { cn } from "@/lib/utils"
+import { ExternalLinkIcon } from "lucide-react"
 
 function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
   return array.filter((value) => !valueToRemove.includes(value))
@@ -157,6 +158,16 @@ export default async function DocsPage({
         </div>
         <div className="hidden w-[19.5rem] xl:sticky xl:top-[4.75rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.75rem)] xl:flex-none xl:overflow-y-auto xl:pb-16 xl:pr-6">
           <TableOfContents toc={headings} />
+
+          <div className="mt-6 border-t pt-6">
+            <a
+              href={source.getEditPath()}
+              target="_blank"
+              className="flex items-center text-muted-foreground no-underline transition-colors hover:text-foreground"
+            >
+              Edit this page <ExternalLinkIcon className="ml-2 h-4 w-4" />
+            </a>
+          </div>
         </div>
       </div>
     </>
