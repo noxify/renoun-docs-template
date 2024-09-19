@@ -18,6 +18,9 @@ export default withMDX({
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   webpack(config, { webpack }) {
+    config.resolve.extensionAlias = {
+      ".js": [".ts", ".tsx", ".js"],
+    }
     config.plugins.push(
       new webpack.ContextReplacementPlugin(
         /\/(@ts-morph\/common)\//,
