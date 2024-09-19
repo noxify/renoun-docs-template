@@ -1,6 +1,4 @@
 import Link from "next/link"
-import { CanarySearch } from "@/components/canary-search"
-import { CanarySearchReact } from "@/components/canary-search-react"
 import { MoveUpRightIcon } from "lucide-react"
 
 export default function Home() {
@@ -22,12 +20,6 @@ export default function Home() {
         sleek and responsive design, perfect for all your project documentation
         needs.
       </p>
-
-      <h2>Canary via Web components</h2>
-      <CanarySearch />
-
-      <h2>Canary via react wrapper</h2>
-      <CanarySearchReact />
     </div>
   )
 }

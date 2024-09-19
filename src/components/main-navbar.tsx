@@ -2,7 +2,7 @@ import Link from "next/link"
 import { SheetClose } from "@/components/ui/sheet"
 import { GithubIcon, HexagonIcon } from "lucide-react"
 
-import { Search } from "./search"
+import { CanarySearch } from "./canary-search"
 import { ThemeToggle } from "./theme-toggle"
 import { buttonVariants } from "./ui/button"
 import { SidebarTrigger } from "./ui/sidebar"
@@ -40,7 +40,7 @@ export function Navbar() {
           </div>
           <div className="flex gap-2">
             <SidebarTrigger />
-            {/* <Search /> */}
+            <CanarySearch />
             <ThemeToggle />
             <Link
               href="https://github.com/noxify/renoun-docs-template"
