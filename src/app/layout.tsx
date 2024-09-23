@@ -6,6 +6,7 @@ import { Navbar } from "@/components/main-navbar"
 import { SiteSidebar } from "@/components/sidebar"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
+import { PackageInstallScript } from "renoun/components"
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -21,6 +22,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head />
       <body>
+        <PackageInstallScript />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

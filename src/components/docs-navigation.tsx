@@ -40,7 +40,7 @@ export function Navigation({
                 href={item.path}
                 className={cn(
                   "flex h-8 min-w-8 flex-1 items-center gap-2 px-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
-                  current({ pathname, item }) ? "font-medium" : "",
+                  current({ pathname, item }) ? "font-bold underline" : "",
                 )}
               >
                 <div className="line-clamp-1 pr-6">{item.title}</div>

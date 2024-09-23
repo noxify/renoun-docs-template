@@ -67,3 +67,44 @@
     @apply bg-background text-foreground;
   }
 }
+
+/**
+ * Canary Search component
+ */
+
+canary-search::part(container) {
+  @apply px-3;
+}
+
+canary-search::part(head),
+canary-search::part(scroll-container) {
+  @apply p-0;
+}
+
+canary-input::part(container) {
+  --search-input-border: 220 13% 91%;
+  @apply pb-[6px];
+  border-bottom: 1px solid hsl(var(--search-input-border));
+}
+
+canary-filter-tabs-glob::part(container) {
+  @apply mt-2;
+}
+
+canary-filter-tabs-glob::part(tab) {
+  --tab-item-border: 220 13% 91%;
+  @apply rounded-sm;
+  border: 1px solid hsl(var(--tab-item-border));
+  @apply px-3;
+}
+
+canary-filter-tabs-glob::part(tab active) {
+  --tab-item-background: 220 13% 91%;
+  background-color: hsl(var(--tab-item-background));
+}
+
+.dark {
+  canary-input::part(container) {
+    --search-input-border: 215 27.9% 16.9%;
+  }
+}
