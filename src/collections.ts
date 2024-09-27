@@ -14,27 +14,30 @@ export interface DocSchema {
 export type DocsSource = FileSystemSource<DocSchema>
 
 export const AriaDocsCollection = createCollection<DocSchema>(
-  "@content/docs/aria-docs/**/*.{ts,tsx,mdx}",
   {
+    filePattern: "@content/docs/aria-docs/**/*.{ts,tsx,mdx}",
     baseDirectory: "content/docs/aria-docs",
     basePath: "docs/aria-docs",
   },
+  (slug) => import(`../content/docs/aria-docs/${slug}.mdx`)
 )
 
 export const RenounDocsCollection = createCollection<DocSchema>(
-  "@content/docs/renoun-docs/**/*.{ts,tsx,mdx}",
   {
+    filePattern: "@content/docs/renoun-docs/**/*.{ts,tsx,mdx}",
     baseDirectory: "content/docs/renoun-docs",
     basePath: "docs/renoun-docs",
   },
+  (slug) => import(`../content/docs/renoun-docs/${slug}.mdx`)
 )
 
 export const PlaywrightCollection = createCollection<DocSchema>(
-  "@content/docs/playwright/**/*.{ts,tsx,mdx}",
   {
+    filePattern: "@content/docs/playwright/**/*.{ts,tsx,mdx}",
     baseDirectory: "content/docs/playwright",
     basePath: "docs/playwright",
   },
+  (slug) => import(`../content/docs/playwright/${slug}.mdx`)
 )
 
 export const collections = {
