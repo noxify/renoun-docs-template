@@ -93,18 +93,37 @@ canary-filter-tabs-glob::part(container) {
 
 canary-filter-tabs-glob::part(tab) {
   --tab-item-border: 220 13% 91%;
-  @apply rounded-sm;
+  @apply rounded-sm px-3 text-black;
   border: 1px solid hsl(var(--tab-item-border));
-  @apply px-3;
+}
+
+canary-filter-tabs-glob::part(tab):hover {
+  @apply bg-muted;
 }
 
 canary-filter-tabs-glob::part(tab active) {
-  --tab-item-background: 220 13% 91%;
-  background-color: hsl(var(--tab-item-background));
+  @apply bg-muted;
+}
+
+canary-filter-tabs-glob::part(label active) {
+  @apply text-black no-underline;
+}
+
+canary-search-match-base::part(container) {
+  background-color: blue !important;
 }
 
 .dark {
   canary-input::part(container) {
     --search-input-border: 215 27.9% 16.9%;
+  }
+
+  canary-filter-tabs-glob::part(tab) {
+    --tab-item-border: 215 27.9% 16.9%;
+    @apply text-white;
+  }
+
+  canary-filter-tabs-glob::part(label active) {
+    @apply text-white;
   }
 }

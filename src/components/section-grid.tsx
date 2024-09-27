@@ -11,7 +11,7 @@ export default function SectionGrid({
     return <></>
   }
   return (
-    <div className="mt-12 grid grid-cols-2 gap-4">
+    <div className="mt-12 grid grid-cols-2 gap-4" data-pagefind-ignore>
       {sections.map((section, index) => {
         return (
           <Card

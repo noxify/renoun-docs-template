@@ -16,7 +16,10 @@ export default async function Siblings({
   })
 
   return (
-    <nav className="mt-6 flex items-center justify-between border-t pt-6">
+    <nav
+      className="mt-6 flex items-center justify-between border-t pt-6"
+      data-pagefind-ignore
+    >
       <div className="flex w-0 flex-1">
         {previousPage && (
           <>

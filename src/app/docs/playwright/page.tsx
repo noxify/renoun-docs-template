@@ -75,7 +75,7 @@ export default async function DocsPage() {
     <>
       <div className="gap-8 xl:grid xl:grid-cols-[1fr_300px]">
         <div>
-          <article>
+          <article data-pagefind-body>
             <div
               className={cn(
                 // default prose
