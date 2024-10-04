@@ -33,8 +33,7 @@ export async function getTree<T extends FileExports>({
   const tree: TreeItem[] = []
   for (const source of sources) {
     const frontmatter = !source.isDirectory()
-      ? // @ts-expect-error - this is a hack to get the frontmatter from the file
-        await source.getNamedExport("frontmatter").getValue()
+      ? await source.getExport("frontmatter").getValue()
       : null
     const treeItem = {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment

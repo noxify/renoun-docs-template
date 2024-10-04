@@ -21,7 +21,7 @@
   },
   "prettier": "./prettier.config.js",
   "dependencies": {
-    "@getcanary/web": "1.0.0-rc.11",
+    "@getcanary/web": "1.0.0-rc.8",
     "@giscus/react": "3.0.0",
     "@hapi/bourne": "3.0.0",
     "@mdx-js/loader": "3.0.1",

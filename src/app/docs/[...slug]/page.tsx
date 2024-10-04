@@ -124,8 +124,8 @@ export default async function DocsPage({
     )
   }
 
-  const headings = await source.getNamedExport("headings").getValue()
-  const Content = await source.getDefaultExport().getValue()
+  const headings = await source.getExport("headings").getValue()
+  const Content = await source.getExport("default").getValue()
 
   return (
     <>

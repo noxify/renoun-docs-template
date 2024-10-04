@@ -41,7 +41,6 @@ export const CanarySearch = () => {
       import("@getcanary/web/components/canary-filter-tabs-glob.js"),
       import("@getcanary/web/components/canary-search-results.js"),
       import("@getcanary/web/components/canary-modal.js"),
-      //import("@getcanary/web/components/canary-trigger-searchbar.js"),
     ]).then(() => setLoaded(true))
   }, [])
 
