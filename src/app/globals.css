@@ -73,12 +73,12 @@
  */
 
 canary-search::part(container) {
-  @apply px-3;
+  @apply px-0;
 }
 
 canary-search::part(head),
 canary-search::part(scroll-container) {
-  @apply p-0;
+  @apply px-3;
 }
 
 canary-input::part(container) {
@@ -109,8 +109,12 @@ canary-filter-tabs-glob::part(label active) {
   @apply text-black no-underline;
 }
 
-canary-search-match-base::part(container) {
-  background-color: blue !important;
+canary-search-results::part(match-item) {
+  @apply m-0 rounded-md border-0 bg-muted p-2;
+}
+
+canary-search-results::part(match-item):hover {
+  @apply bg-muted-foreground/15;
 }
 
 .dark {
