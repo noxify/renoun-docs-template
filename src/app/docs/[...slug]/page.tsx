@@ -1,11 +1,11 @@
-import type { AvailableCollections, DocSchema } from "@/collections"
+import type { DocSchema } from "@/collections"
 import type { FileSystemSource } from "renoun/collections"
 import { notFound } from "next/navigation"
-import { collections } from "@/collections"
 import { Comments } from "@/components/comments"
 import SectionGrid from "@/components/section-grid"
 import Siblings from "@/components/siblings"
 import { TableOfContents } from "@/components/table-of-contents"
+import { getCollectionInfo } from "@/lib/collections"
 import { cn } from "@/lib/utils"
 import { ExternalLinkIcon } from "lucide-react"
 
@@ -27,9 +27,16 @@ function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
  * So, this is the "best of both worlds" :D
  * If you know a better solution please feel free to create a PR <3
  */
-async function getSlugsFromCollection(collectionName: AvailableCollections) {
-  const collection = collections[collectionName]
-  const sources = await collection.getSources()
+async function getSlugsFromCollection(collectionName: string) {
+  const collection = (await getCollectionInfo()).find(
+    (collection) => collection.alias === collectionName,
+  )
+
+  if (!collection) {
+    return []
+  }
+
+  const sources = await collection.collection.getSources()
 
   const deleteItems = ["docs"]
 
@@ -47,13 +54,13 @@ async function getSlugsFromCollection(collectionName: AvailableCollections) {
 export async function generateStaticParams() {
   const slugs = []
 
-  for (const collection of Object.keys(collections)) {
+  const collections = await getCollectionInfo()
+
+  for (const collection of collections) {
     // force add the root page to the available pages
     // otherwise you can't call `/docs/<product>` directly
-    slugs.push({ slug: [collection] })
-    const collectionSlugs = await getSlugsFromCollection(
-      collection as AvailableCollections,
-    )
+    slugs.push({ slug: [collection.alias] })
+    const collectionSlugs = await getSlugsFromCollection(collection.alias)
     slugs.push(...collectionSlugs)
   }
 
@@ -66,17 +73,25 @@ export default async function DocsPage({
   params: { slug: string[] }
 }) {
   let source: FileSystemSource<DocSchema> | undefined
+  const collections = await getCollectionInfo()
+  const collection = collections.find(
+    (collection) => collection.alias === params.slug[0],
+  )?.collection
+
+  if (!collection) {
+    return notFound()
+  }
 
   // to support something like `/docs/<product>/`
   // we have to check the slug length - In our case we know that the first element in the slug array
   // is always the collection name - so we can use this to load the `index.mdx` if there is any
   // if there are two or more elements, we just load the requested page content
   if (params.slug.length > 1) {
-    source = collections[params.slug[0] as AvailableCollections].getSource(
+    source = collection.getSource(
       removeFromArray(params.slug, [params.slug[0]]),
     )
   } else {
-    source = collections[params.slug[0] as AvailableCollections].getSource([
+    source = collection.getSource([
       ...removeFromArray(params.slug, [params.slug[0]]),
       "index",
     ])

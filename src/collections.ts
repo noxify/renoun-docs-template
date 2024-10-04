@@ -1,4 +1,4 @@
-import type { FileSystemSource } from "renoun/collections"
+import type { CollectionSource, FileSystemSource } from "renoun/collections"
 import type { MDXContent } from "renoun/mdx"
 import { collection } from "renoun/collections"
 
@@ -14,9 +14,18 @@ export interface DocSchema {
 
 export type DocsSource = FileSystemSource<DocSchema>
 
+export interface CollectionSchema {
+  metadata: {
+    title: string
+    entrypoint: string
+    alias: string
+    collection: CollectionSource<DocSchema>
+  }
+}
+
 export const AriaDocsCollection = collection<DocSchema>(
   {
-    filePattern: "@content/docs/aria-docs/**/*.{ts,tsx,mdx}",
+    filePattern: "@content/docs/aria-docs/**/*.{tsx,mdx}",
     baseDirectory: "content/docs/aria-docs",
     basePath: "docs/aria-docs",
   },
@@ -25,7 +34,7 @@ export const AriaDocsCollection = collection<DocSchema>(
 
 export const RenounDocsCollection = collection<DocSchema>(
   {
-    filePattern: "@content/docs/renoun-docs/**/*.{ts,tsx,mdx}",
+    filePattern: "@content/docs/renoun-docs/**/*.{tsx,mdx}",
     baseDirectory: "content/docs/renoun-docs",
     basePath: "docs/renoun-docs",
   },
@@ -34,17 +43,18 @@ export const RenounDocsCollection = collection<DocSchema>(
 
 export const PlaywrightCollection = collection<DocSchema>(
   {
-    filePattern: "@content/docs/playwright/**/*.{ts,tsx,mdx}",
+    filePattern: "@content/docs/playwright/**/*.{tsx,mdx}",
     baseDirectory: "content/docs/playwright",
     basePath: "docs/playwright",
   },
   (slug) => import(`../content/docs/playwright/${slug}.mdx`),
 )
 
-export const collections = {
-  "aria-docs": AriaDocsCollection,
-  "renoun-docs": RenounDocsCollection,
-  playwright: PlaywrightCollection,
-}
-
-export type AvailableCollections = keyof typeof collections
+export const CollectionInfo = collection<CollectionSchema>(
+  {
+    filePattern: "@content/docs/**/metadata.ts",
+    baseDirectory: "content/docs",
+    basePath: "docs",
+  },
+  (slug) => import(`../content/docs/${slug}.ts`),
+)

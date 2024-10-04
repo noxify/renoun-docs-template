@@ -1,5 +1,6 @@
 "use client"
 
+import type { collectionChooser } from "@/lib/collections"
 import type { TreeItem } from "@/lib/tree"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -32,7 +33,7 @@ export function SiteSidebar({
   defaultHidden,
 }: {
   items: TreeItem[]
-  collections: string[]
+  collections: Awaited<ReturnType<typeof collectionChooser>>
   activeCollection: string
   hideSwitcher?: boolean
   defaultHidden?: boolean
@@ -47,7 +48,10 @@ export function SiteSidebar({
             <DropdownMenuTrigger className="w-full rounded-md ring-ring hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 data-[state=open]:bg-accent">
               <div className="flex items-center gap-1.5 overflow-hidden px-2 py-1.5 text-left text-sm transition-all">
                 <div className="line-clamp-1 flex-1 pr-2 font-medium">
-                  {activeCollection}
+                  {
+                    collections.find((ele) => ele.alias == activeCollection)
+                      ?.title
+                  }
                 </div>
                 <ChevronsUpDown className="ml-auto h-4 w-4 text-muted-foreground/50" />
               </div>
@@ -61,15 +65,17 @@ export function SiteSidebar({
               <DropdownMenuLabel className="text-xs text-muted-foreground">
                 Collections
               </DropdownMenuLabel>
-              {collections.map((element) => (
+              {collections.map((collection, index) => (
                 <DropdownMenuItem
-                  key={element}
+                  key={index}
                   className="items-start gap-2 px-1.5"
                   asChild
                 >
-                  <Link href={`/docs/${element}`}>
+                  <Link href={collection.entrypoint}>
                     <div className="grid flex-1 leading-tight">
-                      <div className="line-clamp-1 font-medium">{element}</div>
+                      <div className="line-clamp-1 font-medium">
+                        {collection.title}
+                      </div>
                     </div>
                   </Link>
                 </DropdownMenuItem>
@@ -92,7 +98,7 @@ export function SiteSidebar({
                     href={item.path}
                     className={cn(
                       "flex min-w-8 flex-1 items-center px-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
-                      current({ pathname, item }) ? "font-medium" : "",
+                      current({ pathname, item }) ? "font-bold underline" : "",
                     )}
                   >
                     {item.title}

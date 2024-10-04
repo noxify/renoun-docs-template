@@ -1,7 +1,7 @@
-import type { AvailableCollections } from "@/collections"
-import { collections } from "@/collections"
+import { notFound } from "next/navigation"
 import { SiteSidebar } from "@/components/sidebar"
 import { SidebarLayout } from "@/components/ui/sidebar"
+import { collectionChooser, getCollectionInfo } from "@/lib/collections"
 import { getTree } from "@/lib/tree"
 
 export default async function DocsLayout({
@@ -14,7 +14,16 @@ export default async function DocsLayout({
   }
   children: React.ReactNode
 }>) {
-  const collection = collections[params.slug[0] as AvailableCollections]
+  const chooser = await collectionChooser()
+
+  const collections = await getCollectionInfo()
+  const collection = collections.find(
+    (collection) => collection.alias === params.slug[0],
+  )?.collection
+
+  if (!collection) {
+    return notFound()
+  }
 
   const items = await getTree({
     input: collection,
@@ -25,7 +34,7 @@ export default async function DocsLayout({
     <SidebarLayout>
       <SiteSidebar
         items={items}
-        collections={Object.keys(collections)}
+        collections={chooser}
         activeCollection={params.slug[0]}
       />
 
