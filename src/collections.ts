@@ -8,6 +8,7 @@ export interface DocSchema {
     title: string
     summary: string
     tags?: string[]
+    navTitle?: string
   }
   headings: { text: string; id: string; depth: number }[]
 }
@@ -48,6 +49,15 @@ export const PlaywrightCollection = collection<DocSchema>(
     basePath: "docs/playwright",
   },
   (slug) => import(`../content/docs/playwright/${slug}.mdx`),
+)
+
+export const GraphqlCollection = collection<DocSchema>(
+  {
+    filePattern: "@content/docs/graphql/**/*.{tsx,mdx}",
+    baseDirectory: "content/docs/graphql",
+    basePath: "docs/graphql",
+  },
+  (slug) => import(`../content/docs/graphql/${slug}.mdx`),
 )
 
 export const CollectionInfo = collection<CollectionSchema>(

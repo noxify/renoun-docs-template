@@ -10,6 +10,7 @@
     "dev": "renoun next dev",
     "format": "prettier --check . --ignore-path .gitignore",
     "format:fix": "prettier --check --write . --ignore-path .gitignore",
+    "gen:graphql": "tsx src/generators/graphql-to-mdx.ts",
     "generate-pagefind": "pagefind --site out --output-path out/pagefind",
     "info": "next info",
     "lint": "eslint",
@@ -55,6 +56,10 @@
   },
   "devDependencies": {
     "@eslint/compat": "1.1.1",
+    "@graphql-markdown/core": "1.12.0",
+    "@graphql-markdown/printer-legacy": "1.9.0",
+    "@graphql-markdown/types": "1.4.0",
+    "@graphql-tools/graphql-file-loader": "8.0.1",
     "@ianvs/prettier-plugin-sort-imports": "4.3.1",
     "@next/eslint-plugin-next": "14.2.14",
     "@tailwindcss/typography": "0.5.15",

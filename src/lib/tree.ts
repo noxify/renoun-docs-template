@@ -35,6 +35,7 @@ export async function getTree<T extends FileExports>({
     const frontmatter = !source.isDirectory()
       ? await source.getExport("frontmatter").getValue()
       : null
+
     const treeItem = {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       title: frontmatter?.navTitle ?? source.getTitle(),
