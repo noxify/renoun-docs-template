@@ -1,10 +1,11 @@
-"use client"
+"use client";
 
-import Giscus from "@giscus/react"
-import { useTheme } from "next-themes"
+import { useTheme } from "next-themes";
+
+import Giscus from "@giscus/react";
 
 export function Comments() {
-  const { theme } = useTheme()
+  const { theme } = useTheme();
   return (
     <Giscus
       id="comments"
@@ -20,5 +21,5 @@ export function Comments() {
       lang="en"
       loading="lazy"
     />
-  )
+  );
 }

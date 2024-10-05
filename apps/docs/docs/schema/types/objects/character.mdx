@@ -4,44 +4,75 @@ description: A GraphQL schema for the Rick and Morty API. This is a generated fi
 id: character
 ---
 
+export const Bullet = () => (
+  <>
+    <span
+      style={{
+        fontWeight: "normal",
+        fontSize: ".5em",
+        color: "var(--ifm-color-secondary-darkest)",
+      }}
+    >
+      &nbsp;●&nbsp;
+    </span>
+  </>
+);
 
+export const SpecifiedBy = (props) => (
+  <>
+    Specification
+    <a
+      className="link"
+      style={{ fontSize: "1.5em", paddingLeft: "4px" }}
+      target="_blank"
+      href={props.url}
+      title={"Specified by " + props.url}
+    >
+      ⎘
+    </a>
+  </>
+);
 
+export const Badge = (props) => (
+  <>
+    <span className={props.class}>{props.text}</span>
+  </>
+);
 
-export const Bullet = () => <><span style={{ fontWeight: 'normal', fontSize: '.5em', color: 'var(--ifm-color-secondary-darkest)' }}>&nbsp;●&nbsp;</span></>
+import { useState } from "react";
 
-export const SpecifiedBy = (props) => <>Specification<a className="link" style={{ fontSize:'1.5em', paddingLeft:'4px' }} target="_blank" href={props.url} title={'Specified by ' + props.url}>⎘</a></>
-
-export const Badge = (props) => <><span className={props.class}>{props.text}</span></>
-
-import { useState } from 'react';
-
-export const Details = ({ dataOpen, dataClose, children, startOpen = false }) => {
+export const Details = ({
+  dataOpen,
+  dataClose,
+  children,
+  startOpen = false,
+}) => {
   const [open, setOpen] = useState(startOpen);
   return (
-    <details {...(open ? { open: true } : {})} className="details" style={{ border:'none', boxShadow:'none', background:'var(--ifm-background-color)' }}>
+    <details
+      {...(open ? { open: true } : {})}
+      className="details"
+      style={{
+        border: "none",
+        boxShadow: "none",
+        background: "var(--ifm-background-color)",
+      }}
+    >
       <summary
         onClick={(e) => {
           e.preventDefault();
           setOpen((open) => !open);
         }}
-        style={{ listStyle:'none' }}
+        style={{ listStyle: "none" }}
       >
-      {open ? dataOpen : dataClose}
+        {open ? dataOpen : dataClose}
       </summary>
       {open && children}
     </details>
   );
 };
 
-
-
-
-
-
-
-
 No description
-
 
 ```graphql
 type Character {
@@ -59,65 +90,57 @@ type Character {
 }
 ```
 
-
-
-
 ### Fields
 
-#### [<code style={{ fontWeight: 'normal' }}>Character.<b>id</b></code>](#)<Bullet />[`ID`](/schema/types/scalars/id.mdx) <Badge class="badge badge--secondary" text="scalar"/> 
+#### [<code style={{ fontWeight: 'normal' }}>Character.<b>id</b></code>](#)<Bullet />[`ID`](/schema/types/scalars/id.mdx) <Badge class="badge badge--secondary" text="scalar"/>
+
 The id of the character.
 
+#### [<code style={{ fontWeight: 'normal' }}>Character.<b>name</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/>
 
-#### [<code style={{ fontWeight: 'normal' }}>Character.<b>name</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/> 
 The name of the character.
 
+#### [<code style={{ fontWeight: 'normal' }}>Character.<b>status</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/>
 
-#### [<code style={{ fontWeight: 'normal' }}>Character.<b>status</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/> 
 The status of the character ('Alive', 'Dead' or 'unknown').
 
+#### [<code style={{ fontWeight: 'normal' }}>Character.<b>species</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/>
 
-#### [<code style={{ fontWeight: 'normal' }}>Character.<b>species</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/> 
 The species of the character.
 
+#### [<code style={{ fontWeight: 'normal' }}>Character.<b>type</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/>
 
-#### [<code style={{ fontWeight: 'normal' }}>Character.<b>type</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/> 
 The type or subspecies of the character.
 
+#### [<code style={{ fontWeight: 'normal' }}>Character.<b>gender</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/>
 
-#### [<code style={{ fontWeight: 'normal' }}>Character.<b>gender</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/> 
 The gender of the character ('Female', 'Male', 'Genderless' or 'unknown').
 
+#### [<code style={{ fontWeight: 'normal' }}>Character.<b>origin</b></code>](#)<Bullet />[`Location`](/schema/types/objects/location.mdx) <Badge class="badge badge--secondary" text="object"/>
 
-#### [<code style={{ fontWeight: 'normal' }}>Character.<b>origin</b></code>](#)<Bullet />[`Location`](/schema/types/objects/location.mdx) <Badge class="badge badge--secondary" text="object"/> 
 The character's origin location
 
+#### [<code style={{ fontWeight: 'normal' }}>Character.<b>location</b></code>](#)<Bullet />[`Location`](/schema/types/objects/location.mdx) <Badge class="badge badge--secondary" text="object"/>
 
-#### [<code style={{ fontWeight: 'normal' }}>Character.<b>location</b></code>](#)<Bullet />[`Location`](/schema/types/objects/location.mdx) <Badge class="badge badge--secondary" text="object"/> 
 The character's last known location
 
+#### [<code style={{ fontWeight: 'normal' }}>Character.<b>image</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/>
 
-#### [<code style={{ fontWeight: 'normal' }}>Character.<b>image</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/> 
 Link to the character's image.
 All images are 300x300px and most are medium shots or portraits since they are intended to be used as avatars.
 
+#### [<code style={{ fontWeight: 'normal' }}>Character.<b>episode</b></code>](#)<Bullet />[`[Episode]!`](/schema/types/objects/episode.mdx) <Badge class="badge badge--secondary" text="non-null"/> <Badge class="badge badge--secondary" text="object"/>
 
-#### [<code style={{ fontWeight: 'normal' }}>Character.<b>episode</b></code>](#)<Bullet />[`[Episode]!`](/schema/types/objects/episode.mdx) <Badge class="badge badge--secondary" text="non-null"/> <Badge class="badge badge--secondary" text="object"/> 
 Episodes in which this character appeared.
 
+#### [<code style={{ fontWeight: 'normal' }}>Character.<b>created</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/>
 
-#### [<code style={{ fontWeight: 'normal' }}>Character.<b>created</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/> 
 Time at which the character was created in the database.
-
-
-
-
-
 
 ### Returned By
 
-[`character`](/schema/operations/queries/character.mdx)  <Badge class="badge badge--secondary" text="query"/><Bullet />[`charactersByIds`](/schema/operations/queries/characters-by-ids.mdx)  <Badge class="badge badge--secondary" text="query"/>
+[`character`](/schema/operations/queries/character.mdx) <Badge class="badge badge--secondary" text="query"/><Bullet />[`charactersByIds`](/schema/operations/queries/characters-by-ids.mdx) <Badge class="badge badge--secondary" text="query"/>
 
 ### Member Of
 
-[`Characters`](/schema/types/objects/characters.mdx)  <Badge class="badge badge--secondary" text="object"/><Bullet />[`Episode`](/schema/types/objects/episode.mdx)  <Badge class="badge badge--secondary" text="object"/><Bullet />[`Location`](/schema/types/objects/location.mdx)  <Badge class="badge badge--secondary" text="object"/>
-
+[`Characters`](/schema/types/objects/characters.mdx) <Badge class="badge badge--secondary" text="object"/><Bullet />[`Episode`](/schema/types/objects/episode.mdx) <Badge class="badge badge--secondary" text="object"/><Bullet />[`Location`](/schema/types/objects/location.mdx) <Badge class="badge badge--secondary" text="object"/>

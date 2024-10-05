@@ -1,11 +1,15 @@
-import { GraphQLScalarType } from "graphql/type";
-jest.mock("graphql");
-
 import type {
   GraphQLOperationType,
-  IGetRelation,
   GraphQLSchema,
+  IGetRelation,
 } from "@graphql-markdown/types";
+
+import { DEFAULT_OPTIONS } from "../../src/const/options";
+import * as Relation from "../../src/relation";
+import * as GraphQL from "@graphql-markdown/graphql";
+import { GraphQLScalarType } from "graphql/type";
+
+jest.mock("graphql");
 
 jest.mock("@graphql-markdown/utils", () => {
   return {
@@ -17,7 +21,6 @@ jest.mock("@graphql-markdown/utils", () => {
   };
 });
 
-import * as GraphQL from "@graphql-markdown/graphql";
 jest.mock("@graphql-markdown/graphql", () => {
   return {
     getNamedType: jest.fn(),
@@ -37,9 +40,6 @@ jest.mock("@graphql-markdown/graphql", () => {
     isUnionType: jest.fn(),
   };
 });
-
-import * as Relation from "../../src/relation";
-import { DEFAULT_OPTIONS } from "../../src/const/options";
 
 const { getRootTypeLocaleFromString, printRelationOf, printRelations } =
   Relation;

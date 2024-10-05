@@ -9,8 +9,6 @@ import type {
 } from "react-hook-form";
 import type { ZodType, ZodTypeDef } from "zod";
 import * as React from "react";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { Slot } from "@radix-ui/react-slot";
 import {
   useForm as __useForm,
   Controller,
@@ -21,6 +19,8 @@ import {
 import { cn } from "@acme/ui";
 
 import { Label } from "./label";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Slot } from "@radix-ui/react-slot";
 
 const useForm = <
   TOut extends FieldValues,

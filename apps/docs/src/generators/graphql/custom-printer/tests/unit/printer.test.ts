@@ -1,5 +1,12 @@
 import { posix } from "node:path";
+import type { PrintTypeOptions } from "@graphql-markdown/types";
 
+import * as Common from "../../src/common";
+import { DEFAULT_OPTIONS, TypeHierarchy } from "../../src/const/options";
+import * as ExamplePrinter from "../../src/example";
+import * as GraphQLPrinter from "../../src/graphql";
+import { Printer } from "../../src/printer";
+import * as GraphQL from "@graphql-markdown/graphql";
 import {
   GraphQLDirective,
   GraphQLEnumType,
@@ -8,12 +15,10 @@ import {
   GraphQLInterfaceType,
   GraphQLObjectType,
   GraphQLScalarType,
-  GraphQLUnionType,
   GraphQLSchema,
   GraphQLString,
+  GraphQLUnionType,
 } from "graphql/type";
-
-import type { PrintTypeOptions } from "@graphql-markdown/types";
 
 jest.mock("@graphql-markdown/utils", () => {
   return {
@@ -39,18 +44,10 @@ jest.mock("@graphql-markdown/graphql", () => {
     isUnionType: jest.fn(),
   };
 });
-import * as GraphQL from "@graphql-markdown/graphql";
 
 jest.mock("../../src/graphql");
-import * as GraphQLPrinter from "../../src/graphql";
 
 jest.mock("../../src/example");
-import * as ExamplePrinter from "../../src/example";
-
-import * as Common from "../../src/common";
-
-import { Printer } from "../../src/printer";
-import { DEFAULT_OPTIONS, TypeHierarchy } from "../../src/const/options";
 
 describe("Printer", () => {
   enum TypeGuard {

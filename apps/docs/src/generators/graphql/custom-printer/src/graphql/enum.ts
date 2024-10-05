@@ -1,14 +1,13 @@
 import type { MDXString, PrintTypeOptions } from "@graphql-markdown/types";
 
+import { hasPrintableDirective } from "../common";
+import { DEPRECATED, MARKDOWN_EOL } from "../const/strings";
+import { printMetadataSection } from "../section";
 import {
-  isEnumType,
   getTypeName,
   isDeprecated,
+  isEnumType,
 } from "@graphql-markdown/graphql";
-
-import { MARKDOWN_EOL, DEPRECATED } from "../const/strings";
-import { printMetadataSection } from "../section";
-import { hasPrintableDirective } from "../common";
 
 export const printEnumMetadata = (
   type: unknown,

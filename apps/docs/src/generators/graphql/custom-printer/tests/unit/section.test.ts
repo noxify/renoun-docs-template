@@ -1,24 +1,21 @@
 import type { SectionLevelValue } from "@graphql-markdown/types";
 
-import {
-  GraphQLNonNull,
-  GraphQLInt,
-  GraphQLList,
-  GraphQLObjectType,
-  GraphQLString,
-  GraphQLDirective,
-} from "graphql/type";
-import { Kind, DirectiveLocation } from "graphql/language";
-
+import { DEFAULT_OPTIONS, SectionLevels } from "../../src/const/options";
+import { HIDE_DEPRECATED, SHOW_DEPRECATED } from "../../src/const/strings";
 import {
   printSection,
   printSectionItem,
   printSectionItems,
 } from "../../src/section";
-
-import { HIDE_DEPRECATED, SHOW_DEPRECATED } from "../../src/const/strings";
-
-import { DEFAULT_OPTIONS, SectionLevels } from "../../src/const/options";
+import { DirectiveLocation, Kind } from "graphql/language";
+import {
+  GraphQLDirective,
+  GraphQLInt,
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLString,
+} from "graphql/type";
 
 describe("section", () => {
   describe("printSection()", () => {

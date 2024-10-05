@@ -1,4 +1,10 @@
 import type { GraphQLSchema } from "@graphql-markdown/types";
+
+import { DEFAULT_OPTIONS } from "../../../src/const/options";
+import {
+  printCodeOperation,
+  printOperationMetadata,
+} from "../../../src/graphql/operation";
 import { GraphQLID, GraphQLObjectType, GraphQLString } from "graphql/type";
 
 jest.mock("@graphql-markdown/graphql", (): unknown => {
@@ -11,13 +17,6 @@ jest.mock("@graphql-markdown/graphql", (): unknown => {
     }),
   };
 });
-
-import { DEFAULT_OPTIONS } from "../../../src/const/options";
-
-import {
-  printOperationMetadata,
-  printCodeOperation,
-} from "../../../src/graphql/operation";
 
 describe("operation", () => {
   describe("printOperationMetadata()", () => {

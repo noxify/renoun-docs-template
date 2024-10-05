@@ -1,6 +1,6 @@
 import type { PrintTypeOptions } from "@graphql-markdown/types";
 
-import { printObjectMetadata, printCodeType } from "./object";
+import { printCodeType, printObjectMetadata } from "./object";
 
 export const printInputMetadata = printObjectMetadata;
 

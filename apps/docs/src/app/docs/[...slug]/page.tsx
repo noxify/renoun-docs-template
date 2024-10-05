@@ -1,16 +1,17 @@
-import type { DocSchema } from "@/collections"
-import type { FileSystemSource } from "renoun/collections"
-import { notFound } from "next/navigation"
-import { Comments } from "@/components/comments"
-import SectionGrid from "@/components/section-grid"
-import Siblings from "@/components/siblings"
-import { TableOfContents } from "@/components/table-of-contents"
-import { getCollectionInfo } from "@/lib/collections"
-import { cn } from "@/lib/utils"
-import { ExternalLinkIcon } from "lucide-react"
+import type { DocSchema } from "@/collections";
+import type { FileSystemSource } from "renoun/collections";
+import { notFound } from "next/navigation";
+import { ExternalLinkIcon } from "lucide-react";
+
+import { Comments } from "@/components/comments";
+import SectionGrid from "@/components/section-grid";
+import Siblings from "@/components/siblings";
+import { TableOfContents } from "@/components/table-of-contents";
+import { getCollectionInfo } from "@/lib/collections";
+import { cn } from "@/lib/utils";
 
 function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
-  return array.filter((value) => !valueToRemove.includes(value))
+  return array.filter((value) => !valueToRemove.includes(value));
 }
 
 /**
@@ -30,15 +31,15 @@ function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
 async function getSlugsFromCollection(collectionName: string) {
   const collection = (await getCollectionInfo()).find(
     (collection) => collection.alias === collectionName,
-  )
+  );
 
   if (!collection) {
-    return []
+    return [];
   }
 
-  const sources = await collection.collection.getSources()
+  const sources = await collection.collection.getSources();
 
-  const deleteItems = ["docs"]
+  const deleteItems = ["docs"];
 
   return (
     sources
@@ -48,38 +49,38 @@ async function getSlugsFromCollection(collectionName: string) {
       .map((source) => ({
         slug: [...removeFromArray(source.getPathSegments(), deleteItems)],
       }))
-  )
+  );
 }
 
 export async function generateStaticParams() {
-  const slugs = []
+  const slugs = [];
 
-  const collections = await getCollectionInfo()
+  const collections = await getCollectionInfo();
 
   for (const collection of collections) {
     // force add the root page to the available pages
     // otherwise you can't call `/docs/<product>` directly
-    slugs.push({ slug: [collection.alias] })
-    const collectionSlugs = await getSlugsFromCollection(collection.alias)
-    slugs.push(...collectionSlugs)
+    slugs.push({ slug: [collection.alias] });
+    const collectionSlugs = await getSlugsFromCollection(collection.alias);
+    slugs.push(...collectionSlugs);
   }
 
-  return slugs
+  return slugs;
 }
 
 export default async function DocsPage({
   params,
 }: {
-  params: { slug: string[] }
+  params: { slug: string[] };
 }) {
-  let source: FileSystemSource<DocSchema> | undefined
-  const collections = await getCollectionInfo()
+  let source: FileSystemSource<DocSchema> | undefined;
+  const collections = await getCollectionInfo();
   const collection = collections.find(
     (collection) => collection.alias === params.slug[0],
-  )?.collection
+  )?.collection;
 
   if (!collection) {
-    return notFound()
+    return notFound();
   }
 
   // to support something like `/docs/<product>/`
@@ -89,20 +90,20 @@ export default async function DocsPage({
   if (params.slug.length > 1) {
     source = collection.getSource(
       removeFromArray(params.slug, [params.slug[0]]),
-    )
+    );
   } else {
     source = collection.getSource([
       ...removeFromArray(params.slug, [params.slug[0]]),
       "index",
-    ])
+    ]);
   }
 
   // if we can't find the source then return a 404
   if (!source) {
-    return notFound()
+    return notFound();
   }
 
-  const sections = await source.getSources({ depth: 1 })
+  const sections = await source.getSources({ depth: 1 });
 
   // fallback rendering if the user browses to page page
   // which is a directory e.g. calling /docs/<product>/getting-started instead of /docs/<product>/getting-started/installation
@@ -136,11 +137,11 @@ export default async function DocsPage({
           </div>
         </div>
       </>
-    )
+    );
   }
 
-  const headings = await source.getExport("headings").getValue()
-  const Content = await source.getExport("default").getValue()
+  const headings = await source.getExport("headings").getValue();
+  const Content = await source.getExport("default").getValue();
 
   return (
     <>
@@ -186,5 +187,5 @@ export default async function DocsPage({
         </div>
       </div>
     </>
-  )
+  );
 }

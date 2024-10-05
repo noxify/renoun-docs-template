@@ -1,7 +1,7 @@
 export default function HomeLayout({
   children,
 }: Readonly<{
-  children: React.ReactNode
+  children: React.ReactNode;
 }>) {
   return (
     <>
@@ -9,5 +9,5 @@ export default function HomeLayout({
         <div className="container py-6">{children}</div>
       </main>
     </>
-  )
+  );
 }

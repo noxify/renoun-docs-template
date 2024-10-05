@@ -4,8 +4,8 @@ import type {
   GraphQLDirective,
   GraphQLSchema,
   Maybe,
-  PrintTypeOptions,
   PrinterConfigPrintTypeOptions,
+  PrintTypeOptions,
   SchemaEntitiesGroupMap,
   SectionLevelValue,
 } from "@graphql-markdown/types";

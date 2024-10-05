@@ -6,20 +6,18 @@ import type {
   SectionLevelValue,
 } from "@graphql-markdown/types";
 
-import { isGraphQLFieldType, isDeprecated } from "@graphql-markdown/graphql";
-
-import { hasPrintableDirective, printDescription } from "./common";
 import { printBadges } from "./badge";
-import { printLink, printParentLink } from "./link";
-import { printCustomTags } from "./directive";
-
+import { hasPrintableDirective, printDescription } from "./common";
+import { SectionLevels } from "./const/options";
 import {
   HIDE_DEPRECATED,
   MARKDOWN_EOL,
   MARKDOWN_EOP,
   SHOW_DEPRECATED,
 } from "./const/strings";
-import { SectionLevels } from "./const/options";
+import { printCustomTags } from "./directive";
+import { printLink, printParentLink } from "./link";
+import { isDeprecated, isGraphQLFieldType } from "@graphql-markdown/graphql";
 
 export const sectionLevels: SectionLevel[] = [
   SectionLevels.LEVEL_3 as SectionLevelValue,

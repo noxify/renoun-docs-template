@@ -1,5 +1,5 @@
-import Link from "next/link"
-import { MoveUpRightIcon } from "lucide-react"
+import Link from "next/link";
+import { MoveUpRightIcon } from "lucide-react";
 
 export default function Home() {
   return (
@@ -21,5 +21,5 @@ export default function Home() {
         needs.
       </p>
     </div>
-  )
+  );
 }

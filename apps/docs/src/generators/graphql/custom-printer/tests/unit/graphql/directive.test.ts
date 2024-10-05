@@ -1,12 +1,10 @@
-import { GraphQLDirective, GraphQLBoolean } from "graphql/type";
-import { DirectiveLocation } from "graphql/language";
-
 import { DEFAULT_OPTIONS } from "../../../src/const/options";
-
 import {
   printCodeDirective,
   printDirectiveMetadata,
 } from "../../../src/graphql/directive";
+import { DirectiveLocation } from "graphql/language";
+import { GraphQLBoolean, GraphQLDirective } from "graphql/type";
 
 describe("directive", () => {
   describe("printDirectiveMetadata()", () => {

@@ -1,18 +1,23 @@
+import type {
+  ApiGroupOverrideType,
+  GraphQLNamedType,
+  PrintLinkOptions,
+  TypeLocale,
+} from "@graphql-markdown/types";
+
+import * as Common from "../../src/common";
+import { DEFAULT_OPTIONS, TypeHierarchy } from "../../src/const/options";
+import * as Group from "../../src/group";
+import * as Link from "../../src/link";
+import * as GraphQL from "@graphql-markdown/graphql";
+import * as Utils from "@graphql-markdown/utils";
 import {
-  GraphQLList,
   GraphQLDirective,
+  GraphQLList,
   GraphQLObjectType,
   GraphQLScalarType,
 } from "graphql/type";
 
-import type {
-  PrintLinkOptions,
-  TypeLocale,
-  GraphQLNamedType,
-  ApiGroupOverrideType,
-} from "@graphql-markdown/types";
-
-import * as Utils from "@graphql-markdown/utils";
 jest.mock("@graphql-markdown/utils", () => {
   return {
     slugify: jest.fn(),
@@ -21,7 +26,6 @@ jest.mock("@graphql-markdown/utils", () => {
 });
 const mockUtils = jest.mocked(Utils, { shallow: true });
 
-import * as GraphQL from "@graphql-markdown/graphql";
 jest.mock("@graphql-markdown/graphql", () => {
   return {
     executableDirectiveLocation: jest.fn(),
@@ -46,9 +50,6 @@ jest.mock("@graphql-markdown/graphql", () => {
 });
 const mockGraphQL = jest.mocked(GraphQL, { shallow: true });
 
-import { DEFAULT_OPTIONS, TypeHierarchy } from "../../src/const/options";
-
-import * as Group from "../../src/group";
 jest.mock("../../src/group", () => {
   return {
     getGroup: jest.fn(() => {
@@ -57,9 +58,6 @@ jest.mock("../../src/group", () => {
   };
 });
 const mockGroup = jest.mocked(Group, { shallow: true });
-
-import * as Link from "../../src/link";
-import * as Common from "../../src/common";
 
 describe("link", () => {
   const basePath: string = "docs/graphql";

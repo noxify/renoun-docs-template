@@ -1,12 +1,11 @@
 import type {
-  SchemaEntitiesGroupMap,
-  SchemaEntity,
   GraphQLType,
   Maybe,
+  SchemaEntitiesGroupMap,
+  SchemaEntity,
 } from "@graphql-markdown/types";
 
 import { getNamedType } from "@graphql-markdown/graphql";
-
 import { slugify } from "@graphql-markdown/utils";
 
 export const getGroup = (

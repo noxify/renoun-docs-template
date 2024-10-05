@@ -1,13 +1,17 @@
 import type {
   IGetRelation,
-  MDXString,
   Maybe,
+  MDXString,
   PrintTypeOptions,
   RelationOf,
   RootTypeName,
   TypeLocale,
 } from "@graphql-markdown/types";
 
+import { DEFAULT_CSS_CLASSNAME, printBadge } from "./badge";
+import { SectionLevels } from "./const/options";
+import { MARKDOWN_EOP, ROOT_TYPE_LOCALE } from "./const/strings";
+import { getRelationLink } from "./link";
 import {
   getRelationOfField,
   getRelationOfImplementation,
@@ -16,11 +20,6 @@ import {
   isNamedType,
   isOperation,
 } from "@graphql-markdown/graphql";
-
-import { getRelationLink } from "./link";
-import { DEFAULT_CSS_CLASSNAME, printBadge } from "./badge";
-import { MARKDOWN_EOP, ROOT_TYPE_LOCALE } from "./const/strings";
-import { SectionLevels } from "./const/options";
 
 export const getRootTypeLocaleFromString = (
   text: string,

@@ -1,10 +1,9 @@
-import { GraphQLScalarType } from "graphql/type";
-
 import {
   printCodeScalar,
   printScalarMetadata,
   printSpecification,
 } from "../../../src/graphql/scalar";
+import { GraphQLScalarType } from "graphql/type";
 
 describe("scalar", () => {
   const type = new GraphQLScalarType<number>({

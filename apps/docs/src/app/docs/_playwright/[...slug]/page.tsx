@@ -1,37 +1,38 @@
-import path from "path"
-import { cache } from "react"
-import { Comments } from "@/components/comments"
-import { TableOfContents } from "@/components/table-of-contents"
-import { getPlaywrightTests } from "@/lib/playwright"
-import { cn } from "@/lib/utils"
-import { CodeBlock } from "renoun/components"
+import path from "path";
+import { cache } from "react";
 
-const cachedPlaywrightTests = cache(getPlaywrightTests)
+import { Comments } from "@/components/comments";
+import { TableOfContents } from "@/components/table-of-contents";
+import { getPlaywrightTests } from "@/lib/playwright";
+import { cn } from "@/lib/utils";
+import { CodeBlock } from "renoun/components";
+
+const cachedPlaywrightTests = cache(getPlaywrightTests);
 export async function generateStaticParams() {
-  const testcases = await cachedPlaywrightTests()
+  const testcases = await cachedPlaywrightTests();
 
   const testTags = testcases
     .map((test) => test.tags)
-    .flatMap((ele) => ele.join(":"))
+    .flatMap((ele) => ele.join(":"));
 
   const uniqueTags = [...new Set(testTags)].map((ele) => ({
     slug: `${ele}`.split(":"),
-  }))
+  }));
 
-  return uniqueTags
+  return uniqueTags;
 }
 
 export default async function DocsPage({
   params,
 }: {
-  params: { slug: string[] }
+  params: { slug: string[] };
 }) {
-  const suites = await cachedPlaywrightTests()
+  const suites = await cachedPlaywrightTests();
   const tests = suites.filter((ele) => {
-    return ele.tags.every((v) => params.slug.includes(v))
-  })
+    return ele.tags.every((v) => params.slug.includes(v));
+  });
 
-  const pageTitle = tests[0].parent
+  const pageTitle = tests[0].parent;
 
   return (
     <>
@@ -67,7 +68,7 @@ export default async function DocsPage({
                       source={test.location.file}
                     />
                   </div>
-                )
+                );
               })}
             </div>
           </article>
@@ -86,5 +87,5 @@ export default async function DocsPage({
         </div>
       </div>
     </>
-  )
+  );
 }

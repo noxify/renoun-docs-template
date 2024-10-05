@@ -1,9 +1,8 @@
-import type { PrintTypeOptions, MDXString } from "@graphql-markdown/types";
+import type { MDXString, PrintTypeOptions } from "@graphql-markdown/types";
 
-import { getTypeName, isOperation } from "@graphql-markdown/graphql";
-
-import { printSection, printMetadataSection } from "../section";
 import { printCodeField } from "../code";
+import { printMetadataSection, printSection } from "../section";
+import { getTypeName, isOperation } from "@graphql-markdown/graphql";
 
 export const printOperationType = (
   type: unknown,

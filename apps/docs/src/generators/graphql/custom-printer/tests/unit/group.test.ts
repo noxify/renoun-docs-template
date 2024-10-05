@@ -1,15 +1,14 @@
 import type { GraphQLNamedType } from "graphql/type/definition";
 
+import { getGroup } from "../../src/group";
+import * as GraphQL from "@graphql-markdown/graphql";
+
 jest.mock("@graphql-markdown/graphql", () => {
   return {
     ...jest.requireActual("@graphql-markdown/graphql"),
     getNamedType: jest.fn(),
   };
 });
-
-import * as GraphQL from "@graphql-markdown/graphql";
-
-import { getGroup } from "../../src/group";
 
 describe("group", () => {
   afterEach(() => {

@@ -1,14 +1,15 @@
-import { notFound } from "next/navigation"
-import { PlaywrightCollection } from "@/collections"
-import { Comments } from "@/components/comments"
-import SectionGrid from "@/components/section-grid"
-import Siblings from "@/components/siblings"
-import { TableOfContents } from "@/components/table-of-contents"
-import { cn } from "@/lib/utils"
-import { ExternalLinkIcon } from "lucide-react"
+import { notFound } from "next/navigation";
+import { ExternalLinkIcon } from "lucide-react";
+
+import { PlaywrightCollection } from "@/collections";
+import { Comments } from "@/components/comments";
+import SectionGrid from "@/components/section-grid";
+import Siblings from "@/components/siblings";
+import { TableOfContents } from "@/components/table-of-contents";
+import { cn } from "@/lib/utils";
 
 function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
-  return array.filter((value) => !valueToRemove.includes(value))
+  return array.filter((value) => !valueToRemove.includes(value));
 }
 
 /**
@@ -26,9 +27,9 @@ function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
  * If you know a better solution please feel free to create a PR <3
  */
 async function getSlugsFromCollection() {
-  const sources = await PlaywrightCollection.getSources()
+  const sources = await PlaywrightCollection.getSources();
 
-  const deleteItems = ["docs"]
+  const deleteItems = ["docs"];
 
   return (
     sources
@@ -38,19 +39,19 @@ async function getSlugsFromCollection() {
       .map((source) => ({
         slug: [...removeFromArray(source.getPathSegments(), deleteItems)],
       }))
-  )
+  );
 }
 
 export async function generateStaticParams() {
-  const slugs = []
+  const slugs = [];
 
   // force add the root page to the available pages
   // otherwise you can't call `/docs/<product>` directly
-  slugs.push({ slug: ["playwright"] })
-  const collectionSlugs = await getSlugsFromCollection()
-  slugs.push(...collectionSlugs)
+  slugs.push({ slug: ["playwright"] });
+  const collectionSlugs = await getSlugsFromCollection();
+  slugs.push(...collectionSlugs);
 
-  return slugs
+  return slugs;
 }
 
 export default async function DocsPage() {
@@ -59,17 +60,17 @@ export default async function DocsPage() {
   // is always the collection name - so we can use this to load the `index.mdx` if there is any
   // if there are two or more elements, we just load the requested page content
 
-  const source = PlaywrightCollection.getSource(["index"])
+  const source = PlaywrightCollection.getSource(["index"]);
 
   // if we can't find the source then return a 404
   if (!source) {
-    return notFound()
+    return notFound();
   }
 
-  const sections = await source.getSources({ depth: 1 })
+  const sections = await source.getSources({ depth: 1 });
 
-  const headings = await source.getExport("headings").getValue()
-  const Content = await source.getExport("default").getValue()
+  const headings = await source.getExport("headings").getValue();
+  const Content = await source.getExport("default").getValue();
 
   return (
     <>
@@ -115,5 +116,5 @@ export default async function DocsPage() {
         </div>
       </div>
     </>
-  )
+  );
 }

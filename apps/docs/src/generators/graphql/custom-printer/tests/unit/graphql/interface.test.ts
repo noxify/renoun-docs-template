@@ -1,15 +1,13 @@
-import {
-  GraphQLBoolean,
-  GraphQLString,
-  GraphQLInterfaceType,
-} from "graphql/type";
-
 import { DEFAULT_OPTIONS } from "../../../src/const/options";
-
 import {
   printCodeInterface,
   printInterfaceMetadata,
 } from "../../../src/graphql/interface";
+import {
+  GraphQLBoolean,
+  GraphQLInterfaceType,
+  GraphQLString,
+} from "graphql/type";
 
 describe("interface", () => {
   const type = new GraphQLInterfaceType({

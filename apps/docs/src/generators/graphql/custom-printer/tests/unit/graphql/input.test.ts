@@ -1,12 +1,10 @@
+import { DEFAULT_OPTIONS } from "../../../src/const/options";
+import { printCodeInput, printInputMetadata } from "../../../src/graphql/input";
 import {
   GraphQLBoolean,
-  GraphQLString,
   GraphQLInputObjectType,
+  GraphQLString,
 } from "graphql/type";
-
-import { DEFAULT_OPTIONS } from "../../../src/const/options";
-
-import { printCodeInput, printInputMetadata } from "../../../src/graphql/input";
 
 describe("input", () => {
   const type = new GraphQLInputObjectType({

@@ -1,4 +1,5 @@
 import type { FrontMatterOptions, Maybe } from "@graphql-markdown/types";
+
 import {
   FRONT_MATTER_DELIMITER,
   MARKDOWN_CODE_INDENTATION,

@@ -1,10 +1,9 @@
 import type { PrintTypeOptions } from "@graphql-markdown/types";
 
+import * as Common from "../../src/common";
+import { getDirectiveExampleOption, printExample } from "../../src/example";
 import { buildSchema } from "graphql/utilities";
 
-import { getDirectiveExampleOption, printExample } from "../../src/example";
-
-import * as Common from "../../src/common";
 jest.mock("../../src/common");
 
 describe("example", () => {

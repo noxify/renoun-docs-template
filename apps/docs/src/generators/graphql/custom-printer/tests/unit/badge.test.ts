@@ -1,5 +1,12 @@
 import type { PrintTypeOptions } from "@graphql-markdown/types";
 
+import * as Badge from "../../src/badge";
+import { DEFAULT_OPTIONS } from "../../src/const/options";
+import * as Group from "../../src/group";
+import * as Link from "../../src/link";
+import * as GraphQL from "@graphql-markdown/graphql";
+import * as Utils from "@graphql-markdown/utils";
+
 jest.mock("@graphql-markdown/utils", () => {
   return {
     slugify: jest.fn(),
@@ -12,7 +19,6 @@ jest.mock("@graphql-markdown/utils", () => {
     }),
   };
 });
-import * as Utils from "@graphql-markdown/utils";
 
 jest.mock("@graphql-markdown/graphql", () => {
   return {
@@ -31,25 +37,18 @@ jest.mock("@graphql-markdown/graphql", () => {
     getConstDirectiveMap: jest.fn(),
   };
 });
-import * as GraphQL from "@graphql-markdown/graphql";
 
 jest.mock("../../src/link", () => {
   return {
     getCategoryLocale: jest.fn(),
   };
 });
-import * as Link from "../../src/link";
 
 jest.mock("../../src/group", () => {
   return {
     getGroup: jest.fn(),
   };
 });
-import * as Group from "../../src/group";
-
-import * as Badge from "../../src/badge";
-
-import { DEFAULT_OPTIONS } from "../../src/const/options";
 
 describe("badge", () => {
   afterAll(() => {

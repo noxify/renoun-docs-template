@@ -2,16 +2,16 @@ import type {
   CollectionSource,
   FileExports,
   FileSystemSource,
-} from "renoun/collections"
+} from "renoun/collections";
 
 export interface TreeItem {
-  title: string
-  path: string
-  isFile: boolean
-  slug: string[]
-  order: string
-  depth: number
-  children?: TreeItem[]
+  title: string;
+  path: string;
+  isFile: boolean;
+  slug: string[];
+  order: string;
+  depth: number;
+  children?: TreeItem[];
 }
 
 export async function getTree<T extends FileExports>({
@@ -19,22 +19,22 @@ export async function getTree<T extends FileExports>({
   maxDepth = 2,
   fromSource = false,
 }: {
-  input: CollectionSource<T> | FileSystemSource<T>[]
-  maxDepth?: number
-  fromSource?: boolean
+  input: CollectionSource<T> | FileSystemSource<T>[];
+  maxDepth?: number;
+  fromSource?: boolean;
 }): Promise<TreeItem[]> {
-  let sources: FileSystemSource<T>[]
+  let sources: FileSystemSource<T>[];
   if (fromSource) {
-    sources = input as FileSystemSource<T>[]
+    sources = input as FileSystemSource<T>[];
   } else {
-    sources = await (input as CollectionSource<T>).getSources({ depth: 1 })
+    sources = await (input as CollectionSource<T>).getSources({ depth: 1 });
   }
 
-  const tree: TreeItem[] = []
+  const tree: TreeItem[] = [];
   for (const source of sources) {
     const frontmatter = !source.isDirectory()
       ? await source.getExport("frontmatter").getValue()
-      : null
+      : null;
 
     const treeItem = {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
@@ -52,9 +52,9 @@ export async function getTree<T extends FileExports>({
               fromSource: true,
             })
           : [],
-    }
+    };
 
-    tree.push(treeItem)
+    tree.push(treeItem);
   }
-  return tree
+  return tree;
 }

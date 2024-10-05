@@ -1,13 +1,12 @@
 import type {
-  PrintDirectiveOptions,
   GraphQLDirective,
   MDXString,
+  PrintDirectiveOptions,
 } from "@graphql-markdown/types";
 
-import { getTypeName } from "@graphql-markdown/graphql";
-
-import { printMetadataSection } from "../section";
 import { printCodeArguments } from "../code";
+import { printMetadataSection } from "../section";
+import { getTypeName } from "@graphql-markdown/graphql";
 
 const printCodeDirectiveLocation = (type: GraphQLDirective): string => {
   if (typeof type.locations === "undefined" || type.locations.length === 0) {

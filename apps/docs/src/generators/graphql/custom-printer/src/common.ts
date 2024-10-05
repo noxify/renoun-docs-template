@@ -1,24 +1,20 @@
-import { DOCUSAURUS_VERSION } from "@docusaurus/utils";
-
 import type {
-  PrintTypeOptions,
-  MDXString,
-  Maybe,
   CustomDirectiveMap,
   CustomDirectiveMapItem,
+  Maybe,
+  MDXString,
+  PrintTypeOptions,
 } from "@graphql-markdown/types";
 
-import { isEmpty, escapeMDX } from "@graphql-markdown/utils";
-
+import { DEPRECATED, MARKDOWN_EOP, NO_DESCRIPTION_TEXT } from "./const/strings";
+import { getCustomDirectiveResolver } from "./directive";
+import { DOCUSAURUS_VERSION } from "@docusaurus/utils";
 import {
-  isDeprecated,
   getConstDirectiveMap,
   hasDirective,
+  isDeprecated,
 } from "@graphql-markdown/graphql";
-
-import { getCustomDirectiveResolver } from "./directive";
-
-import { DEPRECATED, MARKDOWN_EOP, NO_DESCRIPTION_TEXT } from "./const/strings";
+import { escapeMDX, isEmpty } from "@graphql-markdown/utils";
 
 export const printCustomDirectives = (
   type: unknown,

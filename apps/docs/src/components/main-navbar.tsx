@@ -1,11 +1,11 @@
-import Link from "next/link"
-import { SheetClose } from "@/components/ui/sheet"
-import { GithubIcon, HexagonIcon } from "lucide-react"
+import Link from "next/link";
+import { GithubIcon, HexagonIcon } from "lucide-react";
 
-import { CanarySearch } from "./canary-search"
-import { ThemeToggle } from "./theme-toggle"
-import { buttonVariants } from "./ui/button"
-import { SidebarTrigger } from "./ui/sidebar"
+import { CanarySearch } from "./canary-search";
+import { ThemeToggle } from "./theme-toggle";
+import { buttonVariants } from "./ui/button";
+import { SidebarTrigger } from "./ui/sidebar";
+import { SheetClose } from "@/components/ui/sheet";
 
 export const headerNavigation = [
   {
@@ -20,7 +20,7 @@ export const headerNavigation = [
     title: "renoun Docs",
     path: `/docs/renoun-docs/getting-started/`,
   },
-]
+];
 
 export function Navbar() {
   return (
@@ -53,7 +53,7 @@ export function Navbar() {
         </nav>
       </div>
     </header>
-  )
+  );
 }
 
 export function Logo() {
@@ -62,7 +62,7 @@ export function Logo() {
       <HexagonIcon className="h-7 w-7 fill-current text-muted-foreground" />
       <h2 className="text-md font-bold">renoun Template</h2>
     </Link>
-  )
+  );
 }
 
 export function NavMenu({ isSheet = false }) {
@@ -77,15 +77,15 @@ export function NavMenu({ isSheet = false }) {
           >
             {item.title}{" "}
           </Link>
-        )
+        );
         return isSheet ? (
           <SheetClose key={item.title + item.path} asChild>
             {Comp}
           </SheetClose>
         ) : (
           Comp
-        )
+        );
       })}
     </>
-  )
+  );
 }

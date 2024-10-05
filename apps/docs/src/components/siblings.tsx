@@ -1,19 +1,19 @@
-import type { DocsSource } from "@/collections"
-import Link from "next/link"
-import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import type { DocsSource } from "@/collections";
+import Link from "next/link";
+import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
 
 export default async function Siblings({
   source,
 }: {
-  source: DocsSource | undefined
+  source: DocsSource | undefined;
 }) {
   if (!source) {
-    return <></>
+    return <></>;
   }
 
   const [previousPage, nextPage] = await source.getSiblings({
     depth: 1,
-  })
+  });
 
   return (
     <nav
@@ -66,5 +66,5 @@ export default async function Siblings({
         )}
       </div>
     </nav>
-  )
+  );
 }
