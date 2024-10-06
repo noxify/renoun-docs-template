@@ -7,6 +7,7 @@ import tseslint from "typescript-eslint";
 
 import { includeIgnoreFile } from "@eslint/compat";
 import eslint from "@eslint/js";
+import packageJson from "eslint-plugin-package-json/configs/recommended";
 
 /**
  * All packages that leverage t3-env should use this rule
@@ -42,6 +43,13 @@ export default tseslint.config(
   // Ignore files not tracked by VCS and any config files
   includeIgnoreFile(path.join(import.meta.dirname, "../../.gitignore")),
   { ignores: ["**/*.config.*"] },
+  {
+    ...packageJson,
+    rules: {
+      ...packageJson.rules,
+      "package-json/valid-package-def": "off",
+    },
+  },
   {
     files: ["**/*.js", "**/*.ts", "**/*.tsx"],
     plugins: {

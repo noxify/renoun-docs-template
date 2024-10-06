@@ -1,6 +1,7 @@
-import type { DocsSource } from "@/collections";
 import Link from "next/link";
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react";
+
+import type { DocsSource } from "~/collections";
 
 export default async function Siblings({
   source,

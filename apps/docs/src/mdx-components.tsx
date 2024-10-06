@@ -3,9 +3,10 @@ import type { ReactNode } from "react";
 import Link from "next/link";
 import { ExternalLinkIcon } from "lucide-react";
 
-import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert";
-import { Stepper, StepperItem } from "./components/ui/stepper";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs";
+import { Alert, AlertDescription, AlertTitle } from "@acme/ui/alert";
+import { Stepper, StepperItem } from "@acme/ui/stepper";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@acme/ui/tabs";
+
 import { CodeBlock, CodeInline } from "renoun/components";
 
 export function useMDXComponents() {

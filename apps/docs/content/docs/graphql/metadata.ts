@@ -1,6 +1,5 @@
-import type { CollectionSchema } from "@/collections";
-
-import { GraphqlCollection } from "@/collections";
+import type { CollectionSchema } from "~/collections";
+import { GraphqlCollection } from "~/collections";
 
 export const metadata: CollectionSchema["metadata"] = {
   title: "GraphQL docs",

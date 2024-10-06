@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 
-import { SiteSidebar } from "@/components/sidebar";
-import { SidebarLayout } from "@/components/ui/sidebar";
-import { collectionChooser, getCollectionInfo } from "@/lib/collections";
-import { getTree } from "@/lib/tree";
+import { SidebarLayout } from "@acme/ui/sidebar";
+
+import { SiteSidebar } from "~/components/sidebar";
+import { collectionChooser, getCollectionInfo } from "~/lib/collections";
+import { getTree } from "~/lib/tree";
 
 export default async function DocsLayout({
   params,
@@ -36,7 +37,8 @@ export default async function DocsLayout({
       <SiteSidebar
         items={items}
         collections={chooser}
-        activeCollection={params.slug[0]}
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        activeCollection={params.slug[0]!}
       />
 
       <main className="flex w-full flex-1 flex-col transition-all duration-300 ease-in-out">

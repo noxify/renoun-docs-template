@@ -1,6 +1,5 @@
-import type { CollectionSchema } from "@/collections";
-
-import { CollectionInfo } from "@/collections";
+import type { CollectionSchema } from "~/collections";
+import { CollectionInfo } from "~/collections";
 
 export async function getCollectionInfo() {
   const collections = await CollectionInfo.getSources();

@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "renoun next build && pnpm generate-pagefind",
+    "clean": "git clean -xdf .cache .next .turbo node_modules",
     "dev": "renoun next dev",
     "format": "prettier --check . --ignore-path ../../.gitignore",
     "format:fix": "prettier --check --write . --ignore-path ../../.gitignore",
@@ -32,6 +33,7 @@
     "lucide-react": "0.447.0",
     "multimatch": "7.0.0",
     "next": "14.2.14",
+    "next-themes": "0.3.0",
     "react": "18.3.1",
     "react-dom": "18.3.1",
     "renoun": "5.2.0",

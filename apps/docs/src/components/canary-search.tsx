@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { SearchIcon } from "lucide-react";
 
-import { Button, buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "@acme/ui/button";
 
 export const CanarySearch = () => {
   const [loaded, setLoaded] = useState(false);

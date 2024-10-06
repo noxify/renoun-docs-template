@@ -1,9 +1,10 @@
 "use client";
 
-import type { TreeItem } from "@/lib/tree";
 import { resolveHref } from "next/dist/client/resolve-href";
 import Router from "next/router";
 import multimatch from "multimatch";
+
+import type { TreeItem } from "~/lib/tree";
 
 export function isActive(
   currentPath: string | string[],

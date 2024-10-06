@@ -1,29 +1,30 @@
 "use client";
 
-import type { collectionChooser } from "@/lib/collections";
-import type { TreeItem } from "@/lib/tree";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronsUpDown } from "lucide-react";
 
+import { cn } from "@acme/ui";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Navigation } from "@/components/docs-navigation";
-import { headerNavigation } from "@/components/main-navbar";
+} from "@acme/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
   SidebarItem,
   SidebarLabel,
-} from "@/components/ui/sidebar";
-import { current } from "@/lib/navigation";
-import { cn } from "@/lib/utils";
+} from "@acme/ui/sidebar";
+
+import type { collectionChooser } from "~/lib/collections";
+import type { TreeItem } from "~/lib/tree";
+import { Navigation } from "~/components/docs-navigation";
+import { headerNavigation } from "~/components/main-navbar";
+import { current } from "~/lib/navigation";
 
 export function SiteSidebar({
   items,

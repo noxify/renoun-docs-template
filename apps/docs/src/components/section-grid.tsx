@@ -1,7 +1,8 @@
-import type { DocsSource } from "@/collections";
 import Link from "next/link";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@acme/ui/card";
+
+import type { DocsSource } from "~/collections";
 
 export default function SectionGrid({
   sections,
