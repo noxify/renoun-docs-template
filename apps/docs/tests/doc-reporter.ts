@@ -1,4 +1,4 @@
-import type { FullConfig, Reporter, Suite } from "@playwright/test/reporter";
+import type { FullConfig, Reporter, Suite } from "@playwright/test/reporter"
 
 class DocReporter implements Reporter {
   onBegin(config: FullConfig, suite: Suite) {
@@ -23,18 +23,18 @@ class DocReporter implements Reporter {
           file: testcase.location.file,
           line: testcase.location.line,
         },
-      };
-    });
+      }
+    })
 
     // We need to remove the duplicate since it's possible that we have multiple projects
     // ( e.g. to test different browsers and/or headed/headless )
     // which would result in multiple entries for the same testcase
     const uniqueResults = [
       ...new Map(docOutput.map((item) => [item.filter, item])).values(),
-    ];
+    ]
 
     // Print the results to stdout so we can parse and process them in our page
-    console.log(JSON.stringify(uniqueResults));
+    console.log(JSON.stringify(uniqueResults))
   }
 }
-export default DocReporter;
+export default DocReporter

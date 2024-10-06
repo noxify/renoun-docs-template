@@ -6,7 +6,7 @@
     "baseUrl": ".",
     "paths": {
       "~/*": ["./src/*"],
-      "~content/*": ["./content/*"],
+      "~content/*": ["./content/*"]
     },
     "plugins": [{ "name": "next" }],
     "module": "esnext"

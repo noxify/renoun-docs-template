@@ -1,5 +1,5 @@
-import reactPlugin from "eslint-plugin-react";
-import hooksPlugin from "eslint-plugin-react-hooks";
+import reactPlugin from "eslint-plugin-react"
+import hooksPlugin from "eslint-plugin-react-hooks"
 
 /** @type {Awaited<import('typescript-eslint').Config>} */
 export default [
@@ -19,4 +19,4 @@ export default [
       },
     },
   },
-];
+]

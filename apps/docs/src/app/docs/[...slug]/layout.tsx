@@ -1,36 +1,36 @@
-import { notFound } from "next/navigation";
+import { notFound } from "next/navigation"
 
-import { SidebarLayout } from "@acme/ui/sidebar";
+import { SidebarLayout } from "@acme/ui/sidebar"
 
-import { SiteSidebar } from "~/components/sidebar";
-import { collectionChooser, getCollectionInfo } from "~/lib/collections";
-import { getTree } from "~/lib/tree";
+import { SiteSidebar } from "~/components/sidebar"
+import { collectionChooser, getCollectionInfo } from "~/lib/collections"
+import { getTree } from "~/lib/tree"
 
 export default async function DocsLayout({
   params,
   children,
 }: Readonly<{
   params: {
-    product: string;
-    slug: string[];
-  };
-  children: React.ReactNode;
+    product: string
+    slug: string[]
+  }
+  children: React.ReactNode
 }>) {
-  const chooser = await collectionChooser();
+  const chooser = await collectionChooser()
 
-  const collections = await getCollectionInfo();
+  const collections = await getCollectionInfo()
   const collection = collections.find(
     (collection) => collection.alias === params.slug[0],
-  )?.collection;
+  )?.collection
 
   if (!collection) {
-    return notFound();
+    return notFound()
   }
 
   const items = await getTree({
     input: collection,
     maxDepth: 4,
-  });
+  })
 
   return (
     <SidebarLayout>
@@ -45,5 +45,5 @@ export default async function DocsLayout({
         <div className="container py-6">{children}</div>
       </main>
     </SidebarLayout>
-  );
+  )
 }

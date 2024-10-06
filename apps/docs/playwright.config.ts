@@ -1,5 +1,5 @@
-import { defineConfig, devices } from "@playwright/test";
-import DocReporter from "@tests/doc-reporter";
+import { defineConfig, devices } from "@playwright/test"
+import DocReporter from "@tests/doc-reporter"
 
 export default defineConfig({
   // Look for test files in the "tests" directory, relative to this configuration file.
@@ -22,4 +22,4 @@ export default defineConfig({
       },
     },
   ],
-});
+})
