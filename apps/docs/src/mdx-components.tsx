@@ -52,10 +52,10 @@ export function useMDXComponents() {
     pre: (props) => {
       const { value, language } = CodeBlock.parsePreProps(props)
 
-      let allowErrors = false
+      let allowErrors = true
 
       if (language === "typescript") {
-        allowErrors = true
+        allowErrors = false
       }
       return (
         <CodeBlock
