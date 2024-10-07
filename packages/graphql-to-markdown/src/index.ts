@@ -9,6 +9,7 @@ import type {
 import { generateDocFromSchema } from "@graphql-markdown/core"
 
 async function main() {
+  console.log(process.cwd())
   const config: GeneratorOptions = {
     outputDir: path.join(process.cwd(), "content/docs/graphql/rickandmorty/"),
     diffMethod: "NONE",
@@ -20,7 +21,8 @@ async function main() {
     skipDocDirective: [],
     onlyDocDirective: [],
     //printer: "@graphql-markdown/printer-legacy" as PackageName,
-    printer: "@/generators/graphql" as PackageName,
+    printer: "@acme/graphql-custom-printer" as PackageName,
+    schema: {},
     schemaLocation: path.join(
       process.cwd(),
       "src/graphql-schema/rickandmorty.graphql",

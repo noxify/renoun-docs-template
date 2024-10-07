@@ -1,0 +1,77 @@
+{
+  "name": "@acme/graphql-custom-printer",
+  "version": "1.9.0",
+  "description": "GraphQL-Markdown legacy Docusaurus printer.",
+  "homepage": "https://graphql-markdown.dev",
+  "bugs": {
+    "url": "https://github.com/graphql-markdown/graphql-markdown/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/graphql-markdown/graphql-markdown.git"
+  },
+  "license": "MIT",
+  "author": {
+    "name": "Gregory Heitz"
+  },
+  "type": "module",
+  "exports": {
+    ".": {
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "default": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      }
+    },
+    "./*": {
+      "require": {
+        "types": "./dist/*.d.ts",
+        "default": "./dist/*.js"
+      },
+      "import": {
+        "types": "./dist/*.d.ts",
+        "default": "./dist/*.js"
+      },
+      "default": {
+        "types": "./dist/*.d.ts",
+        "default": "./dist/*.js"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "git clean -xdf .cache .turbo dist node_modules",
+    "dev": "tsc",
+    "format": "prettier --check . --ignore-path ../../.gitignore",
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit --emitDeclarationOnly false"
+  },
+  "prettier": "@acme/prettier-config",
+  "dependencies": {
+    "@docusaurus/utils": "3.5.2",
+    "@graphql-markdown/graphql": "1.1.4",
+    "@graphql-markdown/utils": "1.7.0"
+  },
+  "devDependencies": {
+    "@acme/eslint-config": "workspace:*",
+    "@acme/prettier-config": "workspace:*",
+    "@acme/tsconfig": "workspace:*",
+    "@graphql-markdown/types": "1.4.0",
+    "eslint": "9.12.0",
+    "prettier": "3.3.3",
+    "typescript": "5.6.2"
+  }
+}
