@@ -1,0 +1,120 @@
+---
+title: Episode
+description: A GraphQL schema for the Rick and Morty API. This is a generated file.
+id: episode
+---
+
+export const Bullet = () => (
+  <>
+    <span
+      style={{
+        fontWeight: "normal",
+        fontSize: ".5em",
+        color: "var(--ifm-color-secondary-darkest)",
+      }}
+    >
+      &nbsp;●&nbsp;
+    </span>
+  </>
+);
+
+export const SpecifiedBy = (props) => (
+  <>
+    Specification
+    <a
+      className="link"
+      style={{ fontSize: "1.5em", paddingLeft: "4px" }}
+      target="_blank"
+      href={props.url}
+      title={"Specified by " + props.url}
+    >
+      ⎘
+    </a>
+  </>
+);
+
+export const Badge = (props) => (
+  <>
+    <span className={props.class}>{props.text}</span>
+  </>
+);
+
+import { useState } from "react";
+
+export const Details = ({
+  dataOpen,
+  dataClose,
+  children,
+  startOpen = false,
+}) => {
+  const [open, setOpen] = useState(startOpen);
+  return (
+    <details
+      {...(open ? { open: true } : {})}
+      className="details"
+      style={{
+        border: "none",
+        boxShadow: "none",
+        background: "var(--ifm-background-color)",
+      }}
+    >
+      <summary
+        onClick={(e) => {
+          e.preventDefault();
+          setOpen((open) => !open);
+        }}
+        style={{ listStyle: "none" }}
+      >
+        {open ? dataOpen : dataClose}
+      </summary>
+      {open && children}
+    </details>
+  );
+};
+
+No description
+
+```graphql
+type Episode {
+  id: ID
+  name: String
+  air_date: String
+  episode: String
+  characters: [Character]!
+  created: String
+}
+```
+
+### Fields
+
+#### [<code style={{ fontWeight: 'normal' }}>Episode.<b>id</b></code>](#)<Bullet />[`ID`](/schema/types/scalars/id.mdx) <Badge class="badge badge--secondary" text="scalar"/>
+
+The id of the episode.
+
+#### [<code style={{ fontWeight: 'normal' }}>Episode.<b>name</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/>
+
+The name of the episode.
+
+#### [<code style={{ fontWeight: 'normal' }}>Episode.<b>air_date</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/>
+
+The air date of the episode.
+
+#### [<code style={{ fontWeight: 'normal' }}>Episode.<b>episode</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/>
+
+The code of the episode.
+
+#### [<code style={{ fontWeight: 'normal' }}>Episode.<b>characters</b></code>](#)<Bullet />[`[Character]!`](/schema/types/objects/character.mdx) <Badge class="badge badge--secondary" text="non-null"/> <Badge class="badge badge--secondary" text="object"/>
+
+List of characters who have been seen in the episode.
+
+#### [<code style={{ fontWeight: 'normal' }}>Episode.<b>created</b></code>](#)<Bullet />[`String`](/schema/types/scalars/string.mdx) <Badge class="badge badge--secondary" text="scalar"/>
+
+Time at which the episode was created in the database.
+
+### Returned By
+
+[`episode`](/schema/operations/queries/episode.mdx) <Badge class="badge badge--secondary" text="query"/><Bullet />[`episodesByIds`](/schema/operations/queries/episodes-by-ids.mdx) <Badge class="badge badge--secondary" text="query"/>
+
+### Member Of
+
+[`Character`](/schema/types/objects/character.mdx) <Badge class="badge badge--secondary" text="object"/><Bullet />[`Episodes`](/schema/types/objects/episodes.mdx) <Badge class="badge badge--secondary" text="object"/>

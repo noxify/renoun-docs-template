@@ -1,36 +1,36 @@
-import { execa } from "execa"
+import { execa } from "execa";
 
-import Bourne from "@hapi/bourne"
+import Bourne from "@hapi/bourne";
 
 interface DocOutput {
-  title: string
-  filter: string
-  annotations: string[]
-  tags: string[]
-  parent: string[]
+  title: string;
+  filter: string;
+  annotations: string[];
+  tags: string[];
+  parent: string[];
   location: {
-    file: string
-    line: number
-  }
+    file: string;
+    line: number;
+  };
 }
 
 export async function getPlaywrightTests() {
   const transform = function* (line: unknown) {
     if (!(line as string).includes("> ") && (line as string).trim() !== "\n") {
-      yield `${line as string}`
+      yield `${line as string}`;
     }
-  }
+  };
 
   const { stdout, failed } = await execa({
     reject: false,
     stdout: transform,
-  })("pnpm", ["list:tests"])
+  })("pnpm", ["list:tests"]);
 
   if (failed) {
-    return []
+    return [];
   }
 
-  const parsedStdout = Bourne.parse(stdout.replaceAll("\n", "")) as DocOutput[]
+  const parsedStdout = Bourne.parse(stdout.replaceAll("\n", "")) as DocOutput[];
 
-  return parsedStdout
+  return parsedStdout;
 }

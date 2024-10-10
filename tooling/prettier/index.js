@@ -1,4 +1,4 @@
-import { fileURLToPath } from "url"
+import { fileURLToPath } from "url";
 
 /** @typedef {import("prettier").Config} PrettierConfig */
 /** @typedef {import("prettier-plugin-tailwindcss").PluginOptions} TailwindConfig */
@@ -45,7 +45,6 @@ const config = {
       },
     },
   ],
-  semi: false,
-}
+};
 
-export default config
+export default config;

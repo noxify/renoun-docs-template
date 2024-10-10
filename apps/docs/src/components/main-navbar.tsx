@@ -1,12 +1,12 @@
-import Link from "next/link"
-import { GithubIcon, HexagonIcon } from "lucide-react"
+import Link from "next/link";
+import { GithubIcon, HexagonIcon } from "lucide-react";
 
-import { buttonVariants } from "@acme/ui/button"
-import { SheetClose } from "@acme/ui/sheet"
-import { SidebarTrigger } from "@acme/ui/sidebar"
-import { ThemeToggle } from "@acme/ui/theme-toggle"
+import { buttonVariants } from "@acme/ui/button";
+import { SheetClose } from "@acme/ui/sheet";
+import { SidebarTrigger } from "@acme/ui/sidebar";
+import { ThemeToggle } from "@acme/ui/theme-toggle";
 
-import { CanarySearch } from "./canary-search"
+import { CanarySearch } from "./canary-search";
 
 export const headerNavigation = [
   {
@@ -21,7 +21,7 @@ export const headerNavigation = [
     title: "renoun Docs",
     path: `/docs/renoun-docs/getting-started/`,
   },
-]
+];
 
 export function Navbar() {
   return (
@@ -54,7 +54,7 @@ export function Navbar() {
         </nav>
       </div>
     </header>
-  )
+  );
 }
 
 export function Logo() {
@@ -63,7 +63,7 @@ export function Logo() {
       <HexagonIcon className="h-7 w-7 fill-current text-muted-foreground" />
       <h2 className="text-md font-bold">renoun Template</h2>
     </Link>
-  )
+  );
 }
 
 export function NavMenu({ isSheet = false }) {
@@ -78,15 +78,15 @@ export function NavMenu({ isSheet = false }) {
           >
             {item.title}{" "}
           </Link>
-        )
+        );
         return isSheet ? (
           <SheetClose key={item.title + item.path} asChild>
             {Comp}
           </SheetClose>
         ) : (
           Comp
-        )
+        );
       })}
     </>
-  )
+  );
 }

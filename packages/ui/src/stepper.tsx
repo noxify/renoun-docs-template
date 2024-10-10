@@ -1,11 +1,11 @@
-import type { PropsWithChildren } from "react"
-import { Children } from "react"
-import clsx from "clsx"
+import type { PropsWithChildren } from "react";
+import { Children } from "react";
+import clsx from "clsx";
 
-import { cn } from "@acme/ui"
+import { cn } from "@acme/ui";
 
 export function Stepper({ children }: PropsWithChildren) {
-  const length = Children.count(children)
+  const length = Children.count(children);
 
   return (
     <div className="flex flex-col">
@@ -24,10 +24,10 @@ export function Stepper({ children }: PropsWithChildren) {
             </div>
             {child}
           </div>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
 
 export function StepperItem({
@@ -39,5 +39,5 @@ export function StepperItem({
       <h4 className="mt-0">{title}</h4>
       <div>{children}</div>
     </div>
-  )
+  );
 }

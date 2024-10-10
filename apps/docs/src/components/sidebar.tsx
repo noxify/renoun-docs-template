@@ -1,30 +1,30 @@
-"use client"
+"use client";
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { ChevronsUpDown } from "lucide-react"
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import { ChevronsUpDown } from "lucide-react";
 
-import { cn } from "@acme/ui"
+import { cn } from "@acme/ui";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "@acme/ui/dropdown-menu"
+} from "@acme/ui/dropdown-menu";
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
   SidebarItem,
   SidebarLabel,
-} from "@acme/ui/sidebar"
+} from "@acme/ui/sidebar";
 
-import type { collectionChooser } from "~/lib/collections"
-import type { TreeItem } from "~/lib/tree"
-import { Navigation } from "~/components/docs-navigation"
-import { headerNavigation } from "~/components/main-navbar"
-import { current } from "~/lib/navigation"
+import type { collectionChooser } from "~/lib/collections";
+import type { TreeItem } from "~/lib/tree";
+import { Navigation } from "~/components/docs-navigation";
+import { headerNavigation } from "~/components/main-navbar";
+import { current } from "~/lib/navigation";
 
 export function SiteSidebar({
   items,
@@ -33,13 +33,13 @@ export function SiteSidebar({
   hideSwitcher,
   defaultHidden,
 }: {
-  items: TreeItem[]
-  collections: Awaited<ReturnType<typeof collectionChooser>>
-  activeCollection: string
-  hideSwitcher?: boolean
-  defaultHidden?: boolean
+  items: TreeItem[];
+  collections: Awaited<ReturnType<typeof collectionChooser>>;
+  activeCollection: string;
+  hideSwitcher?: boolean;
+  defaultHidden?: boolean;
 }) {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
     <Sidebar className="md:mt-12" defaultHidden={defaultHidden}>
@@ -113,10 +113,10 @@ export function SiteSidebar({
                 {!item.isFile && <SidebarLabel>{item.title}</SidebarLabel>}
                 <Navigation items={item.children} />
               </SidebarItem>
-            )
+            );
           }
         })}
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }

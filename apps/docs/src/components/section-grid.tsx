@@ -1,16 +1,16 @@
-import Link from "next/link"
+import Link from "next/link";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@acme/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@acme/ui/card";
 
-import type { DocsSource } from "~/collections"
+import type { DocsSource } from "~/collections";
 
 export default function SectionGrid({
   sections,
 }: {
-  sections: DocsSource[] | undefined
+  sections: DocsSource[] | undefined;
 }) {
   if (!sections) {
-    return <></>
+    return <></>;
   }
   return (
     <div className="mt-12 grid grid-cols-2 gap-4" data-pagefind-ignore>
@@ -29,8 +29,8 @@ export default function SectionGrid({
               <CardContent>Content</CardContent>
             </Link>
           </Card>
-        )
+        );
       })}
     </div>
-  )
+  );
 }
