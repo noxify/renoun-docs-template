@@ -32,36 +32,36 @@ Here a custom tab component from shadcn ui is used.
   </TabsList>
   <TabsContent value="js">
   ```jsx {7} showLineNumbers
-  import {ThemeProvider} from '~/components/theme-provider'
-  
-  export default function RootLayout({ children }) {
-    return (
-      <html>
-        <body className="container">
-          <ThemeProvider>{children}</ThemeProvider>
-        </body>
-      </html>
-    )}
-  ```
+import ThemeProvider from './theme-provider'
+ 
+export default function RootLayout({ children }) {
+  return (
+    <html>
+      <body className="container">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
+  )}
+````
   </TabsContent>
   <TabsContent value="ts">
-  ```tsx {11} showLineNumbers
-  import {ThemeProvider} from '~/components/theme-provider'
-  
-  export default function RootLayout({
-    children,
-  }: {
-    children: React.ReactNode
-  }) {
-    return (
-      <html>
-        <body className="container">
-          <ThemeProvider>{children}</ThemeProvider>
-        </body>
-      </html>
-    )
-  }
-  ```
+```tsx {11} showLineNumbers
+import ThemeProvider from './theme-provider'
+ 
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return (
+    <html>
+      <body className="container">
+        <ThemeProvider>{children}</ThemeProvider>
+      </body>
+    </html>
+  )
+}
+```
   </TabsContent>
 </Tabs>
 
