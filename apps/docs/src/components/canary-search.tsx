@@ -1,13 +1,13 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-import { SearchIcon } from "lucide-react";
+import { useEffect, useState } from "react"
+import { SearchIcon } from "lucide-react"
 
-import { Button, buttonVariants } from "./ui/button";
+import { Button, buttonVariants } from "./ui/button"
 
 export const CanarySearch = () => {
-  const [loaded, setLoaded] = useState(false);
-  const [useMockProvider, setUseMockProvider] = useState(false);
+  const [loaded, setLoaded] = useState(false)
+  const [useMockProvider, setUseMockProvider] = useState(false)
 
   // try to load pagefind
   // if not found, use mock provider
@@ -17,17 +17,17 @@ export const CanarySearch = () => {
         await import(
           // @ts-expect-error pagefind generated after build
           /* webpackIgnore: true */ "/pagefind/pagefind.js"
-        );
+        )
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
       } catch (e) {
         console.log(
           "Unable to load pagefind. Maybe you're running the page in dev mode? Switching to the mock provider...",
-        );
-        setUseMockProvider(true);
+        )
+        setUseMockProvider(true)
       }
     }
-    void loadPagefind();
-  }, []);
+    void loadPagefind()
+  }, [])
 
   // load the @canary/web components
   useEffect(() => {
@@ -41,34 +41,34 @@ export const CanarySearch = () => {
       import("@getcanary/web/components/canary-filter-tabs-glob.js"),
       import("@getcanary/web/components/canary-search-results.js"),
       import("@getcanary/web/components/canary-modal.js"),
-    ]).then(() => setLoaded(true));
-  }, []);
+    ]).then(() => setLoaded(true))
+  }, [])
 
   // custom CMD+K implementation
   // since we do not use the `canary-trigger-searchbar` component
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (e.key === "k" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        document.getElementById("search-modal")?.click();
+        e.preventDefault()
+        document.getElementById("search-modal")?.click()
       }
-    };
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, []);
+    }
+    document.addEventListener("keydown", down)
+    return () => document.removeEventListener("keydown", down)
+  }, [])
 
   const tabConfig = [
     { name: "All", pattern: "**/*" },
     { name: "Aria", pattern: "/docs/aria-docs/**" },
     { name: "renoun", pattern: "/docs/renoun-docs/**" },
-  ];
+  ]
 
   const ProviderComponent = ({ children }: { children: unknown }) =>
     useMockProvider ? (
       <canary-provider-mock>{children}</canary-provider-mock>
     ) : (
       <canary-provider-pagefind>{children}</canary-provider-pagefind>
-    );
+    )
 
   return (
     <>
@@ -128,5 +128,5 @@ export const CanarySearch = () => {
         </div>
       )}
     </>
-  );
-};
+  )
+}

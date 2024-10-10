@@ -1,12 +1,11 @@
-import { tmpdir } from "os";
-import path from "path";
+import { tmpdir } from "os"
+import path from "path"
 import type {
   ClassName,
   GeneratorOptions,
   PackageName,
-} from "@graphql-markdown/types";
-
-import { generateDocFromSchema } from "@graphql-markdown/core";
+} from "@graphql-markdown/types"
+import { generateDocFromSchema } from "@graphql-markdown/core"
 
 async function main() {
   const config: GeneratorOptions = {
@@ -49,9 +48,9 @@ async function main() {
       "content/docs/graphql/index.mdx",
     ),
     tmpDir: tmpdir(),
-  };
+  }
 
-  await generateDocFromSchema(config);
+  await generateDocFromSchema(config)
 }
 
-void main();
+void main()

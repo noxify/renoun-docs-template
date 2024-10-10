@@ -1,17 +1,18 @@
 import type {
   Badge,
+  PrintTypeOptions,
+  MDXString,
   CustomDirectiveMapItem,
   CustomDirectiveResolver,
   Maybe,
-  MDXString,
-  PrintTypeOptions,
 } from "@graphql-markdown/types";
 
-import { printBadge } from "./badge";
-import { SectionLevels } from "./const/options";
-import { MARKDOWN_EOL, MARKDOWN_EOP } from "./const/strings";
-import { printLink } from "./link";
 import { getConstDirectiveMap } from "@graphql-markdown/graphql";
+
+import { MARKDOWN_EOL, MARKDOWN_EOP } from "./const/strings";
+import { SectionLevels } from "./const/options";
+import { printLink } from "./link";
+import { printBadge } from "./badge";
 
 export const getCustomDirectiveResolver = (
   resolver: CustomDirectiveResolver,

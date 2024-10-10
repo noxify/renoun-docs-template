@@ -1,23 +1,15 @@
+import { buildSchema } from "graphql/utilities";
+import { GraphQLDirective } from "graphql/type";
+
 import type {
-  Badge,
-  CustomDirectiveMap,
   DirectiveName,
-  MDXString,
+  Badge,
   PrintTypeOptions,
+  CustomDirectiveMap,
+  MDXString,
 } from "@graphql-markdown/types";
 
 import { DEFAULT_OPTIONS } from "../../src/const/options";
-import {
-  getCustomTags,
-  printCustomDirective,
-  printCustomDirectives,
-  printCustomTags,
-} from "../../src/directive";
-import * as Link from "../../src/link";
-import * as GraphQL from "@graphql-markdown/graphql";
-import * as Utils from "@graphql-markdown/utils";
-import { GraphQLDirective } from "graphql/type";
-import { buildSchema } from "graphql/utilities";
 
 jest.mock("@graphql-markdown/utils", () => {
   return {
@@ -27,6 +19,7 @@ jest.mock("@graphql-markdown/utils", () => {
     escapeMDX: jest.fn(),
   };
 });
+import * as Utils from "@graphql-markdown/utils";
 
 jest.mock("@graphql-markdown/graphql", (): unknown => {
   return {
@@ -34,12 +27,21 @@ jest.mock("@graphql-markdown/graphql", (): unknown => {
     getConstDirectiveMap: jest.fn(),
   };
 });
+import * as GraphQL from "@graphql-markdown/graphql";
 
 jest.mock("../../src/link", () => {
   return {
     printLink: jest.fn(),
   };
 });
+import * as Link from "../../src/link";
+
+import {
+  getCustomTags,
+  printCustomDirectives,
+  printCustomDirective,
+  printCustomTags,
+} from "../../src/directive";
 
 describe("directive", () => {
   const schema = buildSchema(`

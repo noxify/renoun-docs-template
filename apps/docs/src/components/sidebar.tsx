@@ -1,10 +1,21 @@
-"use client";
+"use client"
 
-import type { collectionChooser } from "@/lib/collections";
-import type { TreeItem } from "@/lib/tree";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ChevronsUpDown } from "lucide-react";
+import type { collectionChooser } from "@/lib/collections"
+import type { TreeItem } from "@/lib/tree"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { Navigation } from "@/components/docs-navigation"
+import { headerNavigation } from "@/components/main-navbar"
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarItem,
+  SidebarLabel,
+} from "@/components/ui/sidebar"
+import { current } from "@/lib/navigation"
+import { cn } from "@/lib/utils"
+import { ChevronsUpDown } from "lucide-react"
 
 import {
   DropdownMenu,
@@ -12,18 +23,7 @@ import {
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
-} from "./ui/dropdown-menu";
-import { Navigation } from "@/components/docs-navigation";
-import { headerNavigation } from "@/components/main-navbar";
-import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarItem,
-  SidebarLabel,
-} from "@/components/ui/sidebar";
-import { current } from "@/lib/navigation";
-import { cn } from "@/lib/utils";
+} from "./ui/dropdown-menu"
 
 export function SiteSidebar({
   items,
@@ -32,13 +32,13 @@ export function SiteSidebar({
   hideSwitcher,
   defaultHidden,
 }: {
-  items: TreeItem[];
-  collections: Awaited<ReturnType<typeof collectionChooser>>;
-  activeCollection: string;
-  hideSwitcher?: boolean;
-  defaultHidden?: boolean;
+  items: TreeItem[]
+  collections: Awaited<ReturnType<typeof collectionChooser>>
+  activeCollection: string
+  hideSwitcher?: boolean
+  defaultHidden?: boolean
 }) {
-  const pathname = usePathname();
+  const pathname = usePathname()
 
   return (
     <Sidebar className="md:mt-12" defaultHidden={defaultHidden}>
@@ -112,10 +112,10 @@ export function SiteSidebar({
                 {!item.isFile && <SidebarLabel>{item.title}</SidebarLabel>}
                 <Navigation items={item.children} />
               </SidebarItem>
-            );
+            )
           }
         })}
       </SidebarContent>
     </Sidebar>
-  );
+  )
 }

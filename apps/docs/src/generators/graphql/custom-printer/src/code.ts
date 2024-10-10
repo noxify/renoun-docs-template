@@ -1,16 +1,17 @@
 import type { MDXString, PrintTypeOptions } from "@graphql-markdown/types";
 
-import { hasPrintableDirective } from "./common";
-import {
-  DEPRECATED,
-  MARKDOWN_CODE_INDENTATION,
-  MARKDOWN_EOL,
-} from "./const/strings";
 import {
   getFormattedDefaultValue,
   getTypeName,
   isDeprecated,
 } from "@graphql-markdown/graphql";
+
+import {
+  MARKDOWN_EOL,
+  DEPRECATED,
+  MARKDOWN_CODE_INDENTATION,
+} from "./const/strings";
+import { hasPrintableDirective } from "./common";
 
 export const printCodeArguments = (
   type: unknown,

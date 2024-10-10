@@ -7,7 +7,6 @@ import type {
   TypeDirectiveExample,
 } from "@graphql-markdown/types";
 
-import { hasPrintableDirective } from "./common";
 import {
   getFields,
   getNamedType,
@@ -24,6 +23,8 @@ import {
   parse,
   print,
 } from "@graphql-markdown/graphql";
+
+import { hasPrintableDirective } from "./common";
 
 export const getDirectiveExampleOption = (
   options: PrintTypeOptions,

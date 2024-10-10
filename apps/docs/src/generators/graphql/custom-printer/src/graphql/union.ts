@@ -1,11 +1,12 @@
 import type {
-  GraphQLObjectType,
-  MDXString,
   PrintTypeOptions,
+  MDXString,
+  GraphQLObjectType,
 } from "@graphql-markdown/types";
 
+import { isUnionType, getTypeName } from "@graphql-markdown/graphql";
+
 import { printSection } from "../section";
-import { getTypeName, isUnionType } from "@graphql-markdown/graphql";
 
 export const printUnionMetadata = (
   type: unknown,

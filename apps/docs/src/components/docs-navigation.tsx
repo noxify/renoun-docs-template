@@ -1,32 +1,31 @@
-"use client";
+"use client"
 
-import type { TreeItem } from "@/lib/tree";
-import { useEffect, useState } from "react";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ChevronRight } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
+import type { TreeItem } from "@/lib/tree"
+import { useEffect, useState } from "react"
+import Link from "next/link"
+import { usePathname } from "next/navigation"
+import { Button } from "@/components/ui/button"
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useSidebarStore } from "@/hooks/use-sidebar";
-import { current } from "@/lib/navigation";
-import { cn } from "@/lib/utils";
+} from "@/components/ui/collapsible"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { useSidebarStore } from "@/hooks/use-sidebar"
+import { current } from "@/lib/navigation"
+import { cn } from "@/lib/utils"
+import { ChevronRight } from "lucide-react"
 
 export function Navigation({
   className,
   items,
 }: {
-  items: TreeItem[];
+  items: TreeItem[]
 } & React.ComponentProps<"ul">) {
-  const pathname = usePathname();
-  const { toggleSidebar } = useSidebarStore();
+  const pathname = usePathname()
+  const { toggleSidebar } = useSidebarStore()
 
-  const isMobile = useIsMobile();
+  const isMobile = useIsMobile()
 
   return (
     <ul className={cn("grid gap-0.5", className)}>
@@ -51,24 +50,24 @@ export function Navigation({
         ),
       )}
     </ul>
-  );
+  )
 }
 
 function CollapsibleItem({
   pathname,
   item,
 }: {
-  pathname: string;
-  item: TreeItem;
+  pathname: string
+  item: TreeItem
 }) {
-  const isMobile = useIsMobile();
-  const isCurrent = current({ pathname, item });
-  const [open, setOpen] = useState(isCurrent);
-  const { toggleSidebar } = useSidebarStore();
+  const isMobile = useIsMobile()
+  const isCurrent = current({ pathname, item })
+  const [open, setOpen] = useState(isCurrent)
+  const { toggleSidebar } = useSidebarStore()
 
   useEffect(() => {
-    setOpen(isCurrent);
-  }, [isCurrent]);
+    setOpen(isCurrent)
+  }, [isCurrent])
 
   return (
     <Collapsible key={item.path} asChild open={open} onOpenChange={setOpen}>
@@ -126,7 +125,7 @@ function CollapsibleItem({
                   <li key={subItem.path}>
                     <Navigation items={[subItem]} />
                   </li>
-                );
+                )
               }
 
               return (
@@ -148,11 +147,11 @@ function CollapsibleItem({
                     <div className="line-clamp-1">{subItem.title}</div>
                   </Link>
                 </li>
-              );
+              )
             })}
           </ul>
         </CollapsibleContent>
       </li>
     </Collapsible>
-  );
+  )
 }

@@ -1,10 +1,12 @@
-import { DEFAULT_OPTIONS } from "../../../src/const/options";
-import { printCodeUnion, printUnionMetadata } from "../../../src/graphql/union";
 import {
   GraphQLObjectType,
   GraphQLScalarType,
   GraphQLUnionType,
 } from "graphql/type";
+
+import { printCodeUnion, printUnionMetadata } from "../../../src/graphql/union";
+
+import { DEFAULT_OPTIONS } from "../../../src/const/options";
 
 describe("union", () => {
   const type = new GraphQLUnionType({

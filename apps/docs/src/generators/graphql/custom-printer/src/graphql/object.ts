@@ -1,9 +1,10 @@
 import type { PrintTypeOptions } from "@graphql-markdown/types";
 
+import { getTypeName, getFields } from "@graphql-markdown/graphql";
+
+import { printSection, printMetadataSection } from "../section";
 import { printCodeField } from "../code";
-import { MARKDOWN_CODE_INDENTATION, MARKDOWN_EOL } from "../const/strings";
-import { printMetadataSection, printSection } from "../section";
-import { getFields, getTypeName } from "@graphql-markdown/graphql";
+import { MARKDOWN_EOL, MARKDOWN_CODE_INDENTATION } from "../const/strings";
 
 const printImplementedInterfaceMetadata = (
   type: unknown,

@@ -1,8 +1,9 @@
-import type { MDXString, PrintTypeOptions } from "@graphql-markdown/types";
+import type { PrintTypeOptions, MDXString } from "@graphql-markdown/types";
 
-import { SectionLevels } from "../const/options";
-import { MARKDOWN_EOP } from "../const/strings";
 import { getTypeName } from "@graphql-markdown/graphql";
+
+import { MARKDOWN_EOP } from "../const/strings";
+import { SectionLevels } from "../const/options";
 
 export const printSpecification = (type: unknown): MDXString | string => {
   if (

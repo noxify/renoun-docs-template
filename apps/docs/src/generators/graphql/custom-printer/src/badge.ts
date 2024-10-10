@@ -1,22 +1,24 @@
 import type {
   Badge,
   GraphQLType,
-  Maybe,
   MDXString,
+  Maybe,
   PrintTypeOptions,
   SchemaEntitiesGroupMap,
   SchemaEntity,
 } from "@graphql-markdown/types";
 
-import { getGroup } from "./group";
-import { getCategoryLocale } from "./link";
+import { escapeMDX } from "@graphql-markdown/utils";
+
 import {
   getNamedType,
   isDeprecated,
   isListType,
   isNonNullType,
 } from "@graphql-markdown/graphql";
-import { escapeMDX } from "@graphql-markdown/utils";
+
+import { getCategoryLocale } from "./link";
+import { getGroup } from "./group";
 
 export const DEFAULT_CSS_CLASSNAME = "badge--secondary" as const;
 

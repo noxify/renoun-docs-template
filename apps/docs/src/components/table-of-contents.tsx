@@ -1,28 +1,27 @@
-"use client";
+"use client"
 
-import { useEffect, useState } from "react";
-
-import { cn } from "@/lib/utils";
+import { useEffect, useState } from "react"
+import { cn } from "@/lib/utils"
 
 interface TableOfContents {
-  text: string;
-  id: string;
-  depth: number;
+  text: string
+  id: string
+  depth: number
 }
 
 interface TocProps {
-  toc: TableOfContents[];
+  toc: TableOfContents[]
 }
 
 export function TableOfContents({ toc }: TocProps) {
-  const itemIds = toc.map((item) => item.id);
-  const activeHeading = useActiveItem(itemIds);
+  const itemIds = toc.map((item) => item.id)
+  const activeHeading = useActiveItem(itemIds)
 
   if (toc.length === 0) {
-    return null;
+    return null
   }
 
-  const filteredToc = toc.filter((item) => item.depth > 1 && item.depth < 4);
+  const filteredToc = toc.filter((item) => item.depth > 1 && item.depth < 4)
 
   return (
     <div className="space-y-2">
@@ -46,44 +45,44 @@ export function TableOfContents({ toc }: TocProps) {
                 {item.text}
               </a>
             </li>
-          );
+          )
         })}
       </ul>
     </div>
-  );
+  )
 }
 
 function useActiveItem(itemIds: string[]) {
-  const [activeId, setActiveId] = useState<string>("");
+  const [activeId, setActiveId] = useState<string>("")
 
   useEffect(() => {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
           if (entry.isIntersecting) {
-            setActiveId(entry.target.id);
+            setActiveId(entry.target.id)
           }
-        });
+        })
       },
       { rootMargin: `0% 0% -80% 0%` },
-    );
+    )
 
     itemIds.forEach((id) => {
-      const element = document.getElementById(id);
+      const element = document.getElementById(id)
       if (element) {
-        observer.observe(element);
+        observer.observe(element)
       }
-    });
+    })
 
     return () => {
       itemIds.forEach((id) => {
-        const element = document.getElementById(id);
+        const element = document.getElementById(id)
         if (element) {
-          observer.unobserve(element);
+          observer.unobserve(element)
         }
-      });
-    };
-  }, [itemIds]);
+      })
+    }
+  }, [itemIds])
 
-  return activeId;
+  return activeId
 }

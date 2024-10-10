@@ -1,5 +1,3 @@
-import { printCodeArguments, printCodeField } from "../../src/code";
-import { DEFAULT_OPTIONS } from "../../src/const/options";
 import {
   GraphQLDirective,
   GraphQLInt,
@@ -21,6 +19,9 @@ jest.mock("@graphql-markdown/graphql", (): unknown => {
     }),
   };
 });
+
+import { printCodeArguments, printCodeField } from "../../src/code";
+import { DEFAULT_OPTIONS } from "../../src/const/options";
 
 describe("code", () => {
   afterAll(() => {

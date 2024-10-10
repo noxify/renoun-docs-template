@@ -2,8 +2,8 @@ import type {
   ApiGroupOverrideType,
   GraphQLNamedType,
   GraphQLType,
-  Maybe,
   MDXString,
+  Maybe,
   PrintLinkOptions,
   SchemaEntity,
   TypeDeprecatedOption,
@@ -13,14 +13,6 @@ import type {
   TypeLocale,
 } from "@graphql-markdown/types";
 
-import { hasPrintableDirective } from "./common";
-import { TypeHierarchy } from "./const/options";
-import {
-  DEPRECATED,
-  LINK_MDX_EXTENSION,
-  ROOT_TYPE_LOCALE,
-} from "./const/strings";
-import { getGroup } from "./group";
 import {
   getNamedType,
   getTypeName,
@@ -38,7 +30,17 @@ import {
   isScalarType,
   isUnionType,
 } from "@graphql-markdown/graphql";
-import { pathUrl, slugify } from "@graphql-markdown/utils";
+
+import { slugify, pathUrl } from "@graphql-markdown/utils";
+
+import { getGroup } from "./group";
+import {
+  DEPRECATED,
+  LINK_MDX_EXTENSION,
+  ROOT_TYPE_LOCALE,
+} from "./const/strings";
+import { hasPrintableDirective } from "./common";
+import { TypeHierarchy } from "./const/options";
 
 export const API_GROUPS: Required<ApiGroupOverrideType> = {
   operations: "operations",

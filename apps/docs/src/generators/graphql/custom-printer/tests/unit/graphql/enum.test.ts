@@ -1,6 +1,8 @@
-import { DEFAULT_OPTIONS } from "../../../src/const/options";
-import { printCodeEnum, printEnumMetadata } from "../../../src/graphql/enum";
 import { GraphQLEnumType, GraphQLScalarType } from "graphql/type";
+
+import { printCodeEnum, printEnumMetadata } from "../../../src/graphql/enum";
+
+import { DEFAULT_OPTIONS } from "../../../src/const/options";
 
 describe("enum", () => {
   const type = new GraphQLEnumType({

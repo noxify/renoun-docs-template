@@ -1,22 +1,21 @@
-"use client";
+"use client"
 
-import * as React from "react";
-import { PanelLeft } from "lucide-react";
-
-import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent } from "@/components/ui/sheet";
-import { useIsMobile } from "@/hooks/use-mobile";
-import { useSidebarStore } from "@/hooks/use-sidebar";
-import { cn } from "@/lib/utils";
+import * as React from "react"
+import { Button } from "@/components/ui/button"
+import { Sheet, SheetContent } from "@/components/ui/sheet"
+import { useIsMobile } from "@/hooks/use-mobile"
+import { useSidebarStore } from "@/hooks/use-sidebar"
+import { cn } from "@/lib/utils"
+import { PanelLeft } from "lucide-react"
 
 const SidebarLayout = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & { hiddenSidebar?: boolean }
 >(({ className, ...props }, ref) => {
-  const { showSidebar } = useSidebarStore();
-  const isMobile = useIsMobile();
+  const { showSidebar } = useSidebarStore()
+  const isMobile = useIsMobile()
 
-  const state = showSidebar && !isMobile ? "open" : "closed";
+  const state = showSidebar && !isMobile ? "open" : "closed"
 
   return (
     <div
@@ -28,15 +27,15 @@ const SidebarLayout = React.forwardRef<
       )}
       {...props}
     />
-  );
-});
-SidebarLayout.displayName = "SidebarLayout";
+  )
+})
+SidebarLayout.displayName = "SidebarLayout"
 
 const SidebarTrigger = React.forwardRef<
   HTMLButtonElement,
   React.ComponentProps<"button">
 >(({ ...props }, ref) => {
-  const { toggleSidebar } = useSidebarStore();
+  const { toggleSidebar } = useSidebarStore()
 
   return (
     <Button
@@ -49,16 +48,16 @@ const SidebarTrigger = React.forwardRef<
       <PanelLeft className="h-4 w-4" />
       <span className="sr-only">Toggle Sidebar</span>
     </Button>
-  );
-});
-SidebarTrigger.displayName = "SidebarTrigger";
+  )
+})
+SidebarTrigger.displayName = "SidebarTrigger"
 
 const Sidebar = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & { defaultHidden?: boolean }
 >(({ className, children, defaultHidden }, ref) => {
-  const isMobile = useIsMobile();
-  const { showSidebar, toggleSidebar } = useSidebarStore();
+  const isMobile = useIsMobile()
+  const { showSidebar, toggleSidebar } = useSidebarStore()
 
   const sidebar = (
     <div
@@ -70,7 +69,7 @@ const Sidebar = React.forwardRef<
     >
       {children}
     </div>
-  );
+  )
 
   if (isMobile === true) {
     return (
@@ -81,7 +80,7 @@ const Sidebar = React.forwardRef<
           </SheetContent>
         </Sheet>
       </div>
-    );
+    )
   } else {
     return (
       <aside
@@ -92,10 +91,10 @@ const Sidebar = React.forwardRef<
       >
         {sidebar}
       </aside>
-    );
+    )
   }
-});
-Sidebar.displayName = "Sidebar";
+})
+Sidebar.displayName = "Sidebar"
 
 const SidebarHeader = React.forwardRef<
   HTMLDivElement,
@@ -107,9 +106,9 @@ const SidebarHeader = React.forwardRef<
       className={cn("flex items-center border-b px-2.5 py-2", className)}
       {...props}
     />
-  );
-});
-SidebarHeader.displayName = "SidebarHeader";
+  )
+})
+SidebarHeader.displayName = "SidebarHeader"
 
 const SidebarFooter = React.forwardRef<
   HTMLDivElement,
@@ -121,9 +120,9 @@ const SidebarFooter = React.forwardRef<
       className={cn("flex items-center border-t px-2.5 py-2", className)}
       {...props}
     />
-  );
-});
-SidebarFooter.displayName = "SidebarFooter";
+  )
+})
+SidebarFooter.displayName = "SidebarFooter"
 
 const SidebarContent = React.forwardRef<
   HTMLDivElement,
@@ -135,9 +134,9 @@ const SidebarContent = React.forwardRef<
       className={cn("flex flex-1 flex-col gap-5 overflow-auto py-4", className)}
       {...props}
     />
-  );
-});
-SidebarContent.displayName = "SidebarContent";
+  )
+})
+SidebarContent.displayName = "SidebarContent"
 
 const SidebarItem = React.forwardRef<
   HTMLDivElement,
@@ -145,9 +144,9 @@ const SidebarItem = React.forwardRef<
 >(({ className, ...props }, ref) => {
   return (
     <div ref={ref} className={cn("grid gap-2 px-2.5", className)} {...props} />
-  );
-});
-SidebarItem.displayName = "SidebarItem";
+  )
+})
+SidebarItem.displayName = "SidebarItem"
 
 const SidebarLabel = React.forwardRef<
   HTMLDivElement,
@@ -159,9 +158,9 @@ const SidebarLabel = React.forwardRef<
       className={cn("px-1.5 text-sm font-medium", className)}
       {...props}
     />
-  );
-});
-SidebarLabel.displayName = "SidebarLabel";
+  )
+})
+SidebarLabel.displayName = "SidebarLabel"
 
 export {
   Sidebar,
@@ -172,4 +171,4 @@ export {
   SidebarLabel,
   SidebarTrigger,
   SidebarLayout,
-};
+}

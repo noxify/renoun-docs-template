@@ -1,14 +1,16 @@
+import {
+  GraphQLObjectType,
+  GraphQLBoolean,
+  GraphQLString,
+  GraphQLInterfaceType,
+} from "graphql/type";
+
 import { DEFAULT_OPTIONS } from "../../../src/const/options";
+
 import {
   printCodeObject,
   printObjectMetadata,
 } from "../../../src/graphql/object";
-import {
-  GraphQLBoolean,
-  GraphQLInterfaceType,
-  GraphQLObjectType,
-  GraphQLString,
-} from "graphql/type";
 
 describe("object", () => {
   const type = new GraphQLObjectType({

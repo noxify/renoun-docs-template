@@ -1,6 +1,5 @@
-import createMDXPlugin from "@next/mdx";
-
-import { rehypePlugins, remarkPlugins } from "@renoun/mdx";
+import createMDXPlugin from "@next/mdx"
+import { rehypePlugins, remarkPlugins } from "@renoun/mdx"
 
 const withMDX = createMDXPlugin({
   extension: /\.mdx?$/,
@@ -8,7 +7,7 @@ const withMDX = createMDXPlugin({
     remarkPlugins,
     rehypePlugins,
   },
-});
+})
 
 export default withMDX({
   output: "export",
@@ -23,18 +22,18 @@ export default withMDX({
   webpack(config, { webpack }) {
     config.resolve.extensionAlias = {
       ".js": [".ts", ".tsx", ".js"],
-    };
+    }
     config.plugins.push(
       new webpack.ContextReplacementPlugin(
         /\/(@ts-morph\/common)\//,
         (data) => {
           for (const dependency of data.dependencies) {
-            delete dependency.critical;
+            delete dependency.critical
           }
-          return data;
+          return data
         },
       ),
-    );
-    return config;
+    )
+    return config
   },
-});
+})

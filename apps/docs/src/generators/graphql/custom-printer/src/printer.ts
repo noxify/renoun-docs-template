@@ -4,29 +4,30 @@ import type {
   GraphQLField,
   GraphQLSchema,
   IPrinter,
-  Maybe,
   MDXString,
-  PrinterConfigPrintTypeOptions,
+  Maybe,
   PrintTypeOptions,
+  PrinterConfigPrintTypeOptions,
   SchemaEntitiesGroupMap,
   TypeDeprecatedOption,
 } from "@graphql-markdown/types";
 
+import {
+  getTypeName,
+  isDirectiveType,
+  isEnumType,
+  isInputType,
+  isInterfaceType,
+  isObjectType,
+  isOperation,
+  isScalarType,
+  isUnionType,
+} from "@graphql-markdown/graphql";
+import { pathUrl } from "@graphql-markdown/utils";
+
+import { printRelations } from "./relation";
 import { hasPrintableDirective, printDescription } from "./common";
-import { mdx } from "./const/mdx";
-import {
-  DEFAULT_OPTIONS,
-  PRINT_TYPE_DEFAULT_OPTIONS,
-  SectionLevels,
-} from "./const/options";
-import {
-  MARKDOWN_EOC,
-  MARKDOWN_EOL,
-  MARKDOWN_EOP,
-  MARKDOWN_SOC,
-} from "./const/strings";
 import { printCustomDirectives, printCustomTags } from "./directive";
-import { printExample } from "./example";
 import { printFrontMatter } from "./frontmatter";
 import {
   printCodeDirective,
@@ -46,19 +47,20 @@ import {
   printScalarMetadata,
   printUnionMetadata,
 } from "./graphql";
-import { printRelations } from "./relation";
+
 import {
-  getTypeName,
-  isDirectiveType,
-  isEnumType,
-  isInputType,
-  isInterfaceType,
-  isObjectType,
-  isOperation,
-  isScalarType,
-  isUnionType,
-} from "@graphql-markdown/graphql";
-import { pathUrl } from "@graphql-markdown/utils";
+  MARKDOWN_EOC,
+  MARKDOWN_EOL,
+  MARKDOWN_EOP,
+  MARKDOWN_SOC,
+} from "./const/strings";
+import { mdx } from "./const/mdx";
+import {
+  DEFAULT_OPTIONS,
+  PRINT_TYPE_DEFAULT_OPTIONS,
+  SectionLevels,
+} from "./const/options";
+import { printExample } from "./example";
 
 export class Printer implements IPrinter {
   static options: Readonly<Maybe<PrintTypeOptions>>;
