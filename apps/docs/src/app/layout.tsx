@@ -2,10 +2,10 @@ import type { Metadata } from "next";
 
 import "./globals.css";
 
-import { Navbar } from "~/components/main-navbar";
-import { SiteSidebar } from "~/components/sidebar";
-import { TailwindIndicator } from "~/components/tailwind-indicator";
-import { ThemeProvider } from "~/components/theme-provider";
+import { Navbar } from "@/components/main-navbar";
+import { SiteSidebar } from "@/components/sidebar";
+import { TailwindIndicator } from "@/components/tailwind-indicator";
+import { ThemeProvider } from "@/components/theme-provider";
 import { PackageInstallScript } from "renoun/components";
 
 export const metadata: Metadata = {

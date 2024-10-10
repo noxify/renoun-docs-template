@@ -1,22 +1,21 @@
 "use client";
 
+import type { TreeItem } from "@/lib/tree";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ChevronRight } from "lucide-react";
 
-import { cn } from "@acme/ui";
-import { Button } from "@acme/ui/button";
+import { Button } from "@/components/ui/button";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@acme/ui/collapsible";
-
-import type { TreeItem } from "~/lib/tree";
-import { useIsMobile } from "~/hooks/use-mobile";
-import { useSidebarStore } from "~/hooks/use-sidebar";
-import { current } from "~/lib/navigation";
+} from "@/components/ui/collapsible";
+import { useIsMobile } from "@/hooks/use-mobile";
+import { useSidebarStore } from "@/hooks/use-sidebar";
+import { current } from "@/lib/navigation";
+import { cn } from "@/lib/utils";
 
 export function Navigation({
   className,

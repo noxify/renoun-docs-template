@@ -1,15 +1,14 @@
+import type { DocSchema } from "@/collections";
 import type { FileSystemSource } from "renoun/collections";
 import { notFound } from "next/navigation";
 import { ExternalLinkIcon } from "lucide-react";
 
-import { cn } from "@acme/ui";
-
-import type { DocSchema } from "~/collections";
-import { Comments } from "~/components/comments";
-import SectionGrid from "~/components/section-grid";
-import Siblings from "~/components/siblings";
-import { TableOfContents } from "~/components/table-of-contents";
-import { getCollectionInfo } from "~/lib/collections";
+import { Comments } from "@/components/comments";
+import SectionGrid from "@/components/section-grid";
+import Siblings from "@/components/siblings";
+import { TableOfContents } from "@/components/table-of-contents";
+import { getCollectionInfo } from "@/lib/collections";
+import { cn } from "@/lib/utils";
 
 function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
   return array.filter((value) => !valueToRemove.includes(value));
@@ -90,13 +89,11 @@ export default async function DocsPage({
   // if there are two or more elements, we just load the requested page content
   if (params.slug.length > 1) {
     source = collection.getSource(
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      removeFromArray(params.slug, [params.slug[0]!]),
+      removeFromArray(params.slug, [params.slug[0]]),
     );
   } else {
     source = collection.getSource([
-      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-      ...removeFromArray(params.slug, [params.slug[0]!]),
+      ...removeFromArray(params.slug, [params.slug[0]]),
       "index",
     ]);
   }

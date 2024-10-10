@@ -27,7 +27,7 @@ export interface CollectionSchema {
 
 export const AriaDocsCollection = collection<DocSchema>(
   {
-    filePattern: "~content/docs/aria-docs/**/*.{tsx,mdx}",
+    filePattern: "@content/docs/aria-docs/**/*.{tsx,mdx}",
     baseDirectory: "content/docs/aria-docs",
     basePath: "docs/aria-docs",
   },
@@ -36,7 +36,7 @@ export const AriaDocsCollection = collection<DocSchema>(
 
 export const RenounDocsCollection = collection<DocSchema>(
   {
-    filePattern: "~content/docs/renoun-docs/**/*.{tsx,mdx}",
+    filePattern: "@content/docs/renoun-docs/**/*.{tsx,mdx}",
     baseDirectory: "content/docs/renoun-docs",
     basePath: "docs/renoun-docs",
   },
@@ -45,7 +45,7 @@ export const RenounDocsCollection = collection<DocSchema>(
 
 export const PlaywrightCollection = collection<DocSchema>(
   {
-    filePattern: "~content/docs/playwright/**/*.{tsx,mdx}",
+    filePattern: "@content/docs/playwright/**/*.{tsx,mdx}",
     baseDirectory: "content/docs/playwright",
     basePath: "docs/playwright",
   },
@@ -54,7 +54,7 @@ export const PlaywrightCollection = collection<DocSchema>(
 
 export const GraphqlCollection = collection<DocSchema>(
   {
-    filePattern: "~content/docs/graphql/**/*.{tsx,mdx}",
+    filePattern: "@content/docs/graphql/**/*.{tsx,mdx}",
     baseDirectory: "content/docs/graphql",
     basePath: "docs/graphql",
   },
@@ -63,7 +63,7 @@ export const GraphqlCollection = collection<DocSchema>(
 
 export const CollectionInfo = collection<CollectionSchema>(
   {
-    filePattern: "~content/docs/**/metadata.ts",
+    filePattern: "@content/docs/**/metadata.ts",
     baseDirectory: "content/docs",
     basePath: "docs",
   },

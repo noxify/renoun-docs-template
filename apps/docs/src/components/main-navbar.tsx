@@ -1,12 +1,11 @@
 import Link from "next/link";
 import { GithubIcon, HexagonIcon } from "lucide-react";
 
-import { buttonVariants } from "@acme/ui/button";
-import { SheetClose } from "@acme/ui/sheet";
-import { SidebarTrigger } from "@acme/ui/sidebar";
-import { ThemeToggle } from "@acme/ui/theme-toggle";
-
 import { CanarySearch } from "./canary-search";
+import { ThemeToggle } from "./theme-toggle";
+import { buttonVariants } from "./ui/button";
+import { SidebarTrigger } from "./ui/sidebar";
+import { SheetClose } from "@/components/ui/sheet";
 
 export const headerNavigation = [
   {

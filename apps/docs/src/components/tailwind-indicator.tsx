@@ -1,5 +1,4 @@
 export function TailwindIndicator() {
-  // eslint-disable-next-line no-restricted-properties
   if (process.env.NODE_ENV === "production") return null;
 
   return (

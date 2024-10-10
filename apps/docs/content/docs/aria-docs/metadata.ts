@@ -1,5 +1,6 @@
-import type { CollectionSchema } from "~/collections";
-import { AriaDocsCollection } from "~/collections";
+import type { CollectionSchema } from "@/collections";
+
+import { AriaDocsCollection } from "@/collections";
 
 export const metadata: CollectionSchema["metadata"] = {
   title: "Aria docs",

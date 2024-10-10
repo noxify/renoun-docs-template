@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { cn } from "@acme/ui";
+import { cn } from "@/lib/utils";
 
 interface TableOfContents {
   text: string;
