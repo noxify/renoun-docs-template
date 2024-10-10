@@ -21,7 +21,7 @@
   "prettier": "@acme/prettier-config",
   "dependencies": {
     "@acme/ui": "workspace:*",
-    "@getcanary/web": "1.0.0",
+    "@getcanary/web": "1.0.0-rc.8",
     "@giscus/react": "3.0.0",
     "@hapi/bourne": "3.0.0",
     "@mdx-js/loader": "3.0.1",
