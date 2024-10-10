@@ -52,13 +52,7 @@ export function useMDXComponents() {
     pre: (props) => {
       const { value, language } = CodeBlock.parsePreProps(props)
 
-      let highlightLanguage: typeof language | undefined = language
-      if (language === "graphql" || language === "gql") {
-        highlightLanguage = undefined
-      }
-      return (
-        <CodeBlock allowErrors value={value} language={highlightLanguage} />
-      )
+      return <CodeBlock allowErrors value={value} language={language} />
     },
     Note: ({ title, children }: { title?: string; children: ReactNode }) => {
       return (
