@@ -50,19 +50,7 @@ export function useMDXComponents() {
     },
     pre: (props) => {
       const { value, language } = CodeBlock.parsePreProps(props)
-
-      let allowErrors = false
-
-      if (language === "typescript") {
-        allowErrors = true
-      }
-      return (
-        <CodeBlock
-          allowErrors={allowErrors}
-          value={value}
-          language={language}
-        />
-      )
+      return <CodeBlock allowErrors value={value} language={language} />
     },
     Note: ({ title, children }: { title?: string; children: ReactNode }) => {
       return (

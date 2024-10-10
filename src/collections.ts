@@ -42,24 +42,6 @@ export const RenounDocsCollection = collection<DocSchema>(
   (slug) => import(`../content/docs/renoun-docs/${slug}.mdx`),
 )
 
-export const PlaywrightCollection = collection<DocSchema>(
-  {
-    filePattern: "@content/docs/playwright/**/*.{tsx,mdx}",
-    baseDirectory: "content/docs/playwright",
-    basePath: "docs/playwright",
-  },
-  (slug) => import(`../content/docs/playwright/${slug}.mdx`),
-)
-
-export const GraphqlCollection = collection<DocSchema>(
-  {
-    filePattern: "@content/docs/graphql/**/*.{tsx,mdx}",
-    baseDirectory: "content/docs/graphql",
-    basePath: "docs/graphql",
-  },
-  (slug) => import(`../content/docs/graphql/${slug}.mdx`),
-)
-
 export const CollectionInfo = collection<CollectionSchema>(
   {
     filePattern: "@content/docs/**/metadata.ts",
