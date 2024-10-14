@@ -42,5 +42,6 @@ Do you think it's possible to do the following:
 - Generating the paths for `generateStaticParams`
 - Fetching the needed collection to generate the sidebar and show the correct content based on the path params
   - Currently I have used the first element from the provided `slug` to identify the correct collection
+- Getting the metadata information from the `<collection-root>/index.mdx` to generate the available docs for the sidebar collection chooser
 
 If this is not the right way, what would be a good approach or this the approach via the `metadata.ts` the "correct one"?
