@@ -1,6 +1,6 @@
 import type { CollectionSource, FileSystemSource } from "renoun/collections"
 import type { MDXContent } from "renoun/mdx"
-import { collection } from "renoun/collections"
+import { Collection } from "renoun/collections"
 
 export interface DocSchema {
   default: MDXContent
@@ -24,7 +24,7 @@ export interface CollectionSchema {
   }
 }
 
-export const AriaDocsCollection = collection<DocSchema>(
+export const AriaDocsCollection = new Collection<DocSchema>(
   {
     filePattern: "@content/docs/aria-docs/**/*.{tsx,mdx}",
     baseDirectory: "content/docs/aria-docs",
@@ -33,7 +33,7 @@ export const AriaDocsCollection = collection<DocSchema>(
   (slug) => import(`../content/docs/aria-docs/${slug}.mdx`),
 )
 
-export const RenounDocsCollection = collection<DocSchema>(
+export const RenounDocsCollection = new Collection<DocSchema>(
   {
     filePattern: "@content/docs/renoun-docs/**/*.{tsx,mdx}",
     baseDirectory: "content/docs/renoun-docs",
@@ -42,7 +42,7 @@ export const RenounDocsCollection = collection<DocSchema>(
   (slug) => import(`../content/docs/renoun-docs/${slug}.mdx`),
 )
 
-export const CollectionInfo = collection<CollectionSchema>(
+export const CollectionInfo = new Collection<CollectionSchema>(
   {
     filePattern: "@content/docs/**/metadata.ts",
     baseDirectory: "content/docs",

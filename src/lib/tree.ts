@@ -1,8 +1,4 @@
-import type {
-  CollectionSource,
-  FileExports,
-  FileSystemSource,
-} from "renoun/collections"
+import type { CollectionSource, FileSystemSource } from "renoun/collections"
 
 export interface TreeItem {
   title: string
@@ -14,7 +10,7 @@ export interface TreeItem {
   children?: TreeItem[]
 }
 
-export async function getTree<T extends FileExports>({
+export async function getTree<T extends object>({
   input,
   maxDepth = 2,
   fromSource = false,
@@ -33,10 +29,12 @@ export async function getTree<T extends FileExports>({
   const tree: TreeItem[] = []
   for (const source of sources) {
     const frontmatter = !source.isDirectory()
-      ? await source.getExport("frontmatter").getValue()
+      ? //@ts-expect-error TODO: check how to fix this
+        await source.getExport("frontmatter").getValue()
       : null
 
     const treeItem = {
+      //@ts-expect-error TODO: check how to fix this
       // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
       title: frontmatter?.navTitle ?? source.getTitle(),
       path: source.getPath(),
