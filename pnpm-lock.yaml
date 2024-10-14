@@ -77,8 +77,8 @@ importers:
         specifier: 18.3.1
         version: 18.3.1(react@18.3.1)
       renoun:
-        specifier: 5.5.0
-        version: 5.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+        specifier: 6.0.0
+        version: 6.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       restyle:
         specifier: 2.4.0
         version: 2.4.0(react@18.3.1)
@@ -3470,8 +3470,8 @@ packages:
   remark-unwrap-images@4.0.0:
     resolution: {integrity: sha512-Ilr5ZhrhZSvnjemy1rRuxlTC0I/39YyWDRiE9d5vF079APcwdYYzwcZL8RGehlCtQCiik8hWMyo4Xhz2Fq0JhA==}
 
-  renoun@5.5.0:
-    resolution: {integrity: sha512-ZGgf+N6HCzJbJVQSgYLx1XqGFvvZ9PTAqi/0/6Owjhpu/RLr4E9gcTtK6NIuWC4YXuEme5y6vcAaE8LURQfJwQ==}
+  renoun@6.0.0:
+    resolution: {integrity: sha512-apiW/0+hzHaqUt66VKRo/WOuofyIG5mkivZHReHDPn+DU3GDre9jbqgKeCpoKczU9d1ctE8mMIOoJgt6c8bI3w==}
     hasBin: true
     peerDependencies:
       react: '>=18.0.0'
@@ -8103,7 +8103,7 @@ snapshots:
       hast-util-whitespace: 3.0.0
       unist-util-visit: 5.0.0
 
-  renoun@5.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+  renoun@6.0.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
       '@mdx-js/mdx': 3.0.1
       '@renoun/mdx': 1.1.0
@@ -8112,6 +8112,7 @@ snapshots:
       minimatch: 10.0.1
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+      resolve: 1.22.8
       restyle: 2.4.0(react@18.3.1)
       server-only: 0.0.1
       shiki: 1.17.7
