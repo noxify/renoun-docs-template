@@ -1,20 +1,30 @@
-import type { CollectionSchema } from "@/collections"
+import type { DocSchema } from "@/collections"
 import { CollectionInfo } from "@/collections"
 
 export async function getCollectionInfo() {
-  const collections = await CollectionInfo.getSources()
-
-  return await Promise.all(
-    collections.map((collection) =>
-      collection.getExport("metadata").getValue(),
-    ),
+  const collections = (await CollectionInfo.getSources()).filter((collection) =>
+    collection.isFile(),
   )
+
+  const result = []
+
+  for (const collection of collections) {
+    const meta = await collection.getExport("metadata").getValue()
+    result.push({
+      ...meta,
+      collection: collection,
+    })
+  }
+
+  return result
 }
 
 export async function collectionChooser() {
-  const collections = await CollectionInfo.getSources()
+  const collections = (await CollectionInfo.getSources()).filter((collection) =>
+    collection.isFile(),
+  )
 
-  const elements: Omit<CollectionSchema["metadata"], "collection">[] = []
+  const elements: DocSchema["metadata"][] = []
 
   for (const collection of collections) {
     const meta = await collection.getExport("metadata").getValue()

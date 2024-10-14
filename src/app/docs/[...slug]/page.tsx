@@ -74,6 +74,7 @@ export default async function DocsPage({
 }) {
   let source: FileSystemSource<DocSchema> | undefined
   const collections = await getCollectionInfo()
+
   const collection = collections.find(
     (collection) => collection.alias === params.slug[0],
   )?.collection
