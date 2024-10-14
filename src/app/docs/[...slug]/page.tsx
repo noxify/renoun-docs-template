@@ -1,6 +1,7 @@
 import type { DocSchema } from "@/collections"
 import type { FileSystemSource } from "renoun/collections"
 import { notFound } from "next/navigation"
+import { CollectionInfo } from "@/collections"
 import { Comments } from "@/components/comments"
 import SectionGrid from "@/components/section-grid"
 import Siblings from "@/components/siblings"
@@ -54,14 +55,15 @@ async function getSlugsFromCollection(collectionName: string) {
 export async function generateStaticParams() {
   const slugs = []
 
-  const collections = await getCollectionInfo()
+  const collections = await CollectionInfo.getSources()
 
   for (const collection of collections) {
+    console.log({ collection: collection.getPath() })
     // force add the root page to the available pages
     // otherwise you can't call `/docs/<product>` directly
-    slugs.push({ slug: [collection.alias] })
-    const collectionSlugs = await getSlugsFromCollection(collection.alias)
-    slugs.push(...collectionSlugs)
+    // slugs.push({ slug: [collection.alias] })
+    // const collectionSlugs = await getSlugsFromCollection(collection.alias)
+    // slugs.push(...collectionSlugs)
   }
 
   return slugs

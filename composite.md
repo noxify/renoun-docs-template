@@ -45,3 +45,65 @@ Do you think it's possible to do the following:
 - Getting the metadata information from the `<collection-root>/index.mdx` to generate the available docs for the sidebar collection chooser
 
 If this is not the right way, what would be a good approach or this the approach via the `metadata.ts` the "correct one"?
+
+---
+
+While testing how it could work, I noticed that the response of `CompositeCollection` is different to what I have expected/wanted.
+
+```ts
+const collections = await CollectionInfo.getSources()
+
+for (const collection of collections) {
+  console.log({ collection: collection.getPath() })
+}
+```
+
+The output was:
+
+```
+{ collection: 'getting-started' }
+{ collection: 'introduction' }
+{ collection: 'installation' }
+{ collection: 'gatsby' }
+{ collection: 'laravel' }
+{ collection: 'react' }
+{ collection: 'quick-start-guide' }
+{ collection: 'project-structure' }
+{ collection: 'integrations' }
+{ collection: 'layouts' }
+{ collection: 'manual' }
+{ collection: 'golang' }
+{ collection: 'javascript' }
+{ collection: 'typescript' }
+{ collection: 'changelog' }
+{ collection: 'faq' }
+{ collection: 'react-hooks' }
+{ collection: 'use-analytics' }
+{ collection: 'use-auth' }
+{ collection: 'use-cart' }
+{ collection: 'use-data' }
+{ collection: 'use-fetch' }
+{ collection: 'use-inventory' }
+{ collection: 'use-notification' }
+{ collection: 'use-order' }
+{ collection: 'use-payment' }
+{ collection: 'use-product' }
+{ collection: 'use-review' }
+{ collection: 'use-router' }
+{ collection: 'use-session' }
+{ collection: 'use-settings' }
+{ collection: 'use-shipping' }
+{ collection: 'use-theme' }
+{ collection: 'use-user' }
+{ collection: 'server-actions' }
+{ collection: 'getRole' }
+{ collection: 'getSession' }
+{ collection: 'getToken' }
+{ collection: 'getting-started' }
+{ collection: 'section-title' }
+{ collection: 'introduction' }
+{ collection: 'section-with-index' }
+{ collection: 'introduction' }
+```
+
+Maybe grouping the result could solve it ( via parsing `getPathSegments()` and extracting the collection name ), but not sure if this is the right way.
