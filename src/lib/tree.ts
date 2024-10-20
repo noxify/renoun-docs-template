@@ -1,4 +1,4 @@
-import type { CollectionSource, FileSystemSource } from "renoun/collections"
+import type { FileSystemSource } from "renoun/collections"
 
 export interface TreeItem {
   title: string
@@ -13,21 +13,12 @@ export interface TreeItem {
 export async function getTree<T extends object>({
   input,
   maxDepth = 2,
-  fromSource = false,
 }: {
-  input: CollectionSource<T> | FileSystemSource<T>[]
+  input: FileSystemSource<T>[]
   maxDepth?: number
-  fromSource?: boolean
 }): Promise<TreeItem[]> {
-  let sources: FileSystemSource<T>[]
-  if (fromSource) {
-    sources = input as FileSystemSource<T>[]
-  } else {
-    sources = await (input as CollectionSource<T>).getSources({ depth: 1 })
-  }
-
   const tree: TreeItem[] = []
-  for (const source of sources) {
+  for (const source of input) {
     const frontmatter = !source.isDirectory()
       ? //@ts-expect-error TODO: check how to fix this
         await source.getExport("frontmatter").getValue()
@@ -47,7 +38,6 @@ export async function getTree<T extends object>({
           ? await getTree<T>({
               input: await source.getSources({ depth: 1 }),
               maxDepth,
-              fromSource: true,
             })
           : [],
     }
