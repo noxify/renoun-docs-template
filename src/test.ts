@@ -2,17 +2,12 @@ import { inspect } from "node:util"
 
 import { CollectionInfo } from "./collections"
 
-// const collections = await CollectionInfo.getSources()
+const collections = (await CollectionInfo.getSources()).map((collection) =>
+  collection.getPathSegments(),
+)
 
-// for (const collection of collections) {
-//   console.log(
-//     inspect(
-//       { segments: collection.getPathSegments(), path: collection.getPath() },
-//       { depth: 2 },
-//     ),
-//   )
-// }
+console.log({ collections })
 
-const collection = CollectionInfo.getSource("/docs/renoun-docs/index")
+// const collection = CollectionInfo.getSource("/docs/renoun-docs/index")
 
-console.log({ collection: collection?.getPath() })
+// console.log({ collection: collection?.getPath() })

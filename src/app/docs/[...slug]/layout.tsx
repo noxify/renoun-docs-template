@@ -1,4 +1,5 @@
 import { notFound } from "next/navigation"
+import { CollectionInfo } from "@/collections"
 import { SiteSidebar } from "@/components/sidebar"
 import { SidebarLayout } from "@/components/ui/sidebar"
 import { collectionChooser, getCollectionInfo } from "@/lib/collections"
@@ -14,19 +15,27 @@ export default async function DocsLayout({
   }
   children: React.ReactNode
 }>) {
-  const chooser = await collectionChooser()
+  const collections = await CollectionInfo.getSources()
 
-  const collections = await getCollectionInfo()
-  const collection = collections.find(
-    (collection) => collection.alias === params.slug[0],
-  )?.collection
+  console.log({ collections })
 
-  if (!collection) {
-    return notFound()
-  }
+  const treeItems = collections.filter(
+    (collection) => collection.getPathSegments()[1] === params.slug[0],
+  )
+
+  // const chooser = await collectionChooser()
+
+  // const collections = await getCollectionInfo()
+  // const collection = collections.find(
+  //   (collection) => collection.alias === params.slug[0],
+  // )?.collection
+
+  // if (!collection) {
+  //   return notFound()
+  // }
 
   const items = await getTree({
-    input: collection,
+    input: treeItems,
     maxDepth: 4,
   })
 
@@ -34,7 +43,7 @@ export default async function DocsLayout({
     <SidebarLayout>
       <SiteSidebar
         items={items}
-        collections={chooser}
+        collections={[]}
         activeCollection={params.slug[0]}
       />
 
