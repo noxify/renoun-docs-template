@@ -2,7 +2,6 @@ import createMDXPlugin from "@next/mdx"
 import { rehypePlugins, remarkPlugins } from "@renoun/mdx"
 
 const withMDX = createMDXPlugin({
-  extension: /\.mdx?$/,
   options: {
     remarkPlugins,
     rehypePlugins,
@@ -24,7 +23,7 @@ export default withMDX({
     config.plugins.push(
       new webpack.ContextReplacementPlugin(
         /\/(@ts-morph\/common)\//,
-        (data) => {
+        (data: { dependencies: any }) => {
           for (const dependency of data.dependencies) {
             delete dependency.critical
           }

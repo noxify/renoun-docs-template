@@ -25,11 +25,10 @@ export async function generateStaticParams() {
   return slugs
 }
 
-export default async function DocsPage({
-  params,
-}: {
-  params: { slug: string[] }
+export default async function DocsPage(props: {
+  params: Promise<{ slug: string[] }>
 }) {
+  const params = await props.params
   const collection = CollectionInfo.getSource(
     ["/docs", ...params.slug].join("/"),
   )

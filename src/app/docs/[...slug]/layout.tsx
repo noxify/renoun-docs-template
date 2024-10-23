@@ -1,27 +1,24 @@
-import { notFound } from "next/navigation"
 import { CollectionInfo } from "@/collections"
 import { SiteSidebar } from "@/components/sidebar"
 import { SidebarLayout } from "@/components/ui/sidebar"
-import { collectionChooser, getCollectionInfo } from "@/lib/collections"
 import { getTree } from "@/lib/tree"
 
-export default async function DocsLayout({
-  params,
-  children,
-}: Readonly<{
-  params: {
-    product: string
-    slug: string[]
-  }
-  children: React.ReactNode
-}>) {
+export default async function DocsLayout(
+  props: Readonly<{
+    params: Promise<{
+      product: string
+      slug: string[]
+    }>
+    children: React.ReactNode
+  }>,
+) {
+  const params = await props.params
+
   const collections = await CollectionInfo.getSources()
 
-  console.log({ collections })
-
-  const treeItems = collections.filter(
-    (collection) => collection.getPathSegments()[1] === params.slug[0],
-  )
+  const treeItems = collections
+    .filter((collection) => collection.getPathSegments()[1] === params.slug[0])
+    .filter((ele) => ele.getDepth() === 2)
 
   // const chooser = await collectionChooser()
 
@@ -39,6 +36,8 @@ export default async function DocsLayout({
     maxDepth: 4,
   })
 
+  console.log({ items })
+
   return (
     <SidebarLayout>
       <SiteSidebar
@@ -48,7 +47,7 @@ export default async function DocsLayout({
       />
 
       <main className="flex w-full flex-1 flex-col transition-all duration-300 ease-in-out">
-        <div className="container py-6">{children}</div>
+        <div className="container py-6">{props.children}</div>
       </main>
     </SidebarLayout>
   )

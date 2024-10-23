@@ -23,8 +23,7 @@ export type DocsSource = FileSystemSource<DocSchema>
 export const AriaDocsCollection = new Collection<DocSchema>(
   {
     filePattern: "@content/docs/aria-docs/**/*.{tsx,mdx}",
-    baseDirectory: "content/docs/aria-docs",
-    basePath: "content",
+    baseDirectory: "content",
   },
   (slug) => import(`../content/docs/aria-docs/${slug}.mdx`),
 )
