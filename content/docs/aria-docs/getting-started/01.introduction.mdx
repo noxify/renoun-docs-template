@@ -31,7 +31,7 @@ Here a custom tab component from shadcn ui is used.
     <TabsTrigger value="ts">layout.tsx</TabsTrigger>
   </TabsList>
   <TabsContent value="js">
-  ```jsx {7} showLineNumbers
+```jsx {7} showLineNumbers
 import ThemeProvider from './theme-provider'
  
 export default function RootLayout({ children }) {
@@ -41,8 +41,9 @@ export default function RootLayout({ children }) {
         <ThemeProvider>{children}</ThemeProvider>
       </body>
     </html>
-  )}
-````
+  )
+}
+```
   </TabsContent>
   <TabsContent value="ts">
 ```tsx {11} showLineNumbers
@@ -51,7 +52,7 @@ import ThemeProvider from './theme-provider'
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode,
 }) {
   return (
     <html>

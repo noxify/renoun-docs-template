@@ -1,6 +1,5 @@
 "use client"
 
-import type { collectionChooser } from "@/lib/collections"
 import type { TreeItem } from "@/lib/tree"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -33,7 +32,11 @@ export function SiteSidebar({
   defaultHidden,
 }: {
   items: TreeItem[]
-  collections: Awaited<ReturnType<typeof collectionChooser>>
+  collections: {
+    title: string
+    entrypoint: string
+    alias: string
+  }[]
   activeCollection: string
   hideSwitcher?: boolean
   defaultHidden?: boolean

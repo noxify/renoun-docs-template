@@ -9,13 +9,10 @@ export interface DocSchema {
     summary: string
     tags?: string[]
     navTitle?: string
+    entrypoint?: string
+    alias?: string
   }
   headings: { text: string; id: string; depth: number }[]
-  metadata: {
-    title: string
-    entrypoint: string
-    alias: string
-  }
 }
 
 export type DocsSource = FileSystemSource<DocSchema>

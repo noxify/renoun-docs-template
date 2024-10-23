@@ -65,16 +65,22 @@ export const CanarySearch = () => {
 
   const ProviderComponent = ({ children }: { children: unknown }) =>
     useMockProvider ? (
+      // @ts-expect-error   supress `does not exist on type 'JSX.IntrinsicElements'` error
+      //                    i think this is based on the upgrade to react 19@rc
       <canary-provider-mock>{children}</canary-provider-mock>
     ) : (
+      // @ts-expect-error   supress `does not exist on type 'JSX.IntrinsicElements'` error
       <canary-provider-pagefind>{children}</canary-provider-pagefind>
     )
 
   return (
     <>
       {loaded ? (
+        // @ts-expect-error   supress `does not exist on type 'JSX.IntrinsicElements'` error
+        //                    i think this is based on the upgrade to react 19@rc
         <canary-root framework="vitepress">
           <ProviderComponent>
+            {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
             <canary-modal
               style={{
                 "--canary-color-backdrop-overlay": "rgb(128 123 123 / 28%)",
@@ -90,21 +96,31 @@ export const CanarySearch = () => {
                 <SearchIcon className="h-4 w-4" />
               </Button>
 
+              {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
               <canary-content slot="content">
+                {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
                 <canary-input slot="input" autofocus></canary-input>
+                {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
                 <canary-search slot="mode">
+                  {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
                   <canary-filter-tabs-glob
                     slot="head"
                     tabs={JSON.stringify(tabConfig)}
-                  ></canary-filter-tabs-glob>
-                  <canary-search-results
-                    slot="body"
-                    group
-                  ></canary-search-results>
+                  >
+                    {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
+                  </canary-filter-tabs-glob>
+                  {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
+                  <canary-search-results slot="body" group>
+                    {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
+                  </canary-search-results>
+                  {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
                 </canary-search>
+                {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
               </canary-content>
+              {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
             </canary-modal>
           </ProviderComponent>
+          {/* @ts-expect-error supress `does not exist on type 'JSX.IntrinsicElements'` error */}
         </canary-root>
       ) : (
         <div className={buttonVariants({ variant: "ghost" })}>
