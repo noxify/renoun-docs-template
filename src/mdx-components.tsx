@@ -69,8 +69,24 @@ export function useMDXComponents() {
       )
     },
     pre: (props) => {
+      // @ts-expect-error TODO: fix typing issue
+      const { focusLines, highlightLines, showLineNumbers, filename } = props
+
       const { value, language } = CodeBlock.parsePreProps(props)
-      return <CodeBlock allowErrors value={value} language={language} />
+      return (
+        <CodeBlock
+          allowErrors
+          value={value}
+          language={language}
+          allowCopy
+          filename={filename ? (filename as string) : undefined}
+          showLineNumbers={showLineNumbers === true}
+          highlightedLines={
+            highlightLines ? (highlightLines as string) : undefined
+          }
+          focusedLines={focusLines ? (focusLines as string) : undefined}
+        />
+      )
     },
     Note: ({ title, children }: { title?: string; children: ReactNode }) => {
       return (
