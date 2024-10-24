@@ -1,7 +1,7 @@
 import { CollectionInfo } from "@/collections"
 import { SiteSidebar } from "@/components/sidebar"
 import { SidebarLayout } from "@/components/ui/sidebar"
-import { getTree } from "@/lib/tree"
+import { getTree } from "@/lib/navigation"
 
 export default async function DocsLayout(
   props: Readonly<{
