@@ -3,7 +3,10 @@ import { CollectionInfo } from "@/collections"
 import { Comments } from "@/components/comments"
 import SectionGrid from "@/components/section-grid"
 import Siblings from "@/components/siblings"
-import { TableOfContents } from "@/components/table-of-contents"
+import {
+  MobileTableOfContents,
+  TableOfContents,
+} from "@/components/table-of-contents"
 import { cn } from "@/lib/utils"
 import { ExternalLinkIcon } from "lucide-react"
 
@@ -37,7 +40,9 @@ export default async function DocsPage(props: {
     return notFound()
   }
 
+  const headings = await collection.getExport("headings").getValue()
   const sections = await collection.getSources({ depth: 1 })
+  const Content = await collection.getExport("default").getValue()
 
   // fallback rendering if the user browses to page page
   // which is a directory e.g. calling /docs/<product>/getting-started instead of /docs/<product>/getting-started/installation
@@ -45,7 +50,11 @@ export default async function DocsPage(props: {
   if (collection.isDirectory()) {
     return (
       <>
-        <div className="flex flex-col gap-y-8">
+        <div
+          className={cn("flex flex-col gap-y-8", {
+            "mt-12 xl:mt-0": headings.length > 0,
+          })}
+        >
           <div>
             <article data-pagefind-body>
               <div
@@ -74,12 +83,15 @@ export default async function DocsPage(props: {
     )
   }
 
-  const headings = await collection.getExport("headings").getValue()
-  const Content = await collection.getExport("default").getValue()
-
   return (
     <>
-      <div className="gap-8 xl:grid xl:grid-cols-[1fr_300px]">
+      {headings.length > 0 && <MobileTableOfContents toc={headings} />}
+
+      <div
+        className={cn("gap-8 xl:grid xl:grid-cols-[1fr_300px]", {
+          "mt-12 xl:mt-0": headings.length > 0,
+        })}
+      >
         <div>
           <article data-pagefind-body>
             <div
@@ -91,7 +103,10 @@ export default async function DocsPage(props: {
                 // use full width
                 "max-w-auto w-full min-w-full",
                 "grow",
-                "prose-headings:scroll-mt-20",
+                "xl:prose-headings:scroll-mt-20",
+                "prose-headings:scroll-mt-28",
+                "prose-table:my-0",
+                "prose-th:pb-0",
               )}
             >
               <h1>{collection.getTitle()}</h1>
