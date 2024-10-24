@@ -1,5 +1,5 @@
-import type { MDXComponents } from "mdx/types"
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
+import type { BaseCodeBlockProps, MDXComponents } from "renoun/components"
 import Link from "next/link"
 import { ExternalLinkIcon } from "lucide-react"
 import { CodeBlock, CodeInline } from "renoun/components"
@@ -12,9 +12,6 @@ type AnchorProps = ComponentPropsWithoutRef<"a">
 
 export function useMDXComponents() {
   return {
-    // @ts-expect-error seems to be an type error
-    //                  based on what I can see, it seems a 3rd party package
-    //                  uses react18 types
     a: ({ href, children, ...props }: AnchorProps) => {
       if (!href) {
         console.log("Invalid link detected")
@@ -53,8 +50,8 @@ export function useMDXComponents() {
     code: (props) => {
       return (
         <CodeInline
-          value={props.children as string}
-          language="typescript"
+          value={props.children}
+          language={props.language}
           allowErrors
           css={{
             backgroundColor: "hsl(var(--secondary))",
@@ -68,8 +65,13 @@ export function useMDXComponents() {
         />
       )
     },
-    pre: (props) => {
-      // @ts-expect-error TODO: fix typing issue
+    pre: (
+      props: BaseCodeBlockProps & {
+        value: string
+        focusLines?: string
+        highlightLines?: string
+      },
+    ) => {
       const { focusLines, highlightLines, showLineNumbers, filename } = props
 
       const { value, language } = CodeBlock.parsePreProps(props)
@@ -79,12 +81,10 @@ export function useMDXComponents() {
           value={value}
           language={language}
           allowCopy
-          filename={filename ? (filename as string) : undefined}
+          filename={filename ? filename : undefined}
           showLineNumbers={showLineNumbers === true}
-          highlightedLines={
-            highlightLines ? (highlightLines as string) : undefined
-          }
-          focusedLines={focusLines ? (focusLines as string) : undefined}
+          highlightedLines={highlightLines ? highlightLines : undefined}
+          focusedLines={focusLines ? focusLines : undefined}
         />
       )
     },
@@ -141,7 +141,6 @@ export function useMDXComponents() {
       children: ReactNode
     }) => <TabsContent value={value}>{children}</TabsContent>,
 
-    // @ts-expect-error type error based on react 19?
     table: ({ children }: { children?: ReactNode }) => {
       return (
         <div className="my-4 rounded-md border bg-white dark:border-gray-700 dark:bg-transparent">
@@ -153,7 +152,7 @@ export function useMDXComponents() {
         </div>
       )
     },
-    // @ts-expect-error type error based on react 19?
+
     thead: ({ children }: { children?: ReactNode }) => {
       return (
         <thead className="dark:border-gray-700 [&_tr]:border-b">
@@ -161,7 +160,7 @@ export function useMDXComponents() {
         </thead>
       )
     },
-    // @ts-expect-error type error based on react 19?
+
     th: ({ children }: { children?: ReactNode }) => {
       return (
         <th className="h-12 px-4 text-left align-middle font-medium text-slate-500 dark:text-slate-400 [&:has([role=checkbox])]:pr-0">
@@ -170,7 +169,6 @@ export function useMDXComponents() {
       )
     },
 
-    // @ts-expect-error type error based on react 19?
     tr: ({ children }: { children?: ReactNode }) => {
       return (
         <tr className="border-b transition-colors hover:bg-slate-100/50 data-[state=selected]:bg-slate-100 dark:border-gray-700 dark:hover:bg-slate-800/50 dark:data-[state=selected]:bg-slate-800">
@@ -179,7 +177,6 @@ export function useMDXComponents() {
       )
     },
 
-    // @ts-expect-error type error based on react 19?
     td: ({ children }: { children?: ReactNode }) => {
       return (
         <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
@@ -188,7 +185,6 @@ export function useMDXComponents() {
       )
     },
 
-    // @ts-expect-error type error based on react 19?
     dl: ({ children }: { children?: ReactNode }) => {
       return (
         <dl className="divide-y divide-gray-100">
@@ -199,7 +195,6 @@ export function useMDXComponents() {
       )
     },
 
-    // @ts-expect-error type error based on react 19?
     dt: ({ children }: { children?: ReactNode }) => {
       return (
         <dt className="text-sm font-medium leading-6 text-primary">
@@ -207,7 +202,7 @@ export function useMDXComponents() {
         </dt>
       )
     },
-    // @ts-expect-error type error based on react 19?
+
     dd: ({ children }: { children?: ReactNode }) => {
       return (
         <dd className="mt-1 text-sm leading-6 text-primary sm:col-span-2 sm:mt-0">
