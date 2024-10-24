@@ -100,19 +100,27 @@ export function SiteSidebar({
                   <Link
                     href={item.path}
                     className={cn(
-                      "flex min-w-8 flex-1 items-center px-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
-                      current({ pathname, item }) ? "font-bold underline" : "",
+                      "flex min-w-8 flex-1 items-center p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                      current({ pathname, item })
+                        ? "rounded-sm bg-muted"
+                        : "hover:rounded-sm hover:bg-muted",
                     )}
                   >
                     {item.title}
                   </Link>
                 )}
-                {item.isFile && item.children.length > 0 && (
-                  <Link href={item.path}>
+                {((item.isFile && item.children.length > 0) ||
+                  !item.isFile) && (
+                  <Link
+                    href={item.path}
+                    className={cn(
+                      "flex flex-1 py-1.5 hover:rounded-sm hover:bg-muted",
+                    )}
+                  >
                     <SidebarLabel>{item.title}</SidebarLabel>
                   </Link>
                 )}
-                {!item.isFile && <SidebarLabel>{item.title}</SidebarLabel>}
+
                 <Navigation items={item.children} />
               </SidebarItem>
             )
