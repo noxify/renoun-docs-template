@@ -1,19 +1,34 @@
 import type { DocsSource } from "@/collections"
 import Link from "next/link"
+import { CollectionInfo } from "@/collections"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 
 export default async function Siblings({
   source,
+  collectionName,
 }: {
   source: DocsSource | undefined
+  collectionName: string
 }) {
   if (!source) {
     return <></>
   }
 
-  const [previousPage, nextPage] = await source.getSiblings({
-    depth: 1,
-  })
+  const collections = await CollectionInfo.getSources()
+
+  const collectionItems = collections
+    .filter((collection) => collection.getPathSegments()[1] === collectionName)
+    .filter((ele) => ele.getDepth() >= 2)
+
+  const currentCollectionItem = collectionItems.find(
+    (ele) => ele.getPath() === source.getPath(),
+  )
+
+  if (!currentCollectionItem) {
+    return <></>
+  }
+
+  const [previousPage, nextPage] = await currentCollectionItem.getSiblings()
 
   return (
     <nav
@@ -21,7 +36,7 @@ export default async function Siblings({
       data-pagefind-ignore
     >
       <div className="flex w-0 flex-1">
-        {previousPage && (
+        {previousPage && previousPage.getDepth() > 1 && (
           <>
             <Link
               href={previousPage.getPath()}

@@ -1,11 +1,12 @@
-import type { DocSchema } from "@/collections"
-import type { FileSystemSource } from "renoun/collections"
 import { notFound } from "next/navigation"
+import { CollectionInfo } from "@/collections"
 import { Comments } from "@/components/comments"
 import SectionGrid from "@/components/section-grid"
 import Siblings from "@/components/siblings"
-import { TableOfContents } from "@/components/table-of-contents"
-import { getCollectionInfo } from "@/lib/collections"
+import {
+  MobileTableOfContents,
+  TableOfContents,
+} from "@/components/table-of-contents"
 import { cn } from "@/lib/utils"
 import { ExternalLinkIcon } from "lucide-react"
 
@@ -13,104 +14,41 @@ function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
   return array.filter((value) => !valueToRemove.includes(value))
 }
 
-/**
- * This seems to be a bit hacky - maybe it is,
- * but without manipulation the response from `getPathSegments()`
- * we can't use the `basePath` configuration inside the `collections.ts`.
- *
- * If we comment the `basePath`, then the slug is generated correctly
- * but the links for the sidebar navigation are broken.
- *
- * If we set the `basePath` then the sidebar links are working,
- * but nextjs can't find the page.
- *
- * So, this is the "best of both worlds" :D
- * If you know a better solution please feel free to create a PR <3
- */
-async function getSlugsFromCollection(collectionName: string) {
-  const collection = (await getCollectionInfo()).find(
-    (collection) => collection.alias === collectionName,
-  )
-
-  if (!collection) {
-    return []
-  }
-
-  const sources = await collection.collection.getSources()
-
-  const deleteItems = ["docs"]
-
-  return (
-    sources
-      // if you don't want to generate dummy pages for directories,
-      // you have to activate the filter
-      //.filter((source) => source.isFile())
-      .map((source) => ({
-        slug: [...removeFromArray(source.getPathSegments(), deleteItems)],
-      }))
-  )
-}
-
 export async function generateStaticParams() {
   const slugs = []
 
-  const collections = await getCollectionInfo()
+  const collections = await CollectionInfo.getSources()
 
   for (const collection of collections) {
-    // force add the root page to the available pages
-    // otherwise you can't call `/docs/<product>` directly
-    slugs.push({ slug: [collection.alias] })
-    const collectionSlugs = await getSlugsFromCollection(collection.alias)
-    slugs.push(...collectionSlugs)
+    slugs.push({
+      slug: removeFromArray(collection.getPathSegments(), ["docs"]),
+    })
   }
 
   return slugs
 }
 
-export default async function DocsPage({
-  params,
-}: {
-  params: { slug: string[] }
+export default async function DocsPage(props: {
+  params: Promise<{ slug: string[] }>
 }) {
-  let source: FileSystemSource<DocSchema> | undefined
-  const collections = await getCollectionInfo()
-  const collection = collections.find(
-    (collection) => collection.alias === params.slug[0],
-  )?.collection
+  const params = await props.params
+  const collection = CollectionInfo.getSource(
+    ["/docs", ...params.slug].join("/"),
+  )
 
   if (!collection) {
     return notFound()
   }
 
-  // to support something like `/docs/<product>/`
-  // we have to check the slug length - In our case we know that the first element in the slug array
-  // is always the collection name - so we can use this to load the `index.mdx` if there is any
-  // if there are two or more elements, we just load the requested page content
-  if (params.slug.length > 1) {
-    source = collection.getSource(
-      removeFromArray(params.slug, [params.slug[0]]),
-    )
-  } else {
-    source = collection.getSource([
-      ...removeFromArray(params.slug, [params.slug[0]]),
-      "index",
-    ])
-  }
-
-  // if we can't find the source then return a 404
-  if (!source) {
-    return notFound()
-  }
-
-  const sections = await source.getSources({ depth: 1 })
+  const sections = await collection.getSources({ depth: 1 })
 
   // fallback rendering if the user browses to page page
   // which is a directory e.g. calling /docs/<product>/getting-started instead of /docs/<product>/getting-started/installation
   // this is only the case if you do not have a `index.mdx` in the `getting-started` directory
-  if (source.isDirectory()) {
+  if (collection.isDirectory()) {
     return (
       <>
-        <div className="flex flex-col gap-y-8">
+        <div className={cn("flex flex-col gap-y-8")}>
           <div>
             <article data-pagefind-body>
               <div
@@ -123,12 +61,12 @@ export default async function DocsPage({
                   "w-full max-w-full",
                 )}
               >
-                <h1>{source.getTitle()}</h1>
+                <h1>{collection.getTitle()}</h1>
               </div>
 
               <SectionGrid sections={sections} />
 
-              <Siblings source={source} />
+              <Siblings source={collection} collectionName={params.slug[0]} />
             </article>
             <div>
               <Comments />
@@ -139,12 +77,18 @@ export default async function DocsPage({
     )
   }
 
-  const headings = await source.getExport("headings").getValue()
-  const Content = await source.getExport("default").getValue()
+  const headings = await collection.getExport("headings").getValue()
+  const Content = await collection.getExport("default").getValue()
 
   return (
     <>
-      <div className="gap-8 xl:grid xl:grid-cols-[1fr_300px]">
+      {headings.length > 0 && <MobileTableOfContents toc={headings} />}
+
+      <div
+        className={cn("gap-8 xl:grid xl:grid-cols-[1fr_300px]", {
+          "mt-12 xl:mt-0": headings.length > 0,
+        })}
+      >
         <div>
           <article data-pagefind-body>
             <div
@@ -156,16 +100,19 @@ export default async function DocsPage({
                 // use full width
                 "max-w-auto w-full min-w-full",
                 "grow",
-                "prose-headings:scroll-mt-20",
+                "xl:prose-headings:scroll-mt-20",
+                "prose-headings:scroll-mt-28",
+                "prose-table:my-0",
+                "prose-th:pb-0",
               )}
             >
-              <h1>{source.getTitle()}</h1>
+              <h1>{collection.getTitle()}</h1>
               <Content />
             </div>
 
             <SectionGrid sections={sections} />
 
-            <Siblings source={source} />
+            <Siblings source={collection} collectionName={params.slug[0]} />
           </article>
           <div>
             <Comments />
@@ -176,7 +123,7 @@ export default async function DocsPage({
 
           <div className="mt-6 border-t pt-6">
             <a
-              href={source.getEditPath()}
+              href={collection.getEditPath()}
               target="_blank"
               className="flex items-center text-muted-foreground no-underline transition-colors hover:text-foreground"
             >
