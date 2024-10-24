@@ -40,9 +40,7 @@ export default async function DocsPage(props: {
     return notFound()
   }
 
-  const headings = await collection.getExport("headings").getValue()
   const sections = await collection.getSources({ depth: 1 })
-  const Content = await collection.getExport("default").getValue()
 
   // fallback rendering if the user browses to page page
   // which is a directory e.g. calling /docs/<product>/getting-started instead of /docs/<product>/getting-started/installation
@@ -50,11 +48,7 @@ export default async function DocsPage(props: {
   if (collection.isDirectory()) {
     return (
       <>
-        <div
-          className={cn("flex flex-col gap-y-8", {
-            "mt-12 xl:mt-0": headings.length > 0,
-          })}
-        >
+        <div className={cn("flex flex-col gap-y-8")}>
           <div>
             <article data-pagefind-body>
               <div
@@ -82,6 +76,9 @@ export default async function DocsPage(props: {
       </>
     )
   }
+
+  const headings = await collection.getExport("headings").getValue()
+  const Content = await collection.getExport("default").getValue()
 
   return (
     <>
