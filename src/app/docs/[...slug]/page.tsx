@@ -63,7 +63,7 @@ export default async function DocsPage(props: {
 
               <SectionGrid sections={sections} />
 
-              <Siblings source={collection} />
+              <Siblings source={collection} collectionName={params.slug[0]} />
             </article>
             <div>
               <Comments />
@@ -100,7 +100,7 @@ export default async function DocsPage(props: {
 
             <SectionGrid sections={sections} />
 
-            <Siblings source={collection} />
+            <Siblings source={collection} collectionName={params.slug[0]} />
           </article>
           <div>
             <Comments />
