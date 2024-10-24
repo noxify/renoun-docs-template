@@ -1,3 +1,4 @@
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { CollectionInfo } from "@/collections"
 import { Comments } from "@/components/comments"
@@ -28,9 +29,48 @@ export async function generateStaticParams() {
   return slugs
 }
 
-export default async function DocsPage(props: {
+interface PageProps {
   params: Promise<{ slug: string[] }>
-}) {
+}
+
+async function getParentTitle(slug: string[]) {
+  const combinations = slug.reduce(
+    (acc: string[][], curr) => acc.concat(acc.map((sub) => [...sub, curr])),
+    [[]],
+  )
+
+  const titles = []
+
+  for (const currentPageSegement of combinations) {
+    const collection = CollectionInfo.getSource(
+      ["docs", ...currentPageSegement].join("/"),
+    )
+
+    if (!collection) {
+      continue
+    }
+
+    if (collection.isDirectory()) {
+      titles.push(collection.getTitle())
+    } else {
+      const frontmatter = await collection.getExport("frontmatter").getValue()
+      titles.push(frontmatter.navTitle ?? collection.getTitle())
+    }
+  }
+
+  return titles
+}
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params
+  const titles = await getParentTitle(params.slug)
+
+  return {
+    title: titles.join(" - "),
+  }
+}
+
+export default async function DocsPage(props: PageProps) {
   const params = await props.params
   const collection = CollectionInfo.getSource(
     ["/docs", ...params.slug].join("/"),

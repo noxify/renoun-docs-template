@@ -6,7 +6,6 @@ import { getTree } from "@/lib/utils"
 export default async function DocsLayout(
   props: Readonly<{
     params: Promise<{
-      product: string
       slug: string[]
     }>
     children: React.ReactNode
