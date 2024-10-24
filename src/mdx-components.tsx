@@ -51,7 +51,7 @@ export function useMDXComponents() {
       return (
         <CodeInline
           value={props.children}
-          language={props.language}
+          //language={props.language}
           allowErrors
           css={{
             backgroundColor: "hsl(var(--secondary))",
