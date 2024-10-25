@@ -12,7 +12,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu"
 
-interface TableOfContents {
+export interface TableOfContents {
   text: string
   id: string
   depth: number

@@ -63,7 +63,7 @@ export default async function DocsLayout(
       />
 
       <main className="flex w-full flex-1 flex-col transition-all duration-300 ease-in-out">
-        <div className="container py-6">{props.children}</div>
+        {props.children}
       </main>
     </SidebarLayout>
   )

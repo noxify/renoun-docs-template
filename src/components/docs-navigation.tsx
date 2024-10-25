@@ -1,6 +1,6 @@
 "use client"
 
-import type { TreeItem } from "@/lib/tree"
+import type { TreeItem } from "@/lib/utils"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -27,6 +27,7 @@ export function Navigation({
 
   const isMobile = useIsMobile()
 
+  if (items.length === 0) return <></>
   return (
     <ul className={cn("grid gap-y-1", className)}>
       {items.map((item) =>
@@ -39,7 +40,7 @@ export function Navigation({
                 onClick={isMobile ? () => toggleSidebar() : undefined}
                 href={item.path}
                 className={cn(
-                  "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                  "flex h-8 min-w-8 flex-1 items-center p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
                   current({ pathname, item })
                     ? "rounded-sm bg-muted"
                     : "hover:rounded-sm hover:bg-muted",
@@ -92,7 +93,7 @@ function CollapsibleItem({
                   className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/30"
                 ></div>
               )}
-              <div className="line-clamp-1 pr-6">{item.title}</div>
+              <div className="line-clamp-1 pr-6">{item.title} xxx</div>
             </Link>
           ) : (
             <div
@@ -109,7 +110,7 @@ function CollapsibleItem({
                   className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/30"
                 ></div>
               )}
-              <div className="line-clamp-1 pr-6">{item.title}</div>
+              <div className="line-clamp-1 pr-6">{item.title} yyy</div>
             </div>
           )}
 
@@ -140,7 +141,7 @@ function CollapsibleItem({
                     href={subItem.path}
                     onClick={isMobile ? () => toggleSidebar() : undefined}
                     className={cn(
-                      "relative flex h-8 min-w-8 items-center gap-2 p-1.5 text-sm text-muted-foreground ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                      "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
                       current({ pathname, item: subItem })
                         ? "rounded-sm bg-muted"
                         : "hover:rounded-sm hover:bg-muted",
@@ -152,7 +153,7 @@ function CollapsibleItem({
                         className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/30"
                       ></div>
                     )}
-                    <div className="line-clamp-1">{subItem.title}</div>
+                    <div className="line-clamp-1">{subItem.title} aa</div>
                   </Link>
                 </li>
               )

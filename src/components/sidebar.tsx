@@ -1,6 +1,6 @@
 "use client"
 
-import type { TreeItem } from "@/lib/tree"
+import type { TreeItem } from "@/lib/utils"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Navigation } from "@/components/docs-navigation"
@@ -121,7 +121,7 @@ export function SiteSidebar({
                   </Link>
                 )}
 
-                <Navigation items={item.children} />
+                <Navigation items={item.children} className="mb-4" />
               </SidebarItem>
             )
           }

@@ -20,10 +20,12 @@ export default withMDX({
     config.resolve.extensionAlias = {
       ".js": [".ts", ".tsx", ".js"],
     }
+
+    /* Silence critical dependency warnings for @ts-morph/common */
     config.plugins.push(
       new webpack.ContextReplacementPlugin(
         /\/(@ts-morph\/common)\//,
-        (data: { dependencies: any }) => {
+        (data) => {
           for (const dependency of data.dependencies) {
             delete dependency.critical
           }
@@ -31,6 +33,7 @@ export default withMDX({
         },
       ),
     )
+
     return config
   },
 })

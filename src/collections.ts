@@ -11,6 +11,7 @@ export interface DocSchema {
     navTitle?: string
     entrypoint?: string
     alias?: string
+    openapi?: boolean
   }
   headings: { text: string; id: string; depth: number }[]
 }
@@ -33,7 +34,16 @@ export const RenounDocsCollection = new Collection<DocSchema>(
   (slug) => import(`../content/docs/renoun-docs/${slug}.mdx`),
 )
 
+export const OpenAPiCollection = new Collection<DocSchema>(
+  {
+    filePattern: "@content/docs/open-api/**/*.{tsx,mdx}",
+    baseDirectory: "content",
+  },
+  (slug) => import(`../content/docs/open-api/${slug}.mdx`),
+)
+
 export const CollectionInfo = new CompositeCollection(
   AriaDocsCollection,
   RenounDocsCollection,
+  OpenAPiCollection,
 )

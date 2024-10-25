@@ -57,6 +57,12 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+
+  .light-mode {
+    body {
+      @apply bg-background text-foreground !important;
+    }
+  }
 }
 
 @layer base {
@@ -131,3 +137,7 @@ canary-search-results::part(match-item):hover {
     @apply text-white;
   }
 }
+
+/**
+ * Scalar
+ */
