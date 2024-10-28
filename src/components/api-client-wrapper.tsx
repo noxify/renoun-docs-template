@@ -33,14 +33,6 @@ export const ApiClientWrapper = ({
           ...options,
           isEditable: false,
           hiddenClients: true,
-          // customCss: `
-          //   * {
-          //     --scalar-background-1: var(--background);
-          //   }
-          //   .show-more {
-          //     background-color: #ffcc00;
-          //   }
-          // `,
         }}
       />
     </ClientOnly>

@@ -29,14 +29,14 @@ export default async function DocsLayout(
   for (const collection of collectionMeta) {
     const meta = await collection.getExport("frontmatter").getValue()
     collectionChooser.push({
-      title: meta.title,
+      title: meta?.title ?? collection.getTitle(),
       // if you don't want to redirect the user to a specific page
       // and you haven't defined an entrypoint, then we will use the current path as an entry point
-      entrypoint: meta.entrypoint ?? collection.getPath(),
+      entrypoint: meta?.entrypoint ?? collection.getPath(),
       // the alias is used as identifier for the active state in the dropdown
       // not sure if there is a use case to have a different alias than the collection name
       // as fallback we will use the collection name based on the returned array from `collection.getPathSegments`
-      alias: meta.alias ?? collection.getPathSegments()[1],
+      alias: meta?.alias ?? collection.getPathSegments()[1],
     })
   }
 
