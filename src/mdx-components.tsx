@@ -4,6 +4,7 @@ import Link from "next/link"
 import { ExternalLinkIcon } from "lucide-react"
 import { CodeBlock, CodeInline } from "renoun/components"
 
+import RailroadWrapper from "./components/railroad-wrapper"
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert"
 import { Stepper, StepperItem } from "./components/ui/stepper"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs"
@@ -210,9 +211,11 @@ export function useMDXComponents() {
         </dd>
       )
     },
+
     DescriptionList: ({ children }: { children: ReactNode }) => {
       return <dl className="divide-y divide-gray-200">{children}</dl>
     },
+
     DescriptionListItem: ({
       label,
       children,
@@ -228,6 +231,10 @@ export function useMDXComponents() {
           </dd>
         </div>
       )
+    },
+
+    Railroad: ({ content }: { content: string }) => {
+      return <RailroadWrapper content={content} />
     },
   } satisfies MDXComponents
 }

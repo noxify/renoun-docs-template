@@ -1,33 +1,14 @@
 "use client"
 
 import type { ReferenceProps } from "@scalar/api-reference-react"
-import type { ReactNode } from "react"
-import React, { createElement, Fragment, useEffect, useState } from "react"
+import React from "react"
 import { ApiReferenceReact } from "@scalar/api-reference-react"
 import { useTheme } from "next-themes"
 
 import "@scalar/api-reference-react/style.css"
 
-export const ClientOnly = ({ children }: { children: ReactNode }) => {
-  const hasMounted = useClientOnly()
+import { ClientOnly } from "./client-only"
 
-  if (!hasMounted) {
-    return null
-  }
-
-  return createElement(Fragment, { children })
-}
-
-/** React hook that returns true if the component has mounted client-side */
-export const useClientOnly = () => {
-  const [hasMounted, setHasMounted] = useState(false)
-
-  useEffect(() => {
-    setHasMounted(true)
-  }, [])
-
-  return hasMounted
-}
 export const ApiClientWrapper = ({
   options,
 }: {

@@ -54,7 +54,7 @@ async function getParentTitle(slug: string[]) {
       titles.push(collection.getTitle())
     } else {
       const frontmatter = await collection.getExport("frontmatter").getValue()
-      titles.push(frontmatter.navTitle ?? collection.getTitle())
+      titles.push(frontmatter?.navTitle ?? collection.getTitle())
     }
   }
 
@@ -123,7 +123,7 @@ export default async function DocsPage(props: PageProps) {
   const frontmatter = await collection.getExport("frontmatter").getValue()
   const Content = await collection.getExport("default").getValue()
 
-  if (frontmatter.openapi) {
+  if (frontmatter?.openapi) {
     return (
       <div className={cn("gap-8 xl:grid xl:grid-cols-1")}>
         <div>

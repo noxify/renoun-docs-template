@@ -4,7 +4,7 @@ import { Collection, CompositeCollection } from "renoun/collections"
 
 export interface DocSchema {
   default: MDXContent
-  frontmatter: {
+  frontmatter?: {
     title: string
     summary: string
     tags?: string[]
@@ -42,8 +42,17 @@ export const OpenAPiCollection = new Collection<DocSchema>(
   (slug) => import(`../content/docs/open-api/${slug}.mdx`),
 )
 
+export const TestCollection = new Collection<DocSchema>(
+  {
+    filePattern: "@content/docs/test-collection/**/*.{tsx,mdx}",
+    baseDirectory: "content",
+  },
+  (slug) => import(`../content/docs/test-collection/${slug}.mdx`),
+)
+
 export const CollectionInfo = new CompositeCollection(
   AriaDocsCollection,
   RenounDocsCollection,
   OpenAPiCollection,
+  TestCollection,
 )

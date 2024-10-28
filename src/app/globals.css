@@ -139,5 +139,35 @@ canary-search-results::part(match-item):hover {
 }
 
 /**
- * Scalar
+ * Railroad
  */
+
+svg.railroad-diagram {
+  @apply w-full;
+}
+svg.railroad-diagram path {
+  @apply fill-transparent stroke-black stroke-2;
+}
+svg.railroad-diagram text {
+  @apply font-mono text-sm font-bold;
+  text-anchor: middle;
+}
+svg.railroad-diagram text.label {
+  text-anchor: start;
+}
+svg.railroad-diagram text.comment {
+  @apply font-mono text-sm italic;
+}
+svg.railroad-diagram rect {
+  @apply fill-green-300 stroke-black stroke-2;
+}
+
+.dark {
+  svg.railroad-diagram path {
+    @apply stroke-white stroke-2;
+  }
+
+  svg.railroad-diagram rect {
+    @apply fill-green-500 stroke-white stroke-2;
+  }
+}
