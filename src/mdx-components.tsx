@@ -4,6 +4,7 @@ import Link from "next/link"
 import { ExternalLinkIcon } from "lucide-react"
 import { CodeBlock, CodeInline } from "renoun/components"
 
+import MermaidWrapper from "./components/mermaid-wrapper"
 import RailroadWrapper from "./components/railroad-wrapper"
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert"
 import { Stepper, StepperItem } from "./components/ui/stepper"
@@ -235,6 +236,10 @@ export function useMDXComponents() {
 
     Railroad: ({ content }: { content: string }) => {
       return <RailroadWrapper content={content} />
+    },
+
+    Mermaid: ({ content }: { content: string }) => {
+      return <MermaidWrapper chart={content} />
     },
   } satisfies MDXComponents
 }

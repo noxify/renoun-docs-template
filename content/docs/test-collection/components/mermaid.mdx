@@ -1,0 +1,76 @@
+---
+title: Mermaid component
+---
+
+-
+
+## Source
+
+The component uses
+
+- https://mermaid.js.org/
+- https://www.npmjs.com/package/react-inlinesvg
+
+## example
+
+<Tabs defaultValue="preview">
+  <TabsList>
+    <TabsTrigger value="preview">Preview</TabsTrigger>
+    <TabsTrigger value="code">Code</TabsTrigger>
+  </TabsList>
+  <TabsContent value="preview">
+    <Mermaid
+      content={`
+        graph TB\na-->b
+      `}
+    />
+  </TabsContent>
+
+  <TabsContent value="code">
+    ```tsx
+    <Mermaid
+      content={`
+        graph TB\na-->b
+      `}
+    />
+    ```
+  </TabsContent>
+  
+</Tabs>
+
+## Flowchart
+
+<Tabs defaultValue="preview">
+  <TabsList>
+    <TabsTrigger value="preview">Preview</TabsTrigger>
+    <TabsTrigger value="code">Code</TabsTrigger>
+  </TabsList>
+  <TabsContent value="preview">
+    <Mermaid
+      content={`
+        flowchart LR
+          markdown["\`This **is**  _Markdown_\`"]
+          newLines["\`Line1
+          Line 2
+          Line 3\`"]
+          markdown --> newLines
+      `}
+    />
+  </TabsContent>
+
+  <TabsContent value="code">
+    ```tsx
+    <Mermaid
+      content={`
+        flowchart LR
+          markdown["\`This **is** _Markdown_\`"]
+          newLines["\`Line1
+          Line 2
+          Line 3\`"]
+          markdown --> newLines
+      `}
+    />
+    ```
+  </TabsContent>
+  
+</Tabs>
