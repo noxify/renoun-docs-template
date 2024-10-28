@@ -93,7 +93,7 @@ function CollapsibleItem({
                   className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/30"
                 ></div>
               )}
-              <div className="line-clamp-1 pr-6">{item.title} xxx</div>
+              <div className="line-clamp-1 pr-6">{item.title}</div>
             </Link>
           ) : (
             <div
@@ -110,7 +110,7 @@ function CollapsibleItem({
                   className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/30"
                 ></div>
               )}
-              <div className="line-clamp-1 pr-6">{item.title} yyy</div>
+              <div className="line-clamp-1 pr-6">{item.title}</div>
             </div>
           )}
 
@@ -153,7 +153,7 @@ function CollapsibleItem({
                         className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/30"
                       ></div>
                     )}
-                    <div className="line-clamp-1">{subItem.title} aa</div>
+                    <div className="line-clamp-1">{subItem.title}</div>
                   </Link>
                 </li>
               )

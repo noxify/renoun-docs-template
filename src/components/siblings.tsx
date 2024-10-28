@@ -30,6 +30,14 @@ export default async function Siblings({
 
   const [previousPage, nextPage] = await currentCollectionItem.getSiblings()
 
+  const previousPageFrontmatter = previousPage?.isFile()
+    ? await previousPage.getExport("frontmatter").getValue()
+    : null
+
+  const nextPageFrontmatter = nextPage?.isFile()
+    ? await nextPage.getExport("frontmatter").getValue()
+    : null
+
   return (
     <nav
       className="mt-6 flex items-center justify-between border-t pt-6"
@@ -41,7 +49,7 @@ export default async function Siblings({
             <Link
               href={previousPage.getPath()}
               className="text-gray-700"
-              title={`Go to previous page: ${previousPage.getTitle()}`}
+              title={`Go to previous page: ${previousPageFrontmatter?.navTitle ?? previousPage.getTitle()}`}
             >
               <div className="group flex shrink-0 items-center gap-x-4">
                 <ChevronLeftIcon className="h-5 w-5 flex-none text-gray-500 transition-colors duration-200 group-hover:text-foreground dark:text-gray-400" />
@@ -60,12 +68,12 @@ export default async function Siblings({
       </div>
 
       <div className="-mt-px flex w-0 flex-1 justify-end">
-        {nextPage && (
+        {nextPage && nextPage.getDepth() > 1 && (
           <>
             <Link
               href={nextPage.getPath()}
               className="text-gray-700"
-              title={`Go to next page: ${nextPage.getTitle()}`}
+              title={`Go to next page: ${nextPageFrontmatter?.navTitle ?? nextPage.getTitle()}`}
             >
               <div className="group flex shrink-0 items-center gap-x-4">
                 <div className="flex flex-col items-end">
