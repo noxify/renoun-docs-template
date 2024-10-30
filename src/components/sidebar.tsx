@@ -90,7 +90,10 @@ export function SiteSidebar({
       <SidebarContent>
         <SidebarItem className="border-b pb-5 md:hidden">
           <SidebarLabel>Navigation</SidebarLabel>
-          <Navigation items={headerNavigation as TreeItem[]} />
+          <Navigation
+            items={headerNavigation as TreeItem[]}
+            highlightActive={false}
+          />
         </SidebarItem>
         {items.map((item) => {
           if (item.children) {

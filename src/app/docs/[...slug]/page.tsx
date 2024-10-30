@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { CollectionInfo } from "@/collections"
+import { SiteBreadcrumb } from "@/components/breadcrumb"
 import { Comments } from "@/components/comments"
 import SectionGrid from "@/components/section-grid"
 import Siblings from "@/components/siblings"
@@ -61,6 +62,40 @@ async function getParentTitle(slug: string[]) {
   return titles
 }
 
+async function getBreadcrumbItems(slug: string[]) {
+  const combinations = slug.reduce(
+    (acc: string[][], curr) => acc.concat(acc.map((sub) => [...sub, curr])),
+    [[]],
+  )
+
+  const titles = []
+
+  for (const currentPageSegement of combinations) {
+    const collection = CollectionInfo.getSource(
+      ["docs", ...currentPageSegement].join("/"),
+    )
+
+    if (!collection) {
+      continue
+    }
+
+    if (collection.isDirectory()) {
+      titles.push({
+        title: collection.getTitle(),
+        path: collection.getPathSegments().join("/"),
+      })
+    } else {
+      const frontmatter = await collection.getExport("frontmatter").getValue()
+      titles.push({
+        title: frontmatter?.navTitle ?? collection.getTitle(),
+        path: collection.getPath(),
+      })
+    }
+  }
+
+  return titles
+}
+
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params
   const titles = await getParentTitle(params.slug)
@@ -80,6 +115,8 @@ export default async function DocsPage(props: PageProps) {
     return notFound()
   }
 
+  const breadcrumbItems = await getBreadcrumbItems(params.slug)
+
   const sections = await collection.getSources({ depth: 1 })
 
   // fallback rendering if the user browses to page page
@@ -91,6 +128,8 @@ export default async function DocsPage(props: PageProps) {
         <div className="container py-6">
           <div className={cn("flex flex-col gap-y-8")}>
             <div>
+              <SiteBreadcrumb items={breadcrumbItems} />
+
               <article data-pagefind-body>
                 <div
                   className={cn(
@@ -127,6 +166,8 @@ export default async function DocsPage(props: PageProps) {
     return (
       <div className={cn("gap-8 xl:grid xl:grid-cols-1")}>
         <div>
+          <SiteBreadcrumb items={breadcrumbItems} />
+
           <article data-pagefind-body>
             <div
               className={cn(
@@ -167,6 +208,8 @@ export default async function DocsPage(props: PageProps) {
           })}
         >
           <div>
+            <SiteBreadcrumb items={breadcrumbItems} />
+
             <article data-pagefind-body>
               <div
                 className={cn(

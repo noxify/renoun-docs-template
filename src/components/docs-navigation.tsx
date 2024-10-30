@@ -19,8 +19,10 @@ import { ChevronRight } from "lucide-react"
 export function Navigation({
   className,
   items,
+  highlightActive = true,
 }: {
   items: TreeItem[]
+  highlightActive?: boolean
 } & React.ComponentProps<"ul">) {
   const pathname = usePathname()
   const { toggleSidebar } = useSidebarStore()
@@ -41,7 +43,7 @@ export function Navigation({
                 href={item.path}
                 className={cn(
                   "flex h-8 min-w-8 flex-1 items-center p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
-                  current({ pathname, item })
+                  highlightActive && current({ pathname, item })
                     ? "rounded-sm bg-muted"
                     : "hover:rounded-sm hover:bg-muted",
                 )}
