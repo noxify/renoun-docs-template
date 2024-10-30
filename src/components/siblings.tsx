@@ -14,7 +14,7 @@ export default async function Siblings({
     return <></>
   }
 
-  const collections = await CollectionInfo.getSources()
+  const collections = await CollectionInfo.getSources({ depth: Infinity })
 
   const collectionItems = collections
     .filter((collection) => collection.getPathSegments()[1] === collectionName)

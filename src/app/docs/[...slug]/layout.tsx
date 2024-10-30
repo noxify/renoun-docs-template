@@ -16,7 +16,7 @@ export default async function DocsLayout(
   // based on our configuration in `src/collections`,
   // `collections` returns the complete list of all the available pages
   // and depths ( starting at 1 which defines the root level ( e.g. 'aria-docs' or `renoun-docs`))
-  const collections = await CollectionInfo.getSources()
+  const collections = await CollectionInfo.getSources({ depth: Infinity })
 
   // here we're generating the items for the dropdown menu in the sidebar
   // it's used to provide a short link for the user to switch easily between the different collections
@@ -25,20 +25,21 @@ export default async function DocsLayout(
     .filter((ele) => ele.getDepth() === 1)
     .filter((ele) => ele.isFile())
 
-  const collectionChooser = []
-  for (const collection of collectionMeta) {
-    const meta = await collection.getExport("frontmatter").getValue()
-    collectionChooser.push({
-      title: meta?.title ?? collection.getTitle(),
-      // if you don't want to redirect the user to a specific page
-      // and you haven't defined an entrypoint, then we will use the current path as an entry point
-      entrypoint: meta?.entrypoint ?? collection.getPath(),
-      // the alias is used as identifier for the active state in the dropdown
-      // not sure if there is a use case to have a different alias than the collection name
-      // as fallback we will use the collection name based on the returned array from `collection.getPathSegments`
-      alias: meta?.alias ?? collection.getPathSegments()[1],
-    })
-  }
+  const collectionChooser = await Promise.all(
+    collectionMeta.map(async (collection) => {
+      const meta = await collection.getExport("frontmatter").getValue()
+      return {
+        title: meta?.title ?? collection.getTitle(),
+        // if you don't want to redirect the user to a specific page
+        // and you haven't defined an entrypoint, then we will use the current path as an entry point
+        entrypoint: meta?.entrypoint ?? collection.getPath(),
+        // the alias is used as identifier for the active state in the dropdown
+        // not sure if there is a use case to have a different alias than the collection name
+        // as fallback we will use the collection name based on the returned array from `collection.getPathSegments`
+        alias: meta?.alias ?? collection.getPathSegments()[1],
+      }
+    }),
+  )
 
   const treeItems = collections
     // to get only the relevant menu entries, we have to filter the list of collections

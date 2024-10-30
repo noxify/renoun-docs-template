@@ -18,7 +18,7 @@ function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
 export async function generateStaticParams() {
   const slugs = []
 
-  const collections = await CollectionInfo.getSources()
+  const collections = await CollectionInfo.getSources({ depth: Infinity })
 
   for (const collection of collections) {
     slugs.push({
