@@ -34,14 +34,6 @@ export const RenounDocsCollection = new Collection<DocSchema>(
   (slug) => import(`../content/docs/renoun-docs/${slug}.mdx`),
 )
 
-export const OpenAPiCollection = new Collection<DocSchema>(
-  {
-    filePattern: "@content/docs/open-api/**/*.{tsx,mdx}",
-    baseDirectory: "content",
-  },
-  (slug) => import(`../content/docs/open-api/${slug}.mdx`),
-)
-
 export const TestCollection = new Collection<DocSchema>(
   {
     filePattern: "@content/docs/test-collection/**/*.{tsx,mdx}",
@@ -53,6 +45,5 @@ export const TestCollection = new Collection<DocSchema>(
 export const CollectionInfo = new CompositeCollection(
   AriaDocsCollection,
   RenounDocsCollection,
-  OpenAPiCollection,
   TestCollection,
 )
