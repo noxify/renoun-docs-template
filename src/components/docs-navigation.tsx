@@ -76,7 +76,7 @@ function CollapsibleItem({
 
   return (
     <Collapsible key={item.path} asChild open={open} onOpenChange={setOpen}>
-      <li>
+      <li className="relative">
         <div className="relative mb-0.5 flex items-center">
           {item.isFile ? (
             <Link
@@ -138,7 +138,7 @@ function CollapsibleItem({
               }
 
               return (
-                <li key={subItem.path}>
+                <li key={subItem.path} className="relative">
                   <Link
                     href={subItem.path}
                     onClick={isMobile ? () => toggleSidebar() : undefined}

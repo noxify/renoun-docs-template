@@ -79,6 +79,7 @@ export function useMDXComponents() {
       const { value, language } = CodeBlock.parsePreProps(props)
       return (
         <CodeBlock
+          className={{ container: "mt-2" }}
           allowErrors
           value={value}
           language={language}

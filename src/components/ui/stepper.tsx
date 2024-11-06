@@ -12,13 +12,13 @@ export function Stepper({ children }: PropsWithChildren) {
         return (
           <div
             className={cn(
-              "relative border-l pl-9",
+              "relative border-l border-gray-200 pl-9 dark:border-gray-700",
               clsx({
                 "pb-5": index < length - 1,
               }),
             )}
           >
-            <div className="font-code absolute -left-4 flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-xs font-medium">
+            <div className="font-code absolute -left-4 flex h-8 w-8 items-center justify-center rounded-full bg-gray-200 text-xs font-medium dark:bg-gray-700">
               {index + 1}
             </div>
             {child}
