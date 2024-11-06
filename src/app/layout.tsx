@@ -1,7 +1,6 @@
 import type { Metadata } from "next"
 
 import "./globals.css"
-import "./scalar.css"
 
 import { Navbar } from "@/components/main-navbar"
 import { SiteSidebar } from "@/components/sidebar"

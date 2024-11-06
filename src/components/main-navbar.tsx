@@ -34,7 +34,7 @@ export function Navbar() {
             <div className="flex">
               <Logo />
             </div>
-            <div className="hidden items-center gap-5 text-sm font-medium text-muted-foreground md:flex">
+            <div className="hidden items-center gap-5 text-sm font-medium text-muted-foreground lg:flex">
               <NavMenu />
             </div>
           </div>

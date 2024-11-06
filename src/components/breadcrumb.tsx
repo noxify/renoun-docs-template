@@ -38,7 +38,7 @@ function groupBreadcrumb(input: Item[]): (ElementItem | GroupItem)[] {
     .map((item) => ({ type: "element", ...item })) as ElementItem[]
   return [
     { type: "element", ...input[0] },
-    { type: "group", items: groupItems },
+    { type: "group", items: groupItems.reverse() },
     ...restItems,
   ]
 }
@@ -73,7 +73,11 @@ export function SiteBreadcrumb({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="start">
                       {item.items.map((subItem, idy) => (
-                        <DropdownMenuItem key={idy} asChild>
+                        <DropdownMenuItem
+                          key={idy}
+                          asChild
+                          className="cursor-pointer"
+                        >
                           <Link href={subItem.path}>{subItem.title}</Link>
                         </DropdownMenuItem>
                       ))}

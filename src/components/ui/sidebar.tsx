@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTitle } from "@/components/ui/sheet"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useSidebarStore } from "@/hooks/use-sidebar"
 import { cn } from "@/lib/utils"
@@ -10,7 +10,7 @@ import { PanelLeft } from "lucide-react"
 
 const SidebarLayout = React.forwardRef<
   HTMLDivElement,
-  React.ComponentProps<"div"> & { hiddenSidebar?: boolean }
+  React.ComponentProps<"div">
 >(({ className, ...props }, ref) => {
   const { showSidebar } = useSidebarStore()
   const isMobile = useIsMobile()
@@ -44,6 +44,7 @@ const SidebarTrigger = React.forwardRef<
       size="icon"
       onClick={() => toggleSidebar()}
       {...props}
+      className={cn("lg:hidden", props.className)}
     >
       <PanelLeft className="h-4 w-4" />
       <span className="sr-only">Toggle Sidebar</span>
@@ -56,7 +57,6 @@ const Sidebar = React.forwardRef<
   HTMLDivElement,
   React.ComponentProps<"div"> & { defaultHidden?: boolean }
 >(({ className, children, defaultHidden }, ref) => {
-  const isMobile = useIsMobile()
   const { showSidebar, toggleSidebar } = useSidebarStore()
 
   const sidebar = (
@@ -71,28 +71,27 @@ const Sidebar = React.forwardRef<
     </div>
   )
 
-  if (isMobile === true) {
-    return (
-      <div className="md:hidden">
+  return (
+    <>
+      <div className="lg:hidden">
         <Sheet open={!showSidebar} onOpenChange={() => toggleSidebar()}>
           <SheetContent className="w-72 p-0 [&>button]:hidden" side="left">
+            <SheetTitle className="hidden">Navigation</SheetTitle>
             {sidebar}
           </SheetContent>
         </Sheet>
       </div>
-    )
-  } else {
-    return (
+
       <aside
         className={cn(
           "fixed inset-y-0 left-0 z-10 w-64 transition-all duration-300 ease-in-out [[data-sidebar=closed]_&]:left-[calc(theme(width.64)*-1)]",
-          defaultHidden ? "hidden" : "hidden md:block",
+          defaultHidden ? "hidden" : "hidden lg:block",
         )}
       >
         {sidebar}
       </aside>
-    )
-  }
+    </>
+  )
 })
 Sidebar.displayName = "Sidebar"
 

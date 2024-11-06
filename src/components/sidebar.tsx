@@ -44,7 +44,7 @@ export function SiteSidebar({
   const pathname = usePathname()
 
   return (
-    <Sidebar className="md:mt-12" defaultHidden={defaultHidden}>
+    <Sidebar className="lg:mt-12" defaultHidden={defaultHidden}>
       {!hideSwitcher && (
         <SidebarHeader>
           <DropdownMenu>
@@ -88,7 +88,7 @@ export function SiteSidebar({
         </SidebarHeader>
       )}
       <SidebarContent>
-        <SidebarItem className="border-b pb-5 md:hidden">
+        <SidebarItem className="border-b pb-5 lg:hidden">
           <SidebarLabel>Navigation</SidebarLabel>
           <Navigation
             items={headerNavigation as TreeItem[]}
