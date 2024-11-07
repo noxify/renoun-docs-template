@@ -1,22 +1,27 @@
-import { inspect } from "util"
+import { readFileSync } from "fs"
+import { printErrors, scanURLs, validateFiles } from "next-validate-link"
 
 import { CollectionInfo } from "./collections"
 
-const transformedCollections = async () => {
-  const collections = await CollectionInfo.getSources({ depth: Infinity })
+function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
+  return array.filter((value) => !valueToRemove.includes(value))
+}
+
+const getDirectories = async () => {
+  const collections = (
+    await CollectionInfo.getSources({ depth: Infinity })
+  ).filter((collection) => collection.isDirectory())
 
   const result = []
   for (const collection of collections) {
     const filePath = collection.getFileSystemPath()
-    const fileHeadings = collection.isFile()
-      ? await collection.getExport("headings").getValue()
-      : []
 
-    const slug = collection.getPathSegments()
+    const slug = removeFromArray(collection.getPathSegments(), ["docs"])
+    const url = collection.getPath()
 
     result.push({
-      filePath,
-      fileHeadings,
+      path: filePath,
+      url,
       slug,
     })
   }
@@ -24,6 +29,45 @@ const transformedCollections = async () => {
   return result
 }
 
-const collections = await transformedCollections()
+const getFiles = async () => {
+  const collections = (
+    await CollectionInfo.getSources({ depth: Infinity })
+  ).filter((collection) => collection.isFile())
 
-console.log(inspect(collections))
+  const result = []
+  for (const collection of collections) {
+    const filePath = collection.getFileSystemPath()
+
+    const slug = removeFromArray(collection.getPathSegments(), ["docs"])
+    const url = collection.getPath()
+
+    result.push({
+      path: filePath,
+      url,
+      slug,
+      content: readFileSync(filePath).toString(),
+    })
+  }
+
+  return result
+}
+
+const files = await getFiles()
+const directories = await getDirectories()
+
+const scanned = await scanURLs({
+  pages: ["docs/[...slug]/page.tsx"],
+  populate: {
+    "docs/[...slug]": [
+      ...files.map((collection) => ({ value: collection.slug })),
+      ...directories.map((collection) => ({ value: collection.slug })),
+    ],
+  },
+})
+
+printErrors(
+  await validateFiles(files, {
+    scanned,
+  }),
+  true,
+)
