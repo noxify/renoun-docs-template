@@ -59,7 +59,10 @@ const scanned = await scanURLs({
   pages: ["docs/[...slug]/page.tsx"],
   populate: {
     "docs/[...slug]": [
-      ...files.map((collection) => ({ value: collection.slug })),
+      ...files.map((collection) => ({
+        value: collection.slug,
+        //hashes: [],
+      })),
       ...directories.map((collection) => ({ value: collection.slug })),
     ],
   },
