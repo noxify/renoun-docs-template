@@ -10,6 +10,7 @@ import {
 import { ExternalLinkIcon } from "lucide-react"
 import { CodeBlock, CodeInline } from "renoun/components"
 
+import DataTableBuilder from "./components/data-table-builder"
 import MermaidWrapper from "./components/mermaid-wrapper"
 import RailroadWrapper from "./components/railroad-wrapper"
 import TableBuilder from "./components/table-builder"
@@ -291,6 +292,13 @@ export function useMDXComponents() {
       data,
     }: React.ComponentProps<typeof TableBuilder>) => {
       return <TableBuilder columns={columns} data={data} />
+    },
+
+    DataTableBuilder: ({
+      columns,
+      data,
+    }: React.ComponentProps<typeof DataTableBuilder>) => {
+      return <DataTableBuilder columns={columns} data={data} />
     },
   } satisfies MDXComponents
 }
