@@ -12,8 +12,17 @@ import { CodeBlock, CodeInline } from "renoun/components"
 
 import MermaidWrapper from "./components/mermaid-wrapper"
 import RailroadWrapper from "./components/railroad-wrapper"
+import TableBuilder from "./components/table-builder"
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert"
 import { Stepper, StepperItem } from "./components/ui/stepper"
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "./components/ui/table"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs"
 import { createSlug } from "./lib/utils"
 
@@ -157,44 +166,29 @@ export function useMDXComponents() {
       return (
         <div className="my-4 rounded-md border bg-white dark:border-gray-700 dark:bg-transparent">
           <div className="w-full overflow-auto">
-            <table className="no-prose w-full caption-bottom text-sm">
-              {children}
-            </table>
+            <Table>{children}</Table>
           </div>
         </div>
       )
     },
 
     thead: ({ children }: { children?: ReactNode }) => {
-      return (
-        <thead className="dark:border-gray-700 [&_tr]:border-b">
-          {children}
-        </thead>
-      )
+      return <TableHeader>{children}</TableHeader>
+    },
+    tbody: ({ children }: { children?: ReactNode }) => {
+      return <TableBody>{children}</TableBody>
     },
 
     th: ({ children }: { children?: ReactNode }) => {
-      return (
-        <th className="h-12 px-4 text-left align-middle font-medium text-slate-500 dark:text-slate-400 [&:has([role=checkbox])]:pr-0">
-          {children}
-        </th>
-      )
+      return <TableHead>{children}</TableHead>
     },
 
     tr: ({ children }: { children?: ReactNode }) => {
-      return (
-        <tr className="border-b transition-colors hover:bg-slate-100/50 data-[state=selected]:bg-slate-100 dark:border-gray-700 dark:hover:bg-slate-800/50 dark:data-[state=selected]:bg-slate-800">
-          {children}
-        </tr>
-      )
+      return <TableRow>{children}</TableRow>
     },
 
     td: ({ children }: { children?: ReactNode }) => {
-      return (
-        <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
-          {children}
-        </td>
-      )
+      return <TableCell>{children}</TableCell>
     },
 
     dl: ({ children }: { children?: ReactNode }) => {
@@ -290,6 +284,13 @@ export function useMDXComponents() {
           <BaseAccordionContent>{children}</BaseAccordionContent>
         </BaseAccordionItem>
       )
+    },
+
+    TableBuilder: ({
+      columns,
+      data,
+    }: React.ComponentProps<typeof TableBuilder>) => {
+      return <TableBuilder columns={columns} data={data} />
     },
   } satisfies MDXComponents
 }
