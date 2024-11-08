@@ -10,6 +10,7 @@ import {
   TableOfContents,
 } from "@/components/table-of-contents"
 import { cn } from "@/lib/utils"
+import { format } from "date-fns/format"
 import { ExternalLinkIcon } from "lucide-react"
 
 function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
@@ -164,6 +165,8 @@ export default async function DocsPage(props: PageProps) {
 
   const headings = await collection.getExport("headings").getValue()
 
+  const lastUpdate = await collection.getUpdatedAt()
+
   return (
     <>
       <div className="container py-6">
@@ -177,29 +180,49 @@ export default async function DocsPage(props: PageProps) {
           <div>
             <SiteBreadcrumb items={breadcrumbItems} />
 
-            <article data-pagefind-body>
-              <div
-                className={cn(
-                  // default prose
-                  "prose dark:prose-invert",
-                  // remove backtick from inline code block
-                  "prose-code:before:hidden prose-code:after:hidden",
-                  // use full width
-                  "max-w-auto w-full min-w-full",
-                  "grow",
-                  "xl:prose-headings:scroll-mt-20",
-                  "prose-headings:scroll-mt-28",
-                  "prose-table:my-0",
-                  "prose-th:pb-0",
-                )}
+            <div data-pagefind-body>
+              <h1
+                className="no-prose mb-2 scroll-m-20 text-4xl font-light tracking-tight lg:text-5xl"
+                data-pagefind-meta="title"
               >
-                <h1>{frontmatter?.title ?? collection.getTitle()}</h1>
-                <Content />
-              </div>
+                {frontmatter?.title ?? collection.getTitle()}
+              </h1>
+              <p className="mb-8 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">
+                {frontmatter?.description ?? ""}
+              </p>
+              <article>
+                <div
+                  className={cn(
+                    // default prose
+                    "prose dark:prose-invert",
+                    // remove backtick from inline code block
+                    "prose-code:before:hidden prose-code:after:hidden",
+                    // use full width
+                    "max-w-auto w-full min-w-full",
+                    "grow",
 
-              <SectionGrid sections={sections} />
-            </article>
+                    "prose-table:my-0",
+                    "prose-th:pb-0",
 
+                    "xl:prose-headings:scroll-mt-20",
+                    "prose-headings:scroll-mt-28",
+
+                    "prose-h2:mb-4 prose-h2:border-b prose-h2:pb-2 prose-h2:text-3xl prose-h2:font-semibold prose-h2:tracking-tight",
+                    "prose-h3:text-2xl prose-h3:font-semibold prose-h3:tracking-tight",
+                    "prose-h4:text-xl prose-h4:font-semibold prose-h4:tracking-tight",
+
+                    "prose-blockquote:mt-6 prose-blockquote:border-l-2 prose-blockquote:pl-6 prose-blockquote:italic",
+                    "prose-p:leading-7 prose-p:[&:not(:first-child)]:mt-6",
+
+                    "prose-ul:ml-6 prose-ul:list-disc prose-ul:[&>li]:mt-2 prose-ul:[&>ul]:my-2 prose-ul:[&>ul]:ml-0",
+                  )}
+                >
+                  <Content />
+                </div>
+
+                <SectionGrid sections={sections} />
+              </article>
+            </div>
             <Siblings source={collection} collectionName={params.slug[0]} />
 
             <div>
@@ -209,14 +232,22 @@ export default async function DocsPage(props: PageProps) {
           <div className="hidden w-[19.5rem] xl:sticky xl:top-[4.75rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.75rem)] xl:flex-none xl:overflow-y-auto xl:pb-16 xl:pr-6">
             <TableOfContents toc={headings} />
 
-            <div className="mt-6 border-t pt-6">
-              <a
-                href={collection.getEditPath()}
-                target="_blank"
-                className="flex items-center text-muted-foreground no-underline transition-colors hover:text-foreground"
-              >
-                Edit this page <ExternalLinkIcon className="ml-2 h-4 w-4" />
-              </a>
+            <div className="my-6 grid gap-y-4 border-t pt-6">
+              <div>
+                <a
+                  href={collection.getEditPath()}
+                  target="_blank"
+                  className="flex items-center text-sm text-muted-foreground no-underline transition-colors hover:text-foreground"
+                >
+                  Edit this page <ExternalLinkIcon className="ml-2 h-4 w-4" />
+                </a>
+              </div>
+
+              {lastUpdate && (
+                <div className="text-sm text-muted-foreground">
+                  Last updated: {format(lastUpdate, "dd.MM.yyyy")}
+                </div>
+              )}
             </div>
           </div>
         </div>

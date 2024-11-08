@@ -6,7 +6,7 @@ export interface DocSchema {
   default: MDXContent
   frontmatter?: {
     title: string
-    summary: string
+    description: string
     tags?: string[]
     navTitle?: string
     entrypoint?: string
