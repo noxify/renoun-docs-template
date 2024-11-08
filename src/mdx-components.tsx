@@ -84,6 +84,7 @@ export function useMDXComponents() {
       const { focusLines, highlightLines, showLineNumbers, filename } = props
 
       const { value, language } = CodeBlock.parsePreProps(props)
+
       return (
         <CodeBlock
           className={{ container: "!my-4" }}
@@ -92,7 +93,7 @@ export function useMDXComponents() {
           language={language}
           allowCopy
           filename={filename ? filename : undefined}
-          showLineNumbers={showLineNumbers === true}
+          showLineNumbers={showLineNumbers ?? false}
           highlightedLines={highlightLines ? highlightLines : undefined}
           focusedLines={focusLines ? focusLines : undefined}
           showToolbar={filename ? true : false}
