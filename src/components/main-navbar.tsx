@@ -1,5 +1,4 @@
 import Link from "next/link"
-import { CollectionInfo } from "@/collections"
 import { SheetClose } from "@/components/ui/sheet"
 import { GithubIcon, HexagonIcon } from "lucide-react"
 
