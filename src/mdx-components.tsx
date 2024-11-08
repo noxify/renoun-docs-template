@@ -1,6 +1,12 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import type { BaseCodeBlockProps, MDXComponents } from "renoun/components"
 import Link from "next/link"
+import {
+  Accordion as BaseAccordion,
+  AccordionContent as BaseAccordionContent,
+  AccordionItem as BaseAccordionItem,
+  AccordionTrigger as BaseAccordionTrigger,
+} from "@/components/ui/accordion"
 import { ExternalLinkIcon } from "lucide-react"
 import { CodeBlock, CodeInline } from "renoun/components"
 
@@ -9,6 +15,7 @@ import RailroadWrapper from "./components/railroad-wrapper"
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert"
 import { Stepper, StepperItem } from "./components/ui/stepper"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./components/ui/tabs"
+import { createSlug } from "./lib/utils"
 
 type AnchorProps = ComponentPropsWithoutRef<"a">
 
@@ -242,6 +249,42 @@ export function useMDXComponents() {
 
     Mermaid: ({ content }: { content: string }) => {
       return <MermaidWrapper chart={content} />
+    },
+
+    Accordion: ({
+      children,
+      collapsible,
+      orientation,
+      type = "single",
+    }: {
+      children: ReactNode
+      collapsible?: boolean
+      orientation?: "horizontal" | "vertical"
+      type?: "single" | "multiple"
+    }) => {
+      return (
+        <BaseAccordion
+          type={type}
+          collapsible={collapsible}
+          orientation={orientation}
+        >
+          {children}
+        </BaseAccordion>
+      )
+    },
+    AccordionItem: ({
+      children,
+      title,
+    }: {
+      children: ReactNode
+      title: string
+    }) => {
+      return (
+        <BaseAccordionItem value={createSlug(title)}>
+          <BaseAccordionTrigger>{title}</BaseAccordionTrigger>
+          <BaseAccordionContent>{children}</BaseAccordionContent>
+        </BaseAccordionItem>
+      )
     },
   } satisfies MDXComponents
 }

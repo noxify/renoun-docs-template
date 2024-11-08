@@ -1,0 +1,127 @@
+---
+title: Railroad component
+---
+
+-
+
+## Source
+
+The component uses https://ui.shadcn.com/docs/components/accordion
+
+## example - simple
+
+<Tabs defaultValue="preview">
+  <TabsList>
+    <TabsTrigger value="preview">Preview</TabsTrigger>
+    <TabsTrigger value="code">Code</TabsTrigger>
+  </TabsList>
+  <TabsContent value="preview">
+   
+   <Accordion>
+    <AccordionItem title="Basic">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+    <AccordionItem title="Advanced">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+   </Accordion>
+
+  </TabsContent>
+
+  <TabsContent value="code">
+    ```tsx
+     <Accordion>
+    <AccordionItem title="Basic">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+    <AccordionItem title="Advanced">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+   </Accordion>
+    ```
+  </TabsContent>
+  
+</Tabs>
+
+## example - collapsible
+
+<Tabs defaultValue="preview">
+  <TabsList>
+    <TabsTrigger value="preview">Preview</TabsTrigger>
+    <TabsTrigger value="code">Code</TabsTrigger>
+  </TabsList>
+  <TabsContent value="preview">
+   
+   <Accordion collapsible>
+    <AccordionItem title="Basic">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+    <AccordionItem title="Advanced">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+   </Accordion>
+
+  </TabsContent>
+
+  <TabsContent value="code">
+    ```tsx
+    <Accordion collapsible>
+    <AccordionItem title="Basic">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+    <AccordionItem title="Advanced">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+   </Accordion>
+    ```
+
+  </TabsContent>
+  
+</Tabs>
+
+## example - multiple
+
+<Tabs defaultValue="preview">
+  <TabsList>
+    <TabsTrigger value="preview">Preview</TabsTrigger>
+    <TabsTrigger value="code">Code</TabsTrigger>
+  </TabsList>
+  <TabsContent value="preview">
+   
+   <Accordion type="multiple">
+    <AccordionItem title="Basic">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+    <AccordionItem title="Advanced">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+   </Accordion>
+
+  </TabsContent>
+
+  <TabsContent value="code">
+    ```tsx
+   <Accordion type="multiple">
+    <AccordionItem title="Basic">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+    <AccordionItem title="Advanced">
+      Non qui officia eiusmod ea fugiat veniam laborum Lorem qui irure ea ad elit proident. Dolor cillum laboris fugiat esse consequat. Eu esse incididunt adipisicing eu ipsum. Culpa officia amet irure labore proident tempor voluptate adipisicing aute non est.
+    </AccordionItem>
+
+   </Accordion>
+    ```
+  </TabsContent>
+  
+</Tabs>
