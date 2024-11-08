@@ -5,7 +5,11 @@ import { SearchIcon } from "lucide-react"
 
 import { Button, buttonVariants } from "./ui/button"
 
-export const CanarySearch = () => {
+export const CanarySearch = ({
+  tabs,
+}: {
+  tabs: { name: string; pattern: string }[]
+}) => {
   const [loaded, setLoaded] = useState(false)
   const [useMockProvider, setUseMockProvider] = useState(false)
 
@@ -57,12 +61,6 @@ export const CanarySearch = () => {
     return () => document.removeEventListener("keydown", down)
   }, [])
 
-  const tabConfig = [
-    { name: "All", pattern: "**/*" },
-    { name: "Aria", pattern: "/docs/aria-docs/**" },
-    { name: "renoun", pattern: "/docs/renoun-docs/**" },
-  ]
-
   const ProviderComponent = ({ children }: { children: unknown }) =>
     useMockProvider ? (
       //                    i think this is based on the upgrade to react 19@rc
@@ -97,7 +95,7 @@ export const CanarySearch = () => {
                 <canary-search slot="mode">
                   <canary-filter-tabs-glob
                     slot="head"
-                    tabs={JSON.stringify(tabConfig)}
+                    tabs={JSON.stringify(tabs)}
                   ></canary-filter-tabs-glob>
 
                   <canary-search-results

@@ -1,4 +1,5 @@
 import Link from "next/link"
+import { CollectionInfo } from "@/collections"
 import { SheetClose } from "@/components/ui/sheet"
 import { GithubIcon, HexagonIcon } from "lucide-react"
 
@@ -22,7 +23,11 @@ export const headerNavigation = [
   },
 ]
 
-export function Navbar() {
+export function Navbar({
+  tabs,
+}: {
+  tabs: { name: string; pattern: string }[]
+}) {
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="px-2">
@@ -40,7 +45,7 @@ export function Navbar() {
           </div>
           <div className="flex gap-2">
             <SidebarTrigger />
-            <CanarySearch />
+            <CanarySearch tabs={tabs} />
             <ThemeToggle />
             <Link
               href="https://github.com/noxify/renoun-docs-template"
