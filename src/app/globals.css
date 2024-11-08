@@ -71,7 +71,7 @@
 .dot-background {
   background: hsl(var(--background));
   background-image: radial-gradient(
-    hsl(var(--foreground) / 20%) 1px,
+    hsl(var(--foreground) / 15%) 1px,
     transparent 0
   );
   background-size: 20px 20px;

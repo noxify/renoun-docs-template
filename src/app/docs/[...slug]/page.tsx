@@ -162,39 +162,6 @@ export default async function DocsPage(props: PageProps) {
   const frontmatter = await collection.getExport("frontmatter").getValue()
   const Content = await collection.getExport("default").getValue()
 
-  if (frontmatter?.openapi) {
-    return (
-      <div className={cn("gap-8 xl:grid xl:grid-cols-1")}>
-        <div>
-          <SiteBreadcrumb items={breadcrumbItems} />
-
-          <article data-pagefind-body>
-            <div
-              className={cn(
-                // default prose
-                "prose dark:prose-invert",
-                // remove backtick from inline code block
-                "prose-code:before:hidden prose-code:after:hidden",
-                // use full width
-                "max-w-auto w-full min-w-full",
-                "grow",
-                "xl:prose-headings:scroll-mt-20",
-                "prose-headings:scroll-mt-28",
-                "prose-table:my-0",
-                "prose-th:pb-0",
-              )}
-            >
-              <Content />
-            </div>
-          </article>
-          <div className="container py-6">
-            <Siblings source={collection} collectionName={params.slug[0]} />
-          </div>
-        </div>
-      </div>
-    )
-  }
-
   const headings = await collection.getExport("headings").getValue()
 
   return (
@@ -226,7 +193,7 @@ export default async function DocsPage(props: PageProps) {
                   "prose-th:pb-0",
                 )}
               >
-                <h1>{collection.getTitle()}</h1>
+                <h1>{frontmatter?.title ?? collection.getTitle()}</h1>
                 <Content />
               </div>
 

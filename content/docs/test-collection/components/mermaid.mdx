@@ -1,6 +1,8 @@
 ---
-title: Mermaid component
+title: Mermaid
 ---
+
+import { Preview } from "@/components/preview"
 
 ## Source
 
@@ -11,39 +13,18 @@ The component uses
 
 ## example
 
-<Tabs defaultValue="preview">
-  <TabsList>
-    <TabsTrigger value="preview">Preview</TabsTrigger>
-    <TabsTrigger value="code">Code</TabsTrigger>
-  </TabsList>
-  <TabsContent value="preview">
-    <Mermaid
-      content={`
-        graph TB\na-->b
+<Preview>
+  <Mermaid
+    content={`
+        graph TB
+        a-->b
       `}
-    />
-  </TabsContent>
-
-  <TabsContent value="code">
-    ```tsx
-    <Mermaid
-      content={`
-        graph TB\na-->b
-      `}
-    />
-    ```
-  </TabsContent>
-  
-</Tabs>
+  />
+</Preview>
 
 ## Flowchart
 
-<Tabs defaultValue="preview">
-  <TabsList>
-    <TabsTrigger value="preview">Preview</TabsTrigger>
-    <TabsTrigger value="code">Code</TabsTrigger>
-  </TabsList>
-  <TabsContent value="preview">
+<Preview>
     <Mermaid
       content={`
         flowchart LR
@@ -54,21 +35,5 @@ The component uses
           markdown --> newLines
       `}
     />
-  </TabsContent>
 
-  <TabsContent value="code">
-    ```tsx
-    <Mermaid
-      content={`
-        flowchart LR
-          markdown["\`This **is** _Markdown_\`"]
-          newLines["\`Line1
-          Line 2
-          Line 3\`"]
-          markdown --> newLines
-      `}
-    />
-    ```
-  </TabsContent>
-  
-</Tabs>
+</Preview>

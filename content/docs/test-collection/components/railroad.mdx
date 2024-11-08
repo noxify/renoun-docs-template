@@ -1,8 +1,8 @@
 ---
-title: Railroad component
+title: Railroad
 ---
 
--
+import { Preview } from "@/components/preview"
 
 ## Source
 
@@ -10,109 +10,43 @@ The component uses https://github.com/tabatkins/railroad-diagrams
 
 ## example
 
-<Tabs defaultValue="preview">
-  <TabsList>
-    <TabsTrigger value="preview">Preview</TabsTrigger>
-    <TabsTrigger value="code">Code</TabsTrigger>
-  </TabsList>
-  <TabsContent value="preview">
-    <Railroad
-      content={`
-        Diagram(
-          Optional('+', 'skip'),
+<Preview>
+  <Railroad
+    content={`
+      Diagram(
+        Optional('+', 'skip'),
+        Choice(0,
+          NonTerminal('name-start char'),
+          NonTerminal('escape')
+        ),
+        ZeroOrMore(
           Choice(0,
-            NonTerminal('name-start char'),
+            NonTerminal('name char'),
             NonTerminal('escape')
-          ),
-          ZeroOrMore(
-            Choice(0,
-              NonTerminal('name char'),
-              NonTerminal('escape')
-            )
           )
         )
-`}
-    />
-  </TabsContent>
-
-  <TabsContent value="code">
-    ```tsx
-    <Railroad
-      content={`
-        Diagram(
-          Optional('+', 'skip'),
-          Choice(0,
-            NonTerminal('name-start char'),
-            NonTerminal('escape')
-          ),
-          ZeroOrMore(
-            Choice(0,
-              NonTerminal('name char'),
-              NonTerminal('escape')
-            )
-          )
-        )
-      `}
-    />
-    ```
-  </TabsContent>
-  
-</Tabs>
+      )
+    `}
+  />
+</Preview>
 
 ## example 2
 
-<Tabs defaultValue="preview">
-  <TabsList>
-    <TabsTrigger value="preview">Preview</TabsTrigger>
-    <TabsTrigger value="code">Code</TabsTrigger>
-  </TabsList>
-  <TabsContent value="preview">
-    <Railroad
-      content={`
-        Diagram(
-          Optional(
-            Choice(0,'Let','Set')
-            ),
-            NonTerminal('variable'),
-            Terminal('='),
-            Choice(0,
-              NonTerminal('expression'),
-              Sequence(Optional('New'),NonTerminal('object')
-            )
+<Preview>
+  <Railroad
+    content={`
+      Diagram(
+        Optional(
+          Choice(0,'Let','Set')
+          ),
+          NonTerminal('variable'),
+          Terminal('='),
+          Choice(0,
+            NonTerminal('expression'),
+            Sequence(Optional('New'),NonTerminal('object')
           )
         )
-`}
-    />
-  </TabsContent>
-
-  <TabsContent value="code">
-    ```tsx
-    <Railroad
-      content={`
-        Diagram(
-          Optional(
-            Choice(0,'Let','Set')
-            ),
-            NonTerminal('variable'),
-            Terminal('='),
-            Choice(0,
-              NonTerminal('expression'),
-              Sequence(Optional('New'),NonTerminal('object')
-            )
-          )
-        )
-      `}
-    />
-    ```
-  </TabsContent>
-  
-</Tabs>
-
-## example 2
-
-duplicate heading
-
-## links
-
-- [test - first](#example-2)
-- [test - second](#example-2-1)
+      )
+    `}
+  />
+</Preview>

@@ -101,7 +101,7 @@ export function useMDXComponents() {
     },
     Note: ({ title, children }: { title?: string; children: ReactNode }) => {
       return (
-        <Alert variant={"default"}>
+        <Alert variant={"default"} className="my-4">
           {title && <AlertTitle>{title}</AlertTitle>}
           <AlertDescription>{children}</AlertDescription>
         </Alert>
@@ -109,7 +109,7 @@ export function useMDXComponents() {
     },
     Warning: ({ title, children }: { title?: string; children: ReactNode }) => {
       return (
-        <Alert variant={"destructive"}>
+        <Alert variant={"destructive"} className="my-4">
           {title && <AlertTitle>{title}</AlertTitle>}
           <AlertDescription>{children}</AlertDescription>
         </Alert>
@@ -223,7 +223,9 @@ export function useMDXComponents() {
     },
 
     DescriptionList: ({ children }: { children: ReactNode }) => {
-      return <dl className="divide-y divide-gray-200">{children}</dl>
+      return (
+        <dl className="divide-y divide-accent-foreground/15">{children}</dl>
+      )
     },
 
     DescriptionListItem: ({
@@ -235,7 +237,9 @@ export function useMDXComponents() {
     }) => {
       return (
         <div className="px-0 py-6 lg:grid lg:grid-cols-3 lg:gap-4">
-          <dt className="text-sm font-bold leading-6 text-primary">{label}</dt>
+          <dt className="text-sm font-bold leading-6 text-primary lg:mt-0">
+            {label}
+          </dt>
           <dd className="mt-1 text-sm leading-6 text-primary lg:col-span-2 lg:mt-0">
             {children}
           </dd>
