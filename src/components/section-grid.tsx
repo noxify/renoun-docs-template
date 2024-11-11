@@ -11,8 +11,11 @@ export default function SectionGrid({
     return <></>
   }
   return (
-    <div className="mt-12 grid gap-4 lg:grid-cols-2" data-pagefind-ignore>
-      {sections.map((section, index) => {
+    <div
+      className="mt-12 grid gap-4 md:grid-cols-2 2xl:grid-cols-3"
+      data-pagefind-ignore
+    >
+      {sections.map(async (section, index) => {
         return (
           <Card
             key={index}
@@ -24,7 +27,10 @@ export default function SectionGrid({
                   {section.getTitle()}
                 </CardTitle>
               </CardHeader>
-              <CardContent>Content</CardContent>
+              <CardContent>
+                {(await section.getExport("frontmatter").getValue())
+                  ?.description ?? ""}
+              </CardContent>
             </Link>
           </Card>
         )
