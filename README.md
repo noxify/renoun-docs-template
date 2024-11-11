@@ -3,7 +3,7 @@
 
 This is a nextjs template with renoun integration to render mdx content.
 
-- NextJS 14
+- NextJS 15
 - Tailwind
 - shadncn
 - next-theme to support dark/light mode
