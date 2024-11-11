@@ -1,10 +1,11 @@
 import createMDXPlugin from "@next/mdx"
 import { rehypePlugins, remarkPlugins } from "@renoun/mdx"
+import rehypeMdxImportMedia from "rehype-mdx-import-media"
 
 const withMDX = createMDXPlugin({
   options: {
     remarkPlugins,
-    rehypePlugins,
+    rehypePlugins: [...rehypePlugins, rehypeMdxImportMedia],
   },
 })
 
@@ -16,6 +17,7 @@ export default withMDX({
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
+  images: { unoptimized: true },
   webpack(config, { webpack }) {
     config.resolve.extensionAlias = {
       ".js": [".ts", ".tsx", ".js"],

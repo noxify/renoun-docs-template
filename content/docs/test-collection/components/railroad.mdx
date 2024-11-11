@@ -50,3 +50,27 @@ The component uses https://github.com/tabatkins/railroad-diagrams
     `}
   />
 </Preview>
+
+## Live example with background
+
+```tsx
+<Railroad wrapped={true} content="..." />
+```
+
+<Railroad
+  wrapped={true}
+  content={`
+    Diagram(
+      Optional(
+        Choice(0,'Let','Set')
+        ),
+        NonTerminal('variable'),
+        Terminal('='),
+        Choice(0,
+          NonTerminal('expression'),
+          Sequence(Optional('New'),NonTerminal('object')
+        )
+      )
+    )
+  `}
+/>

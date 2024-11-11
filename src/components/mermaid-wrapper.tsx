@@ -31,8 +31,10 @@ function useIsVisible(ref: MutableRefObject<HTMLElement>) {
 }
 
 export default function MermaidWrapper({
+  wrapped = false,
   chart,
 }: {
+  wrapped?: boolean
   chart: string
 }): ReactElement {
   const id = useId()
@@ -66,7 +68,7 @@ export default function MermaidWrapper({
         startOnLoad: false,
         securityLevel: "loose",
         fontFamily: "inherit",
-        themeCSS: "margin: 1.5rem auto 0;",
+        themeCSS: "margin: 1.5rem auto 0; height: auto;",
         theme: isDarkTheme ? "dark" : "default",
       }
 
@@ -89,5 +91,21 @@ export default function MermaidWrapper({
     // eslint-disable-next-line react-hooks/exhaustive-deps -- when chart code changes, we need to re-render
   }, [chart, isVisible])
 
-  return <div ref={containerRef} dangerouslySetInnerHTML={{ __html: svg }} />
+  const Chart = () => (
+    <div ref={containerRef} dangerouslySetInnerHTML={{ __html: svg }} />
+  )
+
+  return wrapped ? (
+    <section>
+      <div>
+        <div className="dot-background rounded-md border p-8 dark:border-gray-700">
+          <div className="border bg-background p-4">
+            <Chart />
+          </div>
+        </div>
+      </div>
+    </section>
+  ) : (
+    <Chart />
+  )
 }

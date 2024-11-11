@@ -9,7 +9,13 @@ import rr, * as rrClass from "railroad-diagrams"
 
 import { useClientOnly } from "./client-only"
 
-export default function RailroadWrapper({ content }: { content: string }) {
+export default function RailroadWrapper({
+  content,
+  wrapped = false,
+}: {
+  content: string
+  wrapped?: boolean
+}) {
   const hasMounted = useClientOnly()
 
   if (!hasMounted) {
@@ -23,7 +29,19 @@ export default function RailroadWrapper({ content }: { content: string }) {
     window.rrOptions = rrOptions
 
     const result = eval(content).format() as string
-    return <div dangerouslySetInnerHTML={{ __html: result.toString() }} />
+    return wrapped ? (
+      <section>
+        <div>
+          <div className="dot-background rounded-md border p-8 dark:border-gray-700">
+            <div className="border bg-background p-4">
+              <div dangerouslySetInnerHTML={{ __html: result.toString() }} />
+            </div>
+          </div>
+        </div>
+      </section>
+    ) : (
+      <div dangerouslySetInnerHTML={{ __html: result.toString() }} />
+    )
   } catch (e) {
     console.error(e)
     return <>Unable to render railroad diagram</>

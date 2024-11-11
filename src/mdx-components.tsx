@@ -1,5 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
 import type { BaseCodeBlockProps, MDXComponents } from "renoun/components"
+import Image from "next/image"
 import Link from "next/link"
 import {
   Accordion as BaseAccordion,
@@ -31,6 +32,7 @@ type AnchorProps = ComponentPropsWithoutRef<"a">
 
 export function useMDXComponents() {
   return {
+    // links ( relative, absolute, remote, mails )
     a: ({ href, children, ...props }: AnchorProps) => {
       if (!href) {
         console.log("Invalid link detected")
@@ -66,6 +68,46 @@ export function useMDXComponents() {
         </>
       )
     },
+    // markdown image handler
+    img: (props) => (
+      <section>
+        <div className="flex items-center justify-center">
+          <div className="dot-background rounded-md border p-8 dark:border-gray-700 md:w-3/4">
+            <div className="border bg-background p-4">
+              <Image
+                {...props}
+                width={0}
+                height={0}
+                style={{ width: "100%", height: "auto" }}
+                className="not-prose object-contain"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    ),
+    // if you decide to use `<Image />` inside your mdx, you have the possibility to overwrite
+    // the default values ( e.g. for width, height or className ) - we do this differently from the `img` tag above
+    // because we think if you use `<Image />` inside your mdx, you should have this flexibility
+    // if this is not what you want - feel free to change the code below or import the `Image` component directly
+    Image: (props) => (
+      <section>
+        <div className="flex items-center justify-center">
+          <div className="dot-background rounded-md border p-8 dark:border-gray-700 md:w-3/4">
+            <div className="border bg-background p-4">
+              <Image
+                width={0}
+                height={0}
+                style={{ width: "100%", height: "auto" }}
+                className="not-prose object-contain"
+                {...props}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+    ),
+    // Inline code
     code: (props) => {
       return (
         <CodeInline
@@ -84,6 +126,7 @@ export function useMDXComponents() {
         />
       )
     },
+    // Code block
     pre: (
       props: BaseCodeBlockProps & {
         value: string
@@ -91,16 +134,21 @@ export function useMDXComponents() {
         highlightLines?: string
       },
     ) => {
-      const { focusLines, highlightLines, showLineNumbers, filename } = props
-
-      const { value, language } = CodeBlock.parsePreProps(props)
+      const {
+        focusLines,
+        highlightLines,
+        showLineNumbers,
+        filename,
+        language,
+        value,
+      } = props
 
       return (
         <CodeBlock
           className={{ container: "!my-4" }}
           allowErrors
           value={value}
-          language={language}
+          language={language ?? "plaintext"}
           allowCopy
           filename={filename ? filename : undefined}
           showLineNumbers={showLineNumbers ?? false}
@@ -243,12 +291,18 @@ export function useMDXComponents() {
       )
     },
 
-    Railroad: ({ content }: { content: string }) => {
-      return <RailroadWrapper content={content} />
+    Railroad: ({
+      content,
+      wrapped,
+    }: {
+      content: string
+      wrapped?: boolean
+    }) => {
+      return <RailroadWrapper content={content} wrapped={wrapped} />
     },
 
-    Mermaid: ({ content }: { content: string }) => {
-      return <MermaidWrapper chart={content} />
+    Mermaid: ({ content, wrapped }: { content: string; wrapped?: boolean }) => {
+      return <MermaidWrapper chart={content} wrapped={wrapped} />
     },
 
     Accordion: ({
