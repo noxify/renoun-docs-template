@@ -16,6 +16,10 @@ export default function SectionGrid({
       data-pagefind-ignore
     >
       {sections.map(async (section, index) => {
+        const description = section.isFile()
+          ? ((await section.getExport("frontmatter").getValue())?.description ??
+            "")
+          : ""
         return (
           <Card
             key={index}
@@ -27,10 +31,7 @@ export default function SectionGrid({
                   {section.getTitle()}
                 </CardTitle>
               </CardHeader>
-              <CardContent>
-                {(await section.getExport("frontmatter").getValue())
-                  ?.description ?? ""}
-              </CardContent>
+              <CardContent>{description}</CardContent>
             </Link>
           </Card>
         )
