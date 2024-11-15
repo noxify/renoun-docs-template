@@ -1,7 +1,24 @@
 import Link from "next/link"
+import { TestDirectory } from "@/collections"
 import { MoveUpRightIcon } from "lucide-react"
+import { isFile } from "renoun/file-system"
 
 export default async function Home() {
+  console.log({
+    "fs root path": TestDirectory.getFileSystem().getRootPath(),
+    "fs base path": TestDirectory.getFileSystem().getBasePath(),
+    baseName: TestDirectory.getName(),
+  })
+
+  const entries = (await TestDirectory.getEntries()).filter((entry) =>
+    isFile(entry),
+  )
+
+  const test = entries.map((entry) => ({
+    path: entry.getPathSegments(),
+  }))
+
+  console.log(test)
   return (
     <div className="flex min-h-[88vh] flex-col items-center justify-center px-2 py-8 text-center sm:min-h-[91vh]">
       <Link

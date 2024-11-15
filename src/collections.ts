@@ -1,6 +1,7 @@
 import type { FileSystemSource } from "renoun/collections"
 import type { MDXContent } from "renoun/mdx"
 import { Collection, CompositeCollection } from "renoun/collections"
+import { Directory } from "renoun/file-system"
 
 export interface DocSchema {
   default: MDXContent
@@ -41,6 +42,10 @@ export const TestCollection = new Collection<DocSchema>(
   },
   (slug) => import(`../content/docs/test-collection/${slug}.mdx`),
 )
+
+export const TestDirectory = new Directory<{ mdx: DocSchema }>({
+  path: "./content/docs/renoun-docs/",
+})
 
 export const CollectionInfo = new CompositeCollection(
   AriaDocsCollection,
