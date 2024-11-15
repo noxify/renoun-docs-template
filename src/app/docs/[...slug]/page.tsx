@@ -44,7 +44,7 @@ async function getParentTitle(slug: string[]) {
   const titles = []
 
   for (const currentPageSegement of combinations) {
-    const collection = CollectionInfo.getSource(
+    const collection = await CollectionInfo.getSource(
       ["docs", ...currentPageSegement].join("/"),
     )
 
@@ -72,7 +72,7 @@ async function getBreadcrumbItems(slug: string[]) {
   const titles = []
 
   for (const currentPageSegement of combinations) {
-    const collection = CollectionInfo.getSource(
+    const collection = await CollectionInfo.getSource(
       ["docs", ...currentPageSegement].join("/"),
     )
 
@@ -108,7 +108,7 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
 export default async function DocsPage(props: PageProps) {
   const params = await props.params
-  const collection = CollectionInfo.getSource(
+  const collection = await CollectionInfo.getSource(
     ["/docs", ...params.slug].join("/"),
   )
 

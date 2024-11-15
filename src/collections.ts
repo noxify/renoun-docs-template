@@ -20,7 +20,7 @@ export type DocsSource = FileSystemSource<DocSchema>
 
 export const AriaDocsCollection = new Collection<DocSchema>(
   {
-    filePattern: "@content/docs/aria-docs/**/*.{tsx,mdx}",
+    filePattern: "docs/aria-docs/**/*.{tsx,mdx}",
     baseDirectory: "content",
   },
   (slug) => import(`../content/docs/aria-docs/${slug}.mdx`),
@@ -28,7 +28,7 @@ export const AriaDocsCollection = new Collection<DocSchema>(
 
 export const RenounDocsCollection = new Collection<DocSchema>(
   {
-    filePattern: "@content/docs/renoun-docs/**/*.{tsx,mdx}",
+    filePattern: "docs/renoun-docs/**/*.{tsx,mdx}",
     baseDirectory: "content",
   },
   (slug) => import(`../content/docs/renoun-docs/${slug}.mdx`),
@@ -36,7 +36,7 @@ export const RenounDocsCollection = new Collection<DocSchema>(
 
 export const TestCollection = new Collection<DocSchema>(
   {
-    filePattern: "@content/docs/test-collection/**/*.{tsx,mdx}",
+    filePattern: "docs/test-collection/**/*.{tsx,mdx}",
     baseDirectory: "content",
   },
   (slug) => import(`../content/docs/test-collection/${slug}.mdx`),
