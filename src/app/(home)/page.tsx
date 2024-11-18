@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { TestDirectory } from "@/collections"
 import { MoveUpRightIcon } from "lucide-react"
-import { isFile } from "renoun/file-system"
+import { isFile, isFileWithExtension } from "renoun/file-system"
 
 export default async function Home() {
   console.log({
@@ -10,15 +10,20 @@ export default async function Home() {
     baseName: TestDirectory.getName(),
   })
 
-  const entries = (await TestDirectory.getEntries()).filter((entry) =>
-    isFile(entry),
+  const entries = (await TestDirectory.getEntries({ recursive: true })).filter(
+    (entry) =>
+      isFile(entry) &&
+      (isFileWithExtension(entry, "mdx") || isFileWithExtension(entry, "tsx")),
   )
 
-  const test = entries.map((entry) => ({
-    path: entry.getPathSegments(),
-  }))
+  console.log(
+    entries.map((entry) => ({
+      name: entry.getName(),
+      path: entry.getPath(),
+      pathSegments: entry.getPathSegments(),
+    })),
+  )
 
-  console.log(test)
   return (
     <div className="flex min-h-[88vh] flex-col items-center justify-center px-2 py-8 text-center sm:min-h-[91vh]">
       <Link

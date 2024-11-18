@@ -19,6 +19,8 @@ export interface DocSchema {
 
 export type DocsSource = FileSystemSource<DocSchema>
 
+export const allowedExtensions = ["mdx"]
+
 export const AriaDocsCollection = new Collection<DocSchema>(
   {
     filePattern: "docs/aria-docs/**/*.{tsx,mdx}",
@@ -44,7 +46,8 @@ export const TestCollection = new Collection<DocSchema>(
 )
 
 export const TestDirectory = new Directory<{ mdx: DocSchema }>({
-  path: "./content/docs/renoun-docs/",
+  path: "./content/docs/test-collection",
+  //getModule: (path) => import(`../content/docs/renoun-docs/${path}`),
 })
 
 export const CollectionInfo = new CompositeCollection(

@@ -51,7 +51,7 @@
     "react-dom": "19.0.0-rc-33c7bd9a-20241104",
     "react-element-to-jsx-string": "15.0.0",
     "rehype-mdx-import-media": "^1.2.0",
-    "renoun": "7.0.0",
+    "renoun": "7.3.0",
     "restyle": "2.4.0",
     "tailwind-merge": "2.5.4",
     "tailwindcss-animate": "1.0.7",
