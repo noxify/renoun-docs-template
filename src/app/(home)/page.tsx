@@ -1,27 +1,15 @@
 import Link from "next/link"
 import { TestDirectory } from "@/collections"
 import { MoveUpRightIcon } from "lucide-react"
-import { isFile, isFileWithExtension } from "renoun/file-system"
+import { isFile } from "renoun/file-system"
 
 export default async function Home() {
-  console.log({
-    "fs root path": TestDirectory.getFileSystem().getRootPath(),
-    "fs base path": TestDirectory.getFileSystem().getBasePath(),
-    baseName: TestDirectory.getName(),
-  })
-
   const entries = (await TestDirectory.getEntries({ recursive: true })).filter(
-    (entry) =>
-      isFile(entry) &&
-      (isFileWithExtension(entry, "mdx") || isFileWithExtension(entry, "tsx")),
-  )
+    (entry) => {
+      console.log({ name: entry.getName() })
 
-  console.log(
-    entries.map((entry) => ({
-      name: entry.getName(),
-      path: entry.getPath(),
-      pathSegments: entry.getPathSegments(),
-    })),
+      return isFile(entry)
+    },
   )
 
   return (

@@ -47,7 +47,6 @@ export const TestCollection = new Collection<DocSchema>(
 
 export const TestDirectory = new Directory<{ mdx: DocSchema }>({
   path: "./content/docs/test-collection",
-  //getModule: (path) => import(`../content/docs/renoun-docs/${path}`),
 })
 
 export const CollectionInfo = new CompositeCollection(
