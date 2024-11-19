@@ -1,15 +1,16 @@
 import Link from "next/link"
 import { TestDirectory } from "@/collections"
 import { MoveUpRightIcon } from "lucide-react"
-import { isFile } from "renoun/file-system"
 
 export default async function Home() {
-  const entries = (await TestDirectory.getEntries({ recursive: true })).filter(
-    (entry) => {
-      console.log({ name: entry.getName() })
+  const entries = await TestDirectory.getEntries({ recursive: true })
 
-      return isFile(entry)
-    },
+  console.log(
+    entries.map((entry) => ({
+      pathSegments: entry.getPathSegments(),
+      path: entry.getPath(),
+      absolute: entry.getAbsolutePath(),
+    })),
   )
 
   return (
