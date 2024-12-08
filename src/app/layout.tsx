@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 import { Suspense } from "react"
-import { CollectionInfo } from "@/collections"
+import { CollectionInfo, RenounDocsCollection } from "@/collections"
 import { Navbar } from "@/components/main-navbar"
 import { SiteSidebar } from "@/components/sidebar"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
@@ -36,8 +36,26 @@ export default async function RootLayout({
 
   // const chooseableCollections = []
 
+  const renounIndexFile = await RenounDocsCollection.getFileOrThrow(
+    "index",
+    "mdx",
+  )
+  const renounIndexFrontmatter = await renounIndexFile.getExports()
+
+  // same result if I call the collection/definition directly
+  // so it seems a general problem
+  console.log({ renounIndexFrontmatter })
+
   for (const collection of collections) {
+    // `getFileOrThrow` seems to return a valid file, since we do not get an expection here
     const indexFile = await collection.getFileOrThrow("index", "mdx")
+
+    // the following code will throw an expection
+    // but if you check the used file, you can see, that the frontmatter definition
+    // exists and I think it's valid :)
+    // const frontmatter = await indexFile.getExportOrThrow("frontmatter")
+
+    // `getExports` returns currently an empty array
     const metadata = await indexFile.getExports()
     console.log({ indexFile, metadata })
   }
