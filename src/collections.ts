@@ -1,56 +1,55 @@
-import type { FileSystemSource } from "renoun/collections"
-import type { MDXContent } from "renoun/mdx"
-import { Collection, CompositeCollection } from "renoun/collections"
-import { Directory, isFile, isFileWithExtension } from "renoun/file-system"
+import type { FileSystemEntry } from "renoun/file-system"
+import type { Headings, MDXContent } from "renoun/mdx"
+import { Directory, EntryGroup, isDirectory, isFile } from "renoun/file-system"
+import z from "zod"
 
+export const frontmatterSchema = z.object({
+  title: z.string(),
+  description: z.string().optional(),
+  tags: z.array(z.string()).optional(),
+  navTitle: z.string().optional(),
+  entrypoint: z.string().optional(),
+  alias: z.string().optional(),
+})
 export interface DocSchema {
   default: MDXContent
-  frontmatter?: {
-    title: string
-    description: string
-    tags?: string[]
-    navTitle?: string
-    entrypoint?: string
-    alias?: string
-    openapi?: boolean
-  }
-  headings: { text: string; id: string; depth: number }[]
+  frontmatter: z.infer<typeof frontmatterSchema>
+  headings: Headings
 }
-
-export type DocsSource = FileSystemSource<DocSchema>
 
 export const allowedExtensions = ["mdx"]
 
-export const AriaDocsCollection = new Collection<DocSchema>(
-  {
-    filePattern: "docs/aria-docs/**/*.{tsx,mdx}",
-    baseDirectory: "content",
-  },
-  (slug) => import(`../content/docs/aria-docs/${slug}.mdx`),
-)
+const defaultFilter = (entry: FileSystemEntry) => {
+  return isDirectory(entry) || isFile(entry, allowedExtensions)
+}
 
-export const RenounDocsCollection = new Collection<DocSchema>(
-  {
-    filePattern: "docs/renoun-docs/**/*.{tsx,mdx}",
-    baseDirectory: "content",
-  },
-  (slug) => import(`../content/docs/renoun-docs/${slug}.mdx`),
-)
+export const AriaDocsCollection = new Directory<{ mdx: DocSchema }>({
+  path: "./content/docs/aria-docs",
+})
 
-export const TestCollection = new Collection<DocSchema>(
-  {
-    filePattern: "docs/test-collection/**/*.{tsx,mdx}",
-    baseDirectory: "content",
-  },
-  (slug) => import(`../content/docs/test-collection/${slug}.mdx`),
-)
+  .withFilter(defaultFilter)
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  .withSchema("mdx", { frontmatter: frontmatterSchema.parse })
+  .withBasePath("docs/aria-docs")
 
-export const TestDirectory = new Directory<{ mdx: DocSchema }>({
+export const RenounDocsCollection = new Directory<{ mdx: DocSchema }>({
+  path: "./content/docs/renoun-docs",
+})
+  .withFilter(defaultFilter)
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  .withSchema("mdx", { frontmatter: frontmatterSchema.parse })
+
+  .withBasePath("docs/renoun-docs")
+
+export const TestCollection = new Directory<{ mdx: DocSchema }>({
   path: "./content/docs/test-collection",
-}).filter((entry) => isFileWithExtension(entry, "mdx"))
+})
+  .withFilter(defaultFilter)
+  // eslint-disable-next-line @typescript-eslint/unbound-method
+  .withSchema("mdx", { frontmatter: frontmatterSchema.parse })
 
-export const CollectionInfo = new CompositeCollection(
-  AriaDocsCollection,
-  RenounDocsCollection,
-  TestCollection,
-)
+  .withBasePath("docs/test-collection")
+
+export const CollectionInfo = new EntryGroup({
+  entries: [AriaDocsCollection, RenounDocsCollection, TestCollection],
+})

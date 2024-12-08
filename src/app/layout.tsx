@@ -10,6 +10,8 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PackageInstallScript } from "renoun/components"
 
+// import { isDirectory, isFile } from "renoun/file-system"
+
 export const metadata: Metadata = {
   title: {
     default: "renoun docs template",
@@ -23,26 +25,47 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const collections = await CollectionInfo.getSources({ depth: Infinity })
+  const collections = await CollectionInfo.getEntries({
+    recursive: false,
+    includeIndexAndReadme: true,
+  })
 
   // here we're generating the items for the dropdown menu in the sidebar
   // it's used to provide a short link for the user to switch easily between the different collections
   // it expects an `index.mdx` file in each collection at the root level ( e.g. `aria-docs/index.mdx`)
-  const collectionMeta = collections
-    .filter((ele) => ele.getDepth() === 1)
-    .filter((ele) => ele.isFile())
 
-  const availableCollections = await Promise.all(
-    collectionMeta.map(async (collection) => {
-      const meta = await collection.getExport("frontmatter").getValue()
-      return {
-        name: meta?.title ?? collection.getTitle(),
-        pattern: `/docs/${meta?.alias ?? collection.getPathSegments()[1]}/**`,
-      }
-    }),
-  )
+  // const chooseableCollections = []
 
-  availableCollections.unshift({ name: "All", pattern: "**/*" })
+  for (const collection of collections) {
+    const indexFile = await collection.getFileOrThrow("index", "mdx")
+    const metadata = await indexFile.getExports()
+    console.log({ indexFile, metadata })
+  }
+  // console.log(
+  //   collections.map((entry) => ({
+  //     pathSegments: entry.getPathSegments(),
+  //     path: entry.getPath(),
+  //     absolute: entry.getAbsolutePath(),
+  //     hasFile: isFile(entry),
+  //   })),
+  // )
+  // const availableCollections = await Promise.all(
+  //   collections.map(async (collection) => {
+  //     const indexFile = await collection.getEntry("/")
+
+  //     if (!indexFile) {
+  //       return null
+  //     }
+
+  //     console.log({ indexFile })
+
+  //     return {
+  //       name: indexFile.getTitle(),
+  //     }
+  //   }),
+  // )
+
+  // //availableCollections.unshift({ name: "All", pattern: "**/*" })
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -55,7 +78,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Suspense fallback={<div />}>
-            <Navbar tabs={availableCollections} />
+            <Navbar tabs={[]} />
           </Suspense>
 
           <SiteSidebar

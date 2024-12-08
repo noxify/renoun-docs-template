@@ -12,6 +12,7 @@ import {
 import { cn } from "@/lib/utils"
 import { format } from "date-fns/format"
 import { ExternalLinkIcon } from "lucide-react"
+import { isDirectory } from "renoun/file-system"
 
 function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
   return array.filter((value) => !valueToRemove.includes(value))
@@ -20,7 +21,7 @@ function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
 export async function generateStaticParams() {
   const slugs = []
 
-  const collections = await CollectionInfo.getSources({ depth: Infinity })
+  const collections = await CollectionInfo.getEntries({ recursive: true })
 
   for (const collection of collections) {
     slugs.push({
@@ -44,7 +45,7 @@ async function getParentTitle(slug: string[]) {
   const titles = []
 
   for (const currentPageSegement of combinations) {
-    const collection = await CollectionInfo.getSource(
+    const collection = await CollectionInfo.getEntry(
       ["docs", ...currentPageSegement].join("/"),
     )
 
@@ -52,7 +53,7 @@ async function getParentTitle(slug: string[]) {
       continue
     }
 
-    if (collection.isDirectory()) {
+    if (isDirectory(collection)) {
       titles.push(collection.getTitle())
     } else {
       const frontmatter = await collection.getExport("frontmatter").getValue()
@@ -108,13 +109,15 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
 export default async function DocsPage(props: PageProps) {
   const params = await props.params
-  const collection = await CollectionInfo.getSource(
+  const collection = await CollectionInfo.getEntry(
     ["/docs", ...params.slug].join("/"),
   )
 
   if (!collection) {
     return notFound()
   }
+
+  return <></>
 
   const breadcrumbItems = await getBreadcrumbItems(params.slug)
 
