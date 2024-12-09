@@ -36,86 +36,84 @@ interface PageProps {
   params: Promise<{ slug: string[] }>
 }
 
-async function getParentTitle(slug: string[]) {
-  const combinations = slug.reduce(
-    (acc: string[][], curr) => acc.concat(acc.map((sub) => [...sub, curr])),
-    [[]],
-  )
+// async function getParentTitle(slug: string[]) {
+//   const combinations = slug.reduce(
+//     (acc: string[][], curr) => acc.concat(acc.map((sub) => [...sub, curr])),
+//     [[]],
+//   )
 
-  const titles = []
+//   const titles = []
 
-  for (const currentPageSegement of combinations) {
-    const collection = await CollectionInfo.getEntry(
-      ["docs", ...currentPageSegement].join("/"),
-    )
+//   for (const currentPageSegement of combinations) {
+//     const collection = await CollectionInfo.getEntry(
+//       ["docs", ...currentPageSegement].join("/"),
+//     )
 
-    if (!collection) {
-      continue
-    }
+//     if (!collection) {
+//       continue
+//     }
 
-    if (isDirectory(collection)) {
-      titles.push(collection.getTitle())
-    } else {
-      const frontmatter = await collection.getExport("frontmatter").getValue()
-      titles.push(frontmatter?.navTitle ?? collection.getTitle())
-    }
-  }
+//     if (isDirectory(collection)) {
+//       titles.push(collection.getTitle())
+//     } else {
+//       const frontmatter = await collection.getExport("frontmatter").getValue()
+//       titles.push(frontmatter?.navTitle ?? collection.getTitle())
+//     }
+//   }
 
-  return titles
-}
+//   return titles
+// }
 
-async function getBreadcrumbItems(slug: string[]) {
-  const combinations = slug.reduce(
-    (acc: string[][], curr) => acc.concat(acc.map((sub) => [...sub, curr])),
-    [[]],
-  )
+// async function getBreadcrumbItems(slug: string[]) {
+//   const combinations = slug.reduce(
+//     (acc: string[][], curr) => acc.concat(acc.map((sub) => [...sub, curr])),
+//     [[]],
+//   )
 
-  const titles = []
+//   const titles = []
 
-  for (const currentPageSegement of combinations) {
-    const collection = await CollectionInfo.getSource(
-      ["docs", ...currentPageSegement].join("/"),
-    )
+//   for (const currentPageSegement of combinations) {
+//     const collection = await CollectionInfo.getSource(
+//       ["docs", ...currentPageSegement].join("/"),
+//     )
 
-    if (!collection) {
-      continue
-    }
+//     if (!collection) {
+//       continue
+//     }
 
-    if (collection.isDirectory()) {
-      titles.push({
-        title: collection.getTitle(),
-        path: collection.getPathSegments().join("/"),
-      })
-    } else {
-      const frontmatter = await collection.getExport("frontmatter").getValue()
-      titles.push({
-        title: frontmatter?.navTitle ?? collection.getTitle(),
-        path: collection.getPath(),
-      })
-    }
-  }
+//     if (collection.isDirectory()) {
+//       titles.push({
+//         title: collection.getTitle(),
+//         path: collection.getPathSegments().join("/"),
+//       })
+//     } else {
+//       const frontmatter = await collection.getExport("frontmatter").getValue()
+//       titles.push({
+//         title: frontmatter?.navTitle ?? collection.getTitle(),
+//         path: collection.getPath(),
+//       })
+//     }
+//   }
 
-  return titles
-}
+//   return titles
+// }
 
-export async function generateMetadata(props: PageProps): Promise<Metadata> {
-  const params = await props.params
-  const titles = await getParentTitle(params.slug)
+// export async function generateMetadata(props: PageProps): Promise<Metadata> {
+//   const params = await props.params
+//   const titles = await getParentTitle(params.slug)
 
-  return {
-    title: titles.join(" - "),
-  }
-}
+//   return {
+//     title: titles.join(" - "),
+//   }
+// }
 
 export default async function DocsPage(props: PageProps) {
   const params = await props.params
-  const collection = await CollectionInfo.getEntry(
-    ["/docs", ...params.slug].join("/"),
-  )
+  const collection = await CollectionInfo.getEntry(params.slug.join("/"))
 
-  if (!collection) {
-    return notFound()
-  }
+  // if (!collection) {
+  //   return notFound()
+  // }
 
   return <></>
 

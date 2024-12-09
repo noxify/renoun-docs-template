@@ -1,6 +1,6 @@
 "use client"
 
-import type { TreeItem } from "@/lib/utils"
+import type { TreeItem } from "@/lib/navigation"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/collapsible"
 import { useIsMobile } from "@/hooks/use-mobile"
 import { useSidebarStore } from "@/hooks/use-sidebar"
-import { current } from "@/lib/navigation"
+import { current } from "@/lib/helpers"
 import { cn } from "@/lib/utils"
 import { ChevronRight } from "lucide-react"
 
@@ -78,43 +78,24 @@ function CollapsibleItem({
     <Collapsible key={item.path} asChild open={open} onOpenChange={setOpen}>
       <li className="relative">
         <div className="relative mb-0.5 flex items-center">
-          {item.isFile ? (
-            <Link
-              href={item.path}
-              onClick={isMobile ? () => toggleSidebar() : undefined}
-              className={cn(
-                "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
-                current({ pathname, item })
-                  ? "rounded-sm bg-muted"
-                  : "hover:rounded-sm hover:bg-muted",
-              )}
-            >
-              {current({ pathname, item }) && item.depth > 3 && (
-                <div
-                  aria-hidden="true"
-                  className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/30"
-                ></div>
-              )}
-              <div className="line-clamp-1 pr-6">{item.title}</div>
-            </Link>
-          ) : (
-            <div
-              className={cn(
-                "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
-                current({ pathname, item })
-                  ? "rounded-sm bg-muted"
-                  : "hover:rounded-sm hover:bg-muted",
-              )}
-            >
-              {current({ pathname, item }) && (
-                <div
-                  aria-hidden="true"
-                  className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/30"
-                ></div>
-              )}
-              <div className="line-clamp-1 pr-6">{item.title}</div>
-            </div>
-          )}
+          <Link
+            href={item.path}
+            onClick={isMobile ? () => toggleSidebar() : undefined}
+            className={cn(
+              "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+              current({ pathname, item })
+                ? "rounded-sm bg-muted text-accent-foreground/80"
+                : "hover:rounded-sm hover:bg-muted",
+            )}
+          >
+            {current({ pathname, item }) && item.depth > 3 && (
+              <div
+                aria-hidden="true"
+                className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/90"
+              ></div>
+            )}
+            <div className="line-clamp-1 pr-6">{item.title}</div>
+          </Link>
 
           <CollapsibleTrigger asChild>
             <Button
@@ -126,8 +107,8 @@ function CollapsibleItem({
             </Button>
           </CollapsibleTrigger>
         </div>
-        <CollapsibleContent className="px-2 py-0.5">
-          <ul className="grid gap-y-1 border-l px-2">
+        <CollapsibleContent className="py-0.5 pl-2">
+          <ul className="grid gap-y-1 border-l border-accent pl-2">
             {item.children?.map((subItem) => {
               if ((subItem.children ?? []).length > 0) {
                 return (
@@ -145,14 +126,14 @@ function CollapsibleItem({
                     className={cn(
                       "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
                       current({ pathname, item: subItem })
-                        ? "rounded-sm bg-muted"
+                        ? "text-accent-foreground hover:rounded-sm hover:bg-muted"
                         : "hover:rounded-sm hover:bg-muted",
                     )}
                   >
                     {current({ pathname, item: subItem }) && (
                       <div
                         aria-hidden="true"
-                        className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/30"
+                        className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-accent-foreground/70"
                       ></div>
                     )}
                     <div className="line-clamp-1">{subItem.title}</div>

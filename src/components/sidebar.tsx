@@ -1,6 +1,6 @@
 "use client"
 
-import type { TreeItem } from "@/lib/utils"
+import type { TreeItem } from "@/lib/navigation"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Navigation } from "@/components/docs-navigation"
@@ -12,7 +12,7 @@ import {
   SidebarItem,
   SidebarLabel,
 } from "@/components/ui/sidebar"
-import { current } from "@/lib/navigation"
+import { current } from "@/lib/helpers"
 import { cn } from "@/lib/utils"
 import { ChevronsUpDown } from "lucide-react"
 
