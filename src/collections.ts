@@ -4,7 +4,7 @@ import { Directory, EntryGroup, isDirectory, isFile } from "renoun/file-system"
 import z from "zod"
 
 export const frontmatterSchema = z.object({
-  title: z.string(),
+  title: z.string().optional(),
   description: z.string().optional(),
   tags: z.array(z.string()).optional(),
   navTitle: z.string().optional(),
@@ -26,11 +26,11 @@ const defaultFilter = (entry: FileSystemEntry) => {
 export const AriaDocsCollection = new Directory<{ mdx: DocSchema }>({
   path: "./content/docs/aria-docs",
 })
-
   .withFilter(defaultFilter)
   // eslint-disable-next-line @typescript-eslint/unbound-method
   .withSchema("mdx", { frontmatter: frontmatterSchema.parse })
   .withBasePath("docs/aria-docs")
+  .withModule((path) => import(`@content/docs/aria-docs/${path}`))
 
 export const RenounDocsCollection = new Directory<{ mdx: DocSchema }>({
   path: "./content/docs/renoun-docs",
@@ -40,6 +40,7 @@ export const RenounDocsCollection = new Directory<{ mdx: DocSchema }>({
   .withSchema("mdx", { frontmatter: frontmatterSchema.parse })
 
   .withBasePath("docs/renoun-docs")
+  .withModule((path) => import(`@content/docs/renoun-docs/${path}`))
 
 export const TestCollection = new Directory<{ mdx: DocSchema }>({
   path: "./content/docs/test-collection",
@@ -49,6 +50,7 @@ export const TestCollection = new Directory<{ mdx: DocSchema }>({
   .withSchema("mdx", { frontmatter: frontmatterSchema.parse })
 
   .withBasePath("docs/test-collection")
+  .withModule((path) => import(`@content/docs/test-collection/${path}`))
 
 export const CollectionInfo = new EntryGroup({
   entries: [AriaDocsCollection, RenounDocsCollection, TestCollection],

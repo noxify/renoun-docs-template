@@ -33,57 +33,28 @@ export default async function RootLayout({
   // here we're generating the items for the dropdown menu in the sidebar
   // it's used to provide a short link for the user to switch easily between the different collections
   // it expects an `index.mdx` file in each collection at the root level ( e.g. `aria-docs/index.mdx`)
+  const availableCollections = (
+    await Promise.all(
+      collections.map(async (collection) => {
+        const indexFile = await collection.getFile("index", "mdx")
 
-  // const chooseableCollections = []
+        if (!indexFile) {
+          return null
+        }
+        const frontmatter = await indexFile.getExportValueOrThrow("frontmatter")
 
-  const renounIndexFile = await RenounDocsCollection.getFileOrThrow(
-    "index",
-    "mdx",
-  )
-  const renounIndexFrontmatter = await renounIndexFile.getExports()
+        return {
+          name: frontmatter.title ?? indexFile.getTitle(),
+          pattern: `/docs/${frontmatter.alias ?? collection.getPathSegments()[1]}/**`,
+        }
+      }),
+    )
+  ).filter((ele) => !!ele)
 
-  // same result if I call the collection/definition directly
-  // so it seems a general problem
-  console.log({ renounIndexFrontmatter })
-
-  for (const collection of collections) {
-    // `getFileOrThrow` seems to return a valid file, since we do not get an expection here
-    const indexFile = await collection.getFileOrThrow("index", "mdx")
-
-    // the following code will throw an expection
-    // but if you check the used file, you can see, that the frontmatter definition
-    // exists and I think it's valid :)
-    // const frontmatter = await indexFile.getExportOrThrow("frontmatter")
-
-    // `getExports` returns currently an empty array
-    const metadata = await indexFile.getExports()
-    console.log({ indexFile, metadata })
-  }
-  // console.log(
-  //   collections.map((entry) => ({
-  //     pathSegments: entry.getPathSegments(),
-  //     path: entry.getPath(),
-  //     absolute: entry.getAbsolutePath(),
-  //     hasFile: isFile(entry),
-  //   })),
-  // )
-  // const availableCollections = await Promise.all(
-  //   collections.map(async (collection) => {
-  //     const indexFile = await collection.getEntry("/")
-
-  //     if (!indexFile) {
-  //       return null
-  //     }
-
-  //     console.log({ indexFile })
-
-  //     return {
-  //       name: indexFile.getTitle(),
-  //     }
-  //   }),
-  // )
-
-  // //availableCollections.unshift({ name: "All", pattern: "**/*" })
+  availableCollections.unshift({
+    name: "All",
+    pattern: "**/*",
+  })
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -96,7 +67,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Suspense fallback={<div />}>
-            <Navbar tabs={[]} />
+            <Navbar tabs={availableCollections} />
           </Suspense>
 
           <SiteSidebar
