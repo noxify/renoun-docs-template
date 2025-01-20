@@ -1,3 +1,4 @@
+import { inspect } from "node:util"
 import { CollectionInfo } from "@/collections"
 import { SiteSidebar } from "@/components/sidebar"
 import { SidebarLayout } from "@/components/ui/sidebar"
@@ -64,6 +65,8 @@ export default async function DocsLayout(
     .filter((ele) => ele.getDepth() === 0)
 
   const sidebarItems = await getTree(tree)
+
+  console.log(inspect({ sidebarItems }, { depth: 8 }))
 
   return (
     <SidebarLayout>

@@ -1,6 +1,13 @@
 import type { DocSchema } from "@/collections"
-import type { FileSystemEntry } from "renoun/file-system"
-import { isDirectory, isFile } from "renoun/file-system"
+import type {
+  FileSystemEntry,
+  JavaScriptFileWithRuntime,
+} from "renoun/file-system"
+import {
+  isDirectory,
+  isFile,
+  isJavaScriptFileWithRuntime,
+} from "renoun/file-system"
 
 export interface TreeItem {
   title: string
@@ -61,7 +68,6 @@ async function buildTreeNavigation<
   Entry extends FileSystemEntry<{ mdx: DocSchema }, true>,
 >(entry: Entry): Promise<TreeItem> {
   let current
-
   if (isFile(entry)) {
     current = await entry.getParentDirectory().getFile(entry.getPath(), "mdx")
   } else {

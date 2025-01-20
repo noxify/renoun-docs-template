@@ -109,7 +109,7 @@ interface PageProps {
 
 export default async function DocsPage(props: PageProps) {
   const params = await props.params
-  const collection = await CollectionInfo.getEntry(params.slug.join("/"))
+  //const collection = await CollectionInfo.getEntry(params.slug.join("/"))
 
   // if (!collection) {
   //   return notFound()
