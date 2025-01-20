@@ -26,51 +26,34 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const collections = await CollectionInfo.getEntries({
-    recursive: true,
+    recursive: false,
     includeIndexAndReadme: true,
   })
 
+  const availableCollections = []
+
   for (const collection of collections) {
-    const collectionEntries = (await collection.getEntries()).map((ele) =>
-      ele.getAbsolutePath(),
-    )
-    console.log({ collection: collectionEntries })
+    try {
+      const indexFile = await collection.getFile("index", "mdx")
+
+      const frontmatter = await indexFile.getExportValue("frontmatter")
+
+      console.log({ frontmatter })
+
+      availableCollections.push({
+        name: frontmatter.title ?? indexFile.getTitle(),
+        pattern: `/docs/${frontmatter.alias ?? collection.getPathSegments()[1]}/**`,
+      })
+    } catch (e: unknown) {
+      console.log(e)
+    }
   }
 
-  //console.dir(collections)
+  availableCollections.unshift({
+    name: "All",
+    pattern: "**/*",
+  })
 
-  // here we're generating the items for the dropdown menu in the sidebar
-  // it's used to provide a short link for the user to switch easily between the different collections
-  // it expects an `index.mdx` file in each collection at the root level ( e.g. `aria-docs/index.mdx`)
-  // const availableCollections = (
-  //   await Promise.all(
-  //     collections.map(async (collection) => {
-  //       console.log(collection.getAbsolutePath())
-
-  //       return {}
-  //       // const indexFile = await collection.getFile("index", "mdx")
-
-<<<<<<< Updated upstream
-  //       // if (!indexFile) {
-  //       //   return null
-  //       // }
-  //       // const frontmatter = await indexFile.getExportValueOrThrow("frontmatter")
-=======
-          const frontmatter = await indexFile.getExportValue("frontmatter")
->>>>>>> Stashed changes
-
-  //       // return {
-  //       //   name: frontmatter.title ?? indexFile.getTitle(),
-  //       //   pattern: `/docs/${frontmatter.alias ?? collection.getPathSegments()[1]}/**`,
-  //       // }
-  //     }),
-  //   )
-  // ).filter((ele) => !!ele)
-
-  // availableCollections.unshift({
-  //   name: "All",
-  //   pattern: "**/*",
-  // })
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
