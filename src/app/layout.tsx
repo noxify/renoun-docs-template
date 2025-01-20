@@ -3,7 +3,7 @@ import type { Metadata } from "next"
 import "./globals.css"
 
 import { Suspense } from "react"
-import { CollectionInfo, RenounDocsCollection } from "@/collections"
+import { CollectionInfo } from "@/collections"
 import { Navbar } from "@/components/main-navbar"
 import { SiteSidebar } from "@/components/sidebar"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
@@ -26,35 +26,47 @@ export default async function RootLayout({
   children: React.ReactNode
 }>) {
   const collections = await CollectionInfo.getEntries({
-    recursive: false,
+    recursive: true,
     includeIndexAndReadme: true,
   })
+
+  for (const collection of collections) {
+    const collectionEntries = (await collection.getEntries()).map((ele) =>
+      ele.getAbsolutePath(),
+    )
+    console.log({ collection: collectionEntries })
+  }
+
+  //console.dir(collections)
 
   // here we're generating the items for the dropdown menu in the sidebar
   // it's used to provide a short link for the user to switch easily between the different collections
   // it expects an `index.mdx` file in each collection at the root level ( e.g. `aria-docs/index.mdx`)
-  const availableCollections = (
-    await Promise.all(
-      collections.map(async (collection) => {
-        const indexFile = await collection.getFile("index", "mdx")
+  // const availableCollections = (
+  //   await Promise.all(
+  //     collections.map(async (collection) => {
+  //       console.log(collection.getAbsolutePath())
 
-        if (!indexFile) {
-          return null
-        }
-        const frontmatter = await indexFile.getExportValueOrThrow("frontmatter")
+  //       return {}
+  //       // const indexFile = await collection.getFile("index", "mdx")
 
-        return {
-          name: frontmatter.title ?? indexFile.getTitle(),
-          pattern: `/docs/${frontmatter.alias ?? collection.getPathSegments()[1]}/**`,
-        }
-      }),
-    )
-  ).filter((ele) => !!ele)
+  //       // if (!indexFile) {
+  //       //   return null
+  //       // }
+  //       // const frontmatter = await indexFile.getExportValueOrThrow("frontmatter")
 
-  availableCollections.unshift({
-    name: "All",
-    pattern: "**/*",
-  })
+  //       // return {
+  //       //   name: frontmatter.title ?? indexFile.getTitle(),
+  //       //   pattern: `/docs/${frontmatter.alias ?? collection.getPathSegments()[1]}/**`,
+  //       // }
+  //     }),
+  //   )
+  // ).filter((ele) => !!ele)
+
+  // availableCollections.unshift({
+  //   name: "All",
+  //   pattern: "**/*",
+  // })
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
@@ -67,7 +79,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Suspense fallback={<div />}>
-            <Navbar tabs={availableCollections} />
+            {/* <Navbar tabs={availableCollections} /> */}
           </Suspense>
 
           <SiteSidebar
