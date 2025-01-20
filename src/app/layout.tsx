@@ -38,8 +38,6 @@ export default async function RootLayout({
 
       const frontmatter = await indexFile.getExportValue("frontmatter")
 
-      console.log({ frontmatter })
-
       availableCollections.push({
         name: frontmatter.title ?? indexFile.getTitle(),
         pattern: `/docs/${frontmatter.alias ?? collection.getPathSegments()[1]}/**`,
@@ -66,7 +64,7 @@ export default async function RootLayout({
           disableTransitionOnChange
         >
           <Suspense fallback={<div />}>
-            {/* <Navbar tabs={availableCollections} /> */}
+            <Navbar tabs={availableCollections} />
           </Suspense>
 
           <SiteSidebar
