@@ -1,13 +1,7 @@
-import type { DocSchema } from "@/collections"
-import type {
-  FileSystemEntry,
-  JavaScriptFileWithRuntime,
-} from "renoun/file-system"
-import {
-  isDirectory,
-  isFile,
-  isJavaScriptFileWithRuntime,
-} from "renoun/file-system"
+import type { frontmatterSchema } from "@/collections"
+import type { FileSystemEntry, JavaScriptFile } from "renoun/file-system"
+import type { z } from "zod"
+import { isDirectory, isFile, isJavaScriptFile } from "renoun/file-system"
 
 export interface TreeItem {
   title: string
@@ -65,19 +59,21 @@ export function createSlug(input: string) {
 // source:
 // https://github.com/souporserious/renoun/blob/main/packages/renoun/src/file-system/index.test.ts
 async function buildTreeNavigation<
-  Entry extends FileSystemEntry<{ mdx: DocSchema }, true>,
+  Entry extends FileSystemEntry<{
+    frontmatter: z.infer<typeof frontmatterSchema>
+  }>,
 >(entry: Entry): Promise<TreeItem> {
   let current
   if (isFile(entry)) {
-    current = await entry.getParentDirectory().getFile(entry.getPath(), "mdx")
+    current = await entry.getParent().getFile(entry.getPath(), "mdx")
   } else {
     current = await entry.getFile("index", "mdx")
   }
 
-  const frontmatter = await current?.getExportValue("frontmatter")
+  const frontmatter = await current.getExportValue("")
 
   return {
-    title: frontmatter?.navTitle ?? entry.getTitle(),
+    title: frontmatter.navTitle ?? entry.getTitle(),
     path: entry.getPath(),
     isFile: isFile(entry),
     slug: entry.getPathSegments(),

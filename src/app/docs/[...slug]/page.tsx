@@ -21,7 +21,10 @@ function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
 export async function generateStaticParams() {
   const slugs = []
 
-  const collections = await CollectionInfo.getEntries({ recursive: true })
+  const collections = await CollectionInfo.getEntries({
+    recursive: true,
+    includeIndexAndReadme: false,
+  })
 
   for (const collection of collections) {
     slugs.push({
@@ -109,7 +112,9 @@ interface PageProps {
 
 export default async function DocsPage(props: PageProps) {
   const params = await props.params
-  //const collection = await CollectionInfo.getEntry(params.slug.join("/"))
+  const collection = await CollectionInfo.getEntry(params.slug.join("/"))
+
+  console.log({ collection })
 
   // if (!collection) {
   //   return notFound()

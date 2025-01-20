@@ -10,8 +10,6 @@ import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PackageInstallScript } from "renoun/components"
 
-// import { isDirectory, isFile } from "renoun/file-system"
-
 export const metadata: Metadata = {
   title: {
     default: "renoun docs template",
