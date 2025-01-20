@@ -50,10 +50,14 @@ export default async function RootLayout({
   //       return {}
   //       // const indexFile = await collection.getFile("index", "mdx")
 
+<<<<<<< Updated upstream
   //       // if (!indexFile) {
   //       //   return null
   //       // }
   //       // const frontmatter = await indexFile.getExportValueOrThrow("frontmatter")
+=======
+          const frontmatter = await indexFile.getExportValue("frontmatter")
+>>>>>>> Stashed changes
 
   //       // return {
   //       //   name: frontmatter.title ?? indexFile.getTitle(),

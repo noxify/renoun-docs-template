@@ -11,6 +11,7 @@ export const frontmatterSchema = z.object({
 })
 
 export const AriaDocsCollection = new Directory({
+  path: "content/docs/aria-docs",
   loaders: {
     mdx: withSchema(
       {
@@ -22,6 +23,8 @@ export const AriaDocsCollection = new Directory({
 })
 
 export const RenounDocsCollection = new Directory({
+  path: "content/docs/renoun-docs",
+  include: "*.mdx",
   loaders: {
     mdx: withSchema(
       {
@@ -33,6 +36,8 @@ export const RenounDocsCollection = new Directory({
 })
 
 export const TestCollection = new Directory({
+  path: "content/docs/test-collection",
+  include: "*.mdx",
   loaders: {
     mdx: withSchema(
       {
