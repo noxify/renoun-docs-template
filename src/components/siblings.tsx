@@ -1,14 +1,13 @@
+import type { EntryType } from "@/collections"
 import Link from "next/link"
 import { CollectionInfo } from "@/collections"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { isFile } from "renoun/file-system"
 
-export default async function Siblings({ path }: { path: string[] }) {
-  console.log({ path })
-
-  const source = await CollectionInfo.getEntry(path)
-
-  const [previousPage, nextPage] = await source.getSiblings()
+export default async function Siblings({ source }: { source: EntryType }) {
+  const [previousPage, nextPage] = await source.getSiblings({
+    entryGroup: CollectionInfo,
+  })
 
   const previousPageFrontmatter = isFile(previousPage, "mdx")
     ? await previousPage.getExportValue("frontmatter")
@@ -18,23 +17,16 @@ export default async function Siblings({ path }: { path: string[] }) {
     ? await nextPage.getExportValue("frontmatter")
     : null
 
-  console.log({
-    previousPageFrontmatter,
-    nextPageFrontmatter,
-    prevTitle: previousPage?.getTitle(),
-    nextTitle: nextPage?.getTitle(),
-  })
-
   return (
     <nav
       className="mt-6 flex items-center justify-between border-t pt-6"
       data-pagefind-ignore
     >
       <div className="flex w-0 flex-1">
-        {previousPage && previousPage.getDepth() > 0 && (
+        {previousPage && (
           <>
             <Link
-              href={previousPage.getPath()}
+              href={`/docs${previousPage.getPath()}`}
               className="text-gray-700"
               title={`Go to previous page: ${previousPageFrontmatter?.navTitle ?? previousPage.getTitle()}`}
             >
@@ -55,7 +47,7 @@ export default async function Siblings({ path }: { path: string[] }) {
       </div>
 
       <div className="-mt-px flex w-0 flex-1 justify-end">
-        {nextPage && nextPage.getDepth() > 0 && (
+        {nextPage && (
           <>
             <Link
               href={`/docs${nextPage.getPath()}`}

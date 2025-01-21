@@ -96,3 +96,7 @@ export async function getFileContent(source: EntryType) {
     }
   }
 }
+
+export async function getSections(source: EntryType) {
+  return await source.getParent().getEntries()
+}

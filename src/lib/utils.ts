@@ -15,3 +15,7 @@ export function createSlug(input: string) {
     .replace(/[_\s]+/g, "-") // Replace underscores and spaces with a hyphen
     .toLowerCase() // Convert the entire string to lowercase
 }
+
+export function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
+  return array.filter((value) => !valueToRemove.includes(value))
+}
