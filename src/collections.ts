@@ -106,6 +106,15 @@ export async function getFileContent(source: EntryType) {
   }
 }
 
+/**
+ * Helper function to get the sections for a given source entry
+ * This function will try to get the sections based on the given path
+ *
+ * If there there are no entries/children for the current path, it will return an empty array
+ *
+ * @param source {EntryType} the source entry to get the sections for
+ * @returns
+ */
 export async function getSections(source: EntryType) {
   if (source.getDepth() > -1) {
     if (isDirectory(source)) {
