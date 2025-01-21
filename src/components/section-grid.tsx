@@ -10,6 +10,10 @@ export default async function SectionGrid({
 }: {
   sections: Awaited<ReturnType<typeof getSections>>
 }) {
+  if (sections.length === 0) {
+    return <></>
+  }
+
   const elements = []
 
   for (const section of sections) {

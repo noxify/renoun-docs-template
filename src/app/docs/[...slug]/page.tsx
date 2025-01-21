@@ -116,11 +116,23 @@ export default async function DocsPage(props: PageProps) {
     return notFound()
   }
 
-  if (isDirectory(collection)) {
+  // check the current path if it's a valid file ( including index check for a directory )
+  const file = await getFileContent(collection)
+
+  // if we can't find an index file, but we have a valid directory
+  // use the directory component for rendering
+  if (!file && isDirectory(collection)) {
     return <DirectoryContent source={collection} />
   }
 
-  return <FileContent source={collection} />
+  // if we have a valid file ( including the index file )
+  // use the file component for rendering
+  if (file) {
+    return <FileContent source={collection} />
+  }
+
+  // seems to be an invalid path
+  return notFound()
 }
 
 async function DirectoryContent({ source }: { source: EntryType }) {
@@ -161,6 +173,9 @@ async function DirectoryContent({ source }: { source: EntryType }) {
 }
 
 async function FileContent({ source }: { source: EntryType }) {
+  // maybe this is obsolete, since we called them earlier in the `DocsPage` component
+  // but to have a similiar behaviour as we have in the `DirectoryContent` component
+  // we use `source` as input and we have to call the `getFileContent` again
   const file = await getFileContent(source)
   if (!file) {
     return notFound()

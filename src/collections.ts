@@ -1,4 +1,10 @@
-import { Directory, EntryGroup, withSchema } from "renoun/file-system"
+import {
+  Directory,
+  EntryGroup,
+  isDirectory,
+  isFile,
+  withSchema,
+} from "renoun/file-system"
 import z from "zod"
 
 export const frontmatterSchema = z.object({
@@ -60,6 +66,9 @@ export const CollectionInfo = new EntryGroup({
 })
 
 export type EntryType = Awaited<ReturnType<typeof CollectionInfo.getEntry>>
+export type DirectoryType = Awaited<
+  ReturnType<typeof CollectionInfo.getDirectory>
+>
 
 export async function getDirectoryContent(source: EntryType) {
   // first, try to get the file based on the given path
@@ -98,5 +107,24 @@ export async function getFileContent(source: EntryType) {
 }
 
 export async function getSections(source: EntryType) {
-  return await source.getParent().getEntries()
+  if (source.getDepth() > -1) {
+    if (isDirectory(source)) {
+      return (
+        await (
+          await CollectionInfo.getDirectory(source.getPathSegments())
+        ).getEntries()
+      ).filter((ele) => ele.getPath() !== source.getPath())
+    }
+
+    if (isFile(source) && source.getBaseName() === "index") {
+      return await source.getParent().getEntries()
+    }
+    return []
+  } else {
+    return (
+      await (
+        await CollectionInfo.getDirectory(source.getPathSegments())
+      ).getEntries()
+    ).filter((ele) => ele.getPath() !== source.getPath())
+  }
 }
