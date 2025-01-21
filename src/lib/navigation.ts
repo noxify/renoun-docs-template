@@ -1,7 +1,6 @@
-import type { frontmatterSchema } from "@/collections"
-import type { FileSystemEntry, JavaScriptFile } from "renoun/file-system"
-import type { z } from "zod"
-import { isDirectory, isFile, isJavaScriptFile } from "renoun/file-system"
+import type { EntryType } from "@/collections"
+import { getFileContent } from "@/collections"
+import { isDirectory, isFile } from "renoun/file-system"
 
 export interface TreeItem {
   title: string
@@ -11,40 +10,6 @@ export interface TreeItem {
   depth: number
   children?: TreeItem[]
 }
-
-// export async function getTree({
-//   input,
-//   maxDepth = 2,
-// }: {
-//   input: DocsSource[]
-//   maxDepth?: number
-// }): Promise<TreeItem[]> {
-//   const tree: TreeItem[] = []
-//   for (const source of input) {
-//     const frontmatter = !source.isDirectory()
-//       ? await source.getExport("frontmatter").getValue()
-//       : null
-
-//     const treeItem = {
-//       title: frontmatter?.navTitle ?? source.getTitle(),
-//       path: source.getPath(),
-//       isFile: source.isFile(),
-//       slug: source.getPathSegments(),
-//       order: source.getOrder(),
-//       depth: source.getDepth(),
-//       children:
-//         source.getDepth() <= maxDepth
-//           ? await getTree({
-//               input: await source.getSources({ depth: 1 }),
-//               maxDepth,
-//             })
-//           : [],
-//     }
-
-//     tree.push(treeItem)
-//   }
-//   return tree
-// }
 
 /** Create a slug from a string. */
 // source: https://github.com/souporserious/renoun/blob/main/packages/renoun/src/utils/create-slug.ts
@@ -58,34 +23,42 @@ export function createSlug(input: string) {
 
 // source:
 // https://github.com/souporserious/renoun/blob/main/packages/renoun/src/file-system/index.test.ts
-async function buildTreeNavigation<
-  Entry extends FileSystemEntry<{
-    frontmatter: z.infer<typeof frontmatterSchema>
-  }>,
->(entry: Entry): Promise<TreeItem> {
-  let current
-  if (isFile(entry)) {
-    current = await entry.getParent().getFile(entry.getPath(), "mdx")
+async function buildTreeNavigation(entry: EntryType): Promise<TreeItem | null> {
+  if (isDirectory(entry)) {
+    return {
+      title: entry.getTitle(),
+      path: entry.getPath(),
+      isFile: isFile(entry),
+      slug: entry.getPathSegments(),
+      depth: entry.getDepth(),
+      children: isDirectory(entry)
+        ? (
+            await Promise.all(
+              (await entry.getEntries()).map(buildTreeNavigation),
+            )
+          ).filter((ele) => !!ele)
+        : [],
+    }
   } else {
-    current = await entry.getFile("index", "mdx")
-  }
+    const file = await getFileContent(entry)
+    if (!file) {
+      return null
+    }
 
-  const frontmatter = await current.getExportValue("")
-
-  return {
-    title: frontmatter.navTitle ?? entry.getTitle(),
-    path: entry.getPath(),
-    isFile: isFile(entry),
-    slug: entry.getPathSegments(),
-    depth: entry.getDepth(),
-    children: isDirectory(entry)
-      ? await Promise.all((await entry.getEntries()).map(buildTreeNavigation))
-      : [],
+    const frontmatter = await file.getExportValue("frontmatter")
+    return {
+      title: frontmatter.navTitle ?? entry.getTitle(),
+      path: entry.getPath(),
+      isFile: isFile(entry),
+      slug: entry.getPathSegments(),
+      depth: entry.getDepth(),
+      children: [],
+    }
   }
 }
 
-export async function getTree<
-  Entry extends FileSystemEntry<{ mdx: DocSchema }, true>,
->(sources: Entry[]): Promise<TreeItem[]> {
-  return await Promise.all(sources.map(buildTreeNavigation))
+export async function getTree(sources: EntryType[]): Promise<TreeItem[]> {
+  return (await Promise.all(sources.map(buildTreeNavigation))).filter(
+    (ele) => !!ele,
+  )
 }

@@ -50,7 +50,13 @@ export default async function DocsLayout(
   const tree = recursiveCollections
     // to get only the relevant menu entries, we have to filter the list of collections
     // based on the provided slug ( via `params.slug` ) and the path segments for the current source in the iteration
-    .filter((collection) => collection.getPathSegments()[1] === params.slug[0])
+    .filter((collection) => {
+      console.log({
+        collectionPath: collection.getPathSegments(),
+        slug: params.slug,
+      })
+      return collection.getPathSegments()[0] === params.slug[0]
+    })
     // since we generated the nested tree later in the code ( via `getTree` )
     // we can filter the list of collections based on the depth which should be shown as "root"
     // in our case, we filter the list of collections based on depth 2
