@@ -1,20 +1,22 @@
 import type { DocsSource } from "@/collections"
+import type { EntryGroup, File } from "renoun/file-system"
 import Link from "next/link"
 import { CollectionInfo } from "@/collections"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import { Directory } from "renoun/file-system"
 
 export default async function Siblings({
   source,
   collectionName,
 }: {
-  source: DocsSource | undefined
+  source: EntryGroup | File
   collectionName: string
 }) {
   if (!source) {
     return <></>
   }
 
-  const collections = await CollectionInfo.getSources({ depth: Infinity })
+  const collections = await CollectionInfo.getEntries({ recursive: true })
 
   const collectionItems = collections
     .filter((collection) => collection.getPathSegments()[1] === collectionName)

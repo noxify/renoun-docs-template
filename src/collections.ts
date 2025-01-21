@@ -10,12 +10,23 @@ export const frontmatterSchema = z.object({
   alias: z.string().optional(),
 })
 
+export const headingSchema = z.object({
+  depth: z.number(),
+  text: z.string(),
+  id: z.string(),
+})
+
+interface DocSchema {
+  frontmatter: z.infer<typeof frontmatterSchema>
+  headings: z.infer<typeof headingSchema>[]
+}
+
 export const AriaDocsCollection = new Directory({
   path: "content/docs/aria-docs",
   // base path is required, otherwise we can't build the correct slugs in the `generateStaticParams`
   basePath: "aria-docs",
   loaders: {
-    mdx: withSchema<{ frontmatter: z.infer<typeof frontmatterSchema> }>(
+    mdx: withSchema<DocSchema>(
       // {frontmatter: frontmatterSchema},
       (path) => import(`@content/docs/aria-docs/${path}.mdx`),
     ),
@@ -25,10 +36,9 @@ export const AriaDocsCollection = new Directory({
 export const RenounDocsCollection = new Directory({
   path: "content/docs/renoun-docs",
   // base path is required, otherwise we can't build the correct slugs in the `generateStaticParams`
-
   basePath: "renoun-docs",
   loaders: {
-    mdx: withSchema<{ frontmatter: z.infer<typeof frontmatterSchema> }>(
+    mdx: withSchema<DocSchema>(
       (path) => import(`@content/docs/renoun-docs/${path}.mdx`),
     ),
   },
@@ -39,7 +49,7 @@ export const TestCollection = new Directory({
   // base path is required, otherwise we can't build the correct slugs in the `generateStaticParams`
   basePath: "test-collection",
   loaders: {
-    mdx: withSchema<{ frontmatter: z.infer<typeof frontmatterSchema> }>(
+    mdx: withSchema<DocSchema>(
       (path) => import(`@content/docs/test-collection/${path}.mdx`),
     ),
   },
