@@ -56,5 +56,43 @@ export const TestCollection = new Directory({
 })
 
 export const CollectionInfo = new EntryGroup({
-  entries: [AriaDocsCollection],
+  entries: [AriaDocsCollection, RenounDocsCollection, TestCollection],
 })
+
+export type EntryType = Awaited<ReturnType<typeof CollectionInfo.getEntry>>
+
+export async function getDirectoryContent(source: EntryType) {
+  // first, try to get the file based on the given path
+  try {
+    return await CollectionInfo.getDirectory(source.getPathSegments())
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (e: unknown) {
+    return null
+  }
+}
+
+/**
+ * Helper function to get the file content for a given source entry
+ * This function will try to get the file based on the given path and the "mdx" extension
+ * If the file is not found, it will try to get the index file based on the given path and the "mdx" extension
+ * If there is also no index file, it will return null
+ *
+ * @param source {EntryType} the source entry to get the file content for
+ */
+export async function getFileContent(source: EntryType) {
+  // first, try to get the file based on the given path
+  try {
+    return await CollectionInfo.getFile(source.getPathSegments(), "mdx")
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  } catch (e: unknown) {
+    try {
+      return await CollectionInfo.getFile(
+        [...source.getPathSegments(), "index"],
+        "mdx",
+      )
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e: unknown) {
+      return null
+    }
+  }
+}

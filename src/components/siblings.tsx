@@ -1,44 +1,29 @@
-import type { DocsSource } from "@/collections"
-import type { EntryGroup, File } from "renoun/file-system"
 import Link from "next/link"
 import { CollectionInfo } from "@/collections"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
-import { Directory } from "renoun/file-system"
+import { isFile } from "renoun/file-system"
 
-export default async function Siblings({
-  source,
-  collectionName,
-}: {
-  source: EntryGroup | File
-  collectionName: string
-}) {
-  if (!source) {
-    return <></>
-  }
+export default async function Siblings({ path }: { path: string[] }) {
+  console.log({ path })
 
-  const collections = await CollectionInfo.getEntries({ recursive: true })
+  const source = await CollectionInfo.getEntry(path)
 
-  const collectionItems = collections
-    .filter((collection) => collection.getPathSegments()[1] === collectionName)
-    .filter((ele) => ele.getDepth() >= 2)
+  const [previousPage, nextPage] = await source.getSiblings()
 
-  const currentCollectionItem = collectionItems.find(
-    (ele) => ele.getPath() === source.getPath(),
-  )
-
-  if (!currentCollectionItem) {
-    return <></>
-  }
-
-  const [previousPage, nextPage] = await currentCollectionItem.getSiblings()
-
-  const previousPageFrontmatter = previousPage?.isFile()
-    ? await previousPage.getExport("frontmatter").getValue()
+  const previousPageFrontmatter = isFile(previousPage, "mdx")
+    ? await previousPage.getExportValue("frontmatter")
     : null
 
-  const nextPageFrontmatter = nextPage?.isFile()
-    ? await nextPage.getExport("frontmatter").getValue()
+  const nextPageFrontmatter = isFile(nextPage, "mdx")
+    ? await nextPage.getExportValue("frontmatter")
     : null
+
+  console.log({
+    previousPageFrontmatter,
+    nextPageFrontmatter,
+    prevTitle: previousPage?.getTitle(),
+    nextTitle: nextPage?.getTitle(),
+  })
 
   return (
     <nav
@@ -46,7 +31,7 @@ export default async function Siblings({
       data-pagefind-ignore
     >
       <div className="flex w-0 flex-1">
-        {previousPage && previousPage.getDepth() > 1 && (
+        {previousPage && previousPage.getDepth() > 0 && (
           <>
             <Link
               href={previousPage.getPath()}
@@ -70,10 +55,10 @@ export default async function Siblings({
       </div>
 
       <div className="-mt-px flex w-0 flex-1 justify-end">
-        {nextPage && nextPage.getDepth() > 1 && (
+        {nextPage && nextPage.getDepth() > 0 && (
           <>
             <Link
-              href={nextPage.getPath()}
+              href={`/docs${nextPage.getPath()}`}
               className="text-gray-700"
               title={`Go to next page: ${nextPageFrontmatter?.navTitle ?? nextPage.getTitle()}`}
             >

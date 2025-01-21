@@ -1,6 +1,7 @@
-// import type { Metadata } from "next"
+import type { EntryType } from "@/collections"
+import type { Metadata } from "next"
 import { notFound } from "next/navigation"
-import { CollectionInfo } from "@/collections"
+import { CollectionInfo, getFileContent } from "@/collections"
 import { SiteBreadcrumb } from "@/components/breadcrumb"
 import { Comments } from "@/components/comments"
 import SectionGrid from "@/components/section-grid"
@@ -32,6 +33,8 @@ export async function generateStaticParams() {
     })
   }
 
+  // console.dir({ slugs }, { depth: null })
+
   return slugs
 }
 
@@ -39,76 +42,72 @@ interface PageProps {
   params: Promise<{ slug: string[] }>
 }
 
-// async function getParentTitle(slug: string[]) {
-//   const combinations = slug.reduce(
-//     (acc: string[][], curr) => acc.concat(acc.map((sub) => [...sub, curr])),
-//     [[]],
-//   )
-
-//   const titles = []
-
-//   for (const currentPageSegement of combinations) {
-//     const collection = await CollectionInfo.getEntry(
-//       ["docs", ...currentPageSegement].join("/"),
-//     )
-
-//     if (!collection) {
-//       continue
-//     }
-
-//     if (isDirectory(collection)) {
-//       titles.push(collection.getTitle())
-//     } else {
-//       const frontmatter = await collection.getExport("frontmatter").getValue()
-//       titles.push(frontmatter?.navTitle ?? collection.getTitle())
-//     }
-//   }
-
-//   return titles
-// }
-
 async function getBreadcrumbItems(slug: string[]) {
-  const combinations = slug.reduce(
+  // we do not want to have "docs" as breadcrumb element
+  // also, we do not need the index file in our breadcrumb
+  const combinations = removeFromArray(slug, ["docs", "index"]).reduce(
     (acc: string[][], curr) => acc.concat(acc.map((sub) => [...sub, curr])),
     [[]],
   )
 
-  const titles = []
+  const items = []
 
   for (const currentPageSegement of combinations) {
     let collection
     try {
       collection = await CollectionInfo.getEntry(currentPageSegement)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e: unknown) {
       continue
     }
 
     if (isDirectory(collection)) {
-      titles.push({
+      items.push({
         title: collection.getTitle(),
-        path: collection.getPathSegments().join("/"),
+        path: ["docs", ...collection.getPathSegments()],
       })
     } else {
-      const file = await CollectionInfo.getFile(currentPageSegement, "mdx")
+      const file = await getFileContent(collection)
+
+      if (!file) {
+        continue
+      }
       const frontmatter = await file.getExportValue("frontmatter")
-      titles.push({
-        title: frontmatter.navTitle ?? collection.getTitle(),
-        path: collection.getPath(),
+
+      // in case we have an index file inside a directory
+      // we have also to fetch the directory name, otherwise we get "Index" as title
+      // if there is no `frontmatter.navTitle` defined
+      const parentTitle = collection.getPathSegments().includes("index")
+        ? collection.getParent().getTitle()
+        : null
+
+      items.push({
+        title: frontmatter.navTitle ?? parentTitle ?? collection.getTitle(),
+        path: [
+          "docs",
+          ...removeFromArray(collection.getPathSegments(), ["index"]),
+        ],
       })
     }
   }
 
-  return titles
+  return items
 }
 
-// export async function generateMetadata(props: PageProps): Promise<Metadata> {
-//   const params = await props.params
-//   const titles = await getParentTitle(params.slug)
+async function getParentTitle(slug: string[]) {
+  const elements = await getBreadcrumbItems(slug)
 
-//   return {
-//     title: titles.join(" - "),
-//   }
-// }
+  return elements.map((ele) => ele.title)
+}
+
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const params = await props.params
+  const titles = await getParentTitle(params.slug)
+
+  return {
+    title: titles.join(" - "),
+  }
+}
 
 export default async function DocsPage(props: PageProps) {
   const params = await props.params
@@ -136,42 +135,43 @@ export default async function DocsPage(props: PageProps) {
   // // which is a directory e.g. calling /docs/<product>/getting-started instead of /docs/<product>/getting-started/installation
   // // this is only the case if you do not have a `index.mdx` in the `getting-started` directory
   if (isDirectory(collection)) {
-    return <DirectoryContent path={params.slug} />
-    return (
-      <>
-        <div className="container py-6">
-          <div className={cn("flex flex-col gap-y-8")}>
-            <div>
-              {/* <SiteBreadcrumb items={breadcrumbItems} /> */}
+    return <></>
+    // return <DirectoryContent path={params.slug} />
+    // return (
+    //   <>
+    //     <div className="container py-6">
+    //       <div className={cn("flex flex-col gap-y-8")}>
+    //         <div>
+    //           {/* <SiteBreadcrumb items={breadcrumbItems} /> */}
 
-              <article data-pagefind-body>
-                <div
-                  className={cn(
-                    // default prose
-                    "prose dark:prose-invert",
-                    // remove backtick from inline code block
-                    "prose-code:before:hidden prose-code:after:hidden",
-                    // use full width
-                    "w-full max-w-full",
-                  )}
-                >
-                  <h1>{collection.getTitle()}</h1>
-                </div>
+    //           <article data-pagefind-body>
+    //             <div
+    //               className={cn(
+    //                 // default prose
+    //                 "prose dark:prose-invert",
+    //                 // remove backtick from inline code block
+    //                 "prose-code:before:hidden prose-code:after:hidden",
+    //                 // use full width
+    //                 "w-full max-w-full",
+    //               )}
+    //             >
+    //               <h1>{collection.getTitle()}</h1>
+    //             </div>
 
-                {/* <SectionGrid sections={sections} /> */}
-              </article>
+    //             {/* <SectionGrid sections={sections} /> */}
+    //           </article>
 
-              {/* <Siblings source={collection} collectionName={params.slug[0]} /> */}
+    //           {/* <Siblings source={collection} collectionName={params.slug[0]} /> */}
 
-              <div>{/* <Comments /> */}</div>
-            </div>
-          </div>
-        </div>
-      </>
-    )
+    //           <div>{/* <Comments /> */}</div>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </>
+    // )
   }
 
-  return <FileContent path={params.slug} />
+  return <FileContent source={collection} />
 
   const frontmatter = await collection
   // const Content = await collection.getExport("default").getValue()
@@ -269,23 +269,28 @@ export default async function DocsPage(props: PageProps) {
   )
 }
 
-async function DirectoryContent({ path }: { path: string[] }) {
+async function DirectoryContent({ source }: { source: EntryType }) {
   const collection = await CollectionInfo.getDirectory(path)
 
   return <>Directory content</>
 }
 
-async function FileContent({ path }: { path: string[] }) {
-  const source = await CollectionInfo.getFile(path, "mdx")
+async function FileContent({ source }: { source: EntryType }) {
+  //const source = await CollectionInfo.getFile(path, "mdx")
 
-  const frontmatter = await source.getExportValue("frontmatter")
-  const headings = await source.getExportValue("headings")
+  const file = await getFileContent(source)
+  if (!file) {
+    return notFound()
+  }
+
+  const frontmatter = await file.getExportValue("frontmatter")
+  const headings = await file.getExportValue("headings")
   const lastUpdate = await source.getLastCommitDate()
-  const breadcrumbItems = await getBreadcrumbItems(path)
+  const breadcrumbItems = await getBreadcrumbItems(file.getPathSegments())
 
-  const sections = await source.getSiblings()
+  const siblings = await file.getSiblings()
 
-  const Content = await source.getExportValue("default")
+  const Content = await file.getExportValue("default")
 
   return (
     <>
@@ -343,7 +348,7 @@ async function FileContent({ path }: { path: string[] }) {
                 {/* <SectionGrid sections={sections} /> */}
               </article>
             </div>
-            {/* <Siblings source={source} collectionName={path[0]} /> */}
+            <Siblings path={source.getPathSegments()} />
 
             <div>
               <Comments />
@@ -355,7 +360,7 @@ async function FileContent({ path }: { path: string[] }) {
             <div className="my-6 grid gap-y-4 border-t pt-6">
               <div>
                 <a
-                  href={source.getEditUrl()}
+                  href={file.getEditUrl()}
                   target="_blank"
                   className="flex items-center text-sm text-muted-foreground no-underline transition-colors hover:text-foreground"
                 >
