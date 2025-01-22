@@ -60,7 +60,9 @@ export function SiteBreadcrumb({
               {item.type == "element" && (
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link href={`/${item.path.join("/")}`}>{item.title}</Link>
+                    <Link href={`/${item.path.join("/")}`} prefetch={true}>
+                      {item.title}
+                    </Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               )}
@@ -78,7 +80,10 @@ export function SiteBreadcrumb({
                           asChild
                           className="cursor-pointer"
                         >
-                          <Link href={`/${subItem.path.join("/")}`}>
+                          <Link
+                            href={`/${subItem.path.join("/")}`}
+                            prefetch={true}
+                          >
                             {subItem.title}
                           </Link>
                         </DropdownMenuItem>

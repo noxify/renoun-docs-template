@@ -62,7 +62,7 @@ export function useMDXComponents() {
 
       return (
         <>
-          <Link href={href} {...props}>
+          <Link href={href} {...props} prefetch={true}>
             {children ?? href}
           </Link>
         </>

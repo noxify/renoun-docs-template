@@ -57,7 +57,7 @@ export default async function SectionGrid({
             key={index}
             className="group transition-colors hover:bg-muted/50"
           >
-            <Link href={ele.path}>
+            <Link href={ele.path} prefetch={true}>
               <CardHeader>
                 <CardTitle className="group-hover:text-blue-500 group-hover:transition-colors">
                   {ele.title}

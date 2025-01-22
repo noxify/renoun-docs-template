@@ -29,6 +29,7 @@ export default async function Siblings({ source }: { source: EntryType }) {
         {previousPage && (
           <>
             <Link
+              prefetch={true}
               href={`/docs${previousPage.getPath()}`}
               className="text-gray-700"
               title={`Go to previous page: ${previousPageFrontmatter?.navTitle ?? previousPage.getTitle()}`}
@@ -53,6 +54,7 @@ export default async function Siblings({ source }: { source: EntryType }) {
         {nextPage && (
           <>
             <Link
+              prefetch={true}
               href={`/docs${nextPage.getPath()}`}
               className="text-gray-700"
               title={`Go to next page: ${nextPageFrontmatter?.navTitle ?? nextPage.getTitle()}`}

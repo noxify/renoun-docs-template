@@ -39,6 +39,7 @@ export function Navigation({
           <li key={item.path}>
             <div className="relative flex items-center">
               <Link
+                prefetch={true}
                 onClick={isMobile ? () => toggleSidebar() : undefined}
                 href={item.path}
                 className={cn(
@@ -79,6 +80,7 @@ function CollapsibleItem({
       <li className="relative">
         <div className="relative mb-0.5 flex items-center">
           <Link
+            prefetch={true}
             href={item.path}
             onClick={isMobile ? () => toggleSidebar() : undefined}
             className={cn(
@@ -121,6 +123,7 @@ function CollapsibleItem({
               return (
                 <li key={subItem.path} className="relative">
                   <Link
+                    prefetch={true}
                     href={subItem.path}
                     onClick={isMobile ? () => toggleSidebar() : undefined}
                     className={cn(

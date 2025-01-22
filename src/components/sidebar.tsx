@@ -74,7 +74,7 @@ export function SiteSidebar({
                   className="items-start gap-2 px-1.5"
                   asChild
                 >
-                  <Link href={collection.entrypoint}>
+                  <Link href={collection.entrypoint} prefetch={true}>
                     <div className="grid flex-1 leading-tight">
                       <div className="line-clamp-1 font-medium">
                         {collection.title}
@@ -102,6 +102,7 @@ export function SiteSidebar({
                 {item.isFile && item.children.length === 0 && (
                   <Link
                     href={item.path}
+                    prefetch={true}
                     className={cn(
                       "flex min-w-8 flex-1 items-center p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
                       current({ pathname, item })
@@ -116,6 +117,7 @@ export function SiteSidebar({
                   !item.isFile) && (
                   <Link
                     href={item.path}
+                    prefetch={true}
                     className={cn(
                       "flex flex-1 py-1.5 hover:rounded-sm hover:bg-muted",
                     )}
