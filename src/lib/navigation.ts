@@ -15,7 +15,6 @@ export interface TreeItem {
  * Checks if an entry is hidden (starts with an underscore)
  *
  * @param entry {EntryType} the entry to check for visibility
- * @returns {boolean}
  */
 export function isHidden(entry: EntryType) {
   return entry.getBaseName().startsWith("_")
