@@ -101,8 +101,8 @@ importers:
         specifier: ^1.2.0
         version: 1.2.0
       renoun:
-        specifier: 8.0.0
-        version: 8.0.0(acorn@8.14.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
+        specifier: 8.1.0
+        version: 8.1.0(acorn@8.14.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
       restyle:
         specifier: 3.1.1
         version: 3.1.1(react@19.0.0)
@@ -4160,8 +4160,8 @@ packages:
   remark@15.0.1:
     resolution: {integrity: sha512-Eht5w30ruCXgFmxVUSlNWQ9iiimq07URKeFS3hNc8cUWy1llX4KDWfyEDZRycMc+znsN9Ux5/tJ/BFdgdOwA3A==}
 
-  renoun@8.0.0:
-    resolution: {integrity: sha512-z85TIt6ZjAxCf6bFLtpxhJvM6Q6mhafafRAYwGJMQl4Alllj/FWpvcu4q9gtEtEm5HGtZTjKMahV/0wpYGXY9g==}
+  renoun@8.1.0:
+    resolution: {integrity: sha512-fmvIBAXuTpbgM1JvE7VXPRy9cdk/E24SW0hqjWF9uo83H9ltZwd/p7wWK4wS9h0stGdcO9/87TrVsGesPmb4qg==}
     hasBin: true
     peerDependencies:
       react: '>=18.0.0'
@@ -9807,7 +9807,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  renoun@8.0.0(acorn@8.14.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
+  renoun@8.1.0(acorn@8.14.0)(react-dom@19.0.0(react@19.0.0))(react@19.0.0):
     dependencies:
       '@mdx-js/mdx': 3.1.0(acorn@8.14.0)
       '@renoun/mdx': 1.3.1
