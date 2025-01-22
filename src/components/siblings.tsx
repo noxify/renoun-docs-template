@@ -105,10 +105,6 @@ async function getSiblings<
     currentPath = source.getPath()
   }
 
-  for (const [index, entry] of entries.entries()) {
-    console.log({ index, path: entry.getPath() })
-  }
-
   const currentIndex = entries.findIndex((ele) => ele.getPath() === currentPath)
 
   const previousElement =
