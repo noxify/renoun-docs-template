@@ -18,15 +18,4 @@ export default withMDX({
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   images: { unoptimized: true },
-  // experimental: {
-  //   parallelServerCompiles: true,
-  //   webpackBuildWorker: true,
-  // },
-  webpack(config, { webpack }) {
-    config.resolve.extensionAlias = {
-      ".js": [".ts", ".tsx", ".js"],
-    }
-
-    return config
-  },
 })
