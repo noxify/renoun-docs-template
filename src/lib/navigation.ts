@@ -11,6 +11,16 @@ export interface TreeItem {
   children?: TreeItem[]
 }
 
+/**
+ * Checks if an entry is hidden (starts with an underscore)
+ *
+ * @param entry {EntryType} the entry to check for visibility
+ * @returns {boolean}
+ */
+export function isHidden(entry: EntryType) {
+  return entry.getBaseName().startsWith("_")
+}
+
 /** Create a slug from a string. */
 // source: https://github.com/souporserious/renoun/blob/main/packages/renoun/src/utils/create-slug.ts
 export function createSlug(input: string) {
@@ -24,6 +34,9 @@ export function createSlug(input: string) {
 // source:
 // https://github.com/souporserious/renoun/blob/main/packages/renoun/src/file-system/index.test.ts
 async function buildTreeNavigation(entry: EntryType): Promise<TreeItem | null> {
+  if (isHidden(entry)) {
+    return null
+  }
   if (isDirectory(entry)) {
     return {
       title: entry.getTitle(),
@@ -58,7 +71,9 @@ async function buildTreeNavigation(entry: EntryType): Promise<TreeItem | null> {
 }
 
 export async function getTree(sources: EntryType[]): Promise<TreeItem[]> {
-  return (await Promise.all(sources.map(buildTreeNavigation))).filter(
-    (ele) => !!ele,
-  )
+  return (
+    await Promise.all(
+      sources.filter((ele) => !isHidden(ele)).map(buildTreeNavigation),
+    )
+  ).filter((ele) => !!ele)
 }

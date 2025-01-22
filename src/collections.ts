@@ -33,7 +33,6 @@ export const AriaDocsCollection = new Directory({
   basePath: "aria-docs",
   loaders: {
     mdx: withSchema<DocSchema>(
-      // {frontmatter: frontmatterSchema},
       (path) => import(`@content/docs/aria-docs/${path}.mdx`),
     ),
   },
