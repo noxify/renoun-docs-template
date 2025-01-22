@@ -75,6 +75,7 @@ export function NavMenu({ isSheet = false }) {
       {headerNavigation.map((item) => {
         const Comp = (
           <Link
+            prefetch={true}
             key={item.title + item.path}
             className="flex items-center gap-1"
             href={item.path}

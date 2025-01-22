@@ -1,34 +1,64 @@
-"use client"
+import type { EntryType } from "@/collections"
+import { getFileContent } from "@/collections"
+import { isDirectory, isFile } from "renoun/file-system"
 
-import { resolveHref } from "next/dist/client/resolve-href"
-import Router from "next/router"
-import multimatch from "multimatch"
-
-import type { TreeItem } from "./utils"
-
-export function isActive(
-  currentPath: string | string[],
-  checkPath: string | string[],
-) {
-  return multimatch(currentPath, checkPath).length > 0
+export interface TreeItem {
+  title: string
+  path: string
+  isFile: boolean
+  slug: string[]
+  depth: number
+  children?: TreeItem[]
 }
 
-export const current = ({
-  pathname,
-  item,
-}: {
-  pathname: string
-  item: TreeItem
-}) => {
-  const active = isActive(
-    pathname,
-    [item.path, ...(item.children ?? []).map((ele) => ele.path)]
-      .map((ele) => {
-        const resolvedUrl = resolveHref(Router, ele)
-        return [resolvedUrl, `${resolvedUrl}/**`]
-      })
-      .flat(),
-  )
+/** Create a slug from a string. */
+// source: https://github.com/souporserious/renoun/blob/main/packages/renoun/src/utils/create-slug.ts
+export function createSlug(input: string) {
+  return input
+    .replace(/([a-z])([A-Z])/g, "$1-$2") // Add a hyphen between lower and upper case letters
+    .replace(/([A-Z])([A-Z][a-z])/g, "$1-$2") // Add a hyphen between consecutive upper case letters followed by a lower case letter
+    .replace(/[_\s]+/g, "-") // Replace underscores and spaces with a hyphen
+    .toLowerCase() // Convert the entire string to lowercase
+}
 
-  return active
+// source:
+// https://github.com/souporserious/renoun/blob/main/packages/renoun/src/file-system/index.test.ts
+async function buildTreeNavigation(entry: EntryType): Promise<TreeItem | null> {
+  if (isDirectory(entry)) {
+    return {
+      title: entry.getTitle(),
+      path: `/docs${entry.getPath()}`,
+      isFile: isFile(entry),
+      slug: entry.getPathSegments(),
+      depth: entry.getDepth(),
+      children: isDirectory(entry)
+        ? (
+            await Promise.all(
+              (await entry.getEntries()).map(buildTreeNavigation),
+            )
+          ).filter((ele) => !!ele)
+        : [],
+    }
+  } else {
+    const file = await getFileContent(entry)
+    if (!file) {
+      return null
+    }
+
+    const frontmatter = await file.getExportValue("frontmatter")
+    return {
+      title: frontmatter.navTitle ?? entry.getTitle(),
+      path: `/docs${entry.getPath()}`,
+      isFile: isFile(entry),
+      slug: entry.getPathSegments(),
+      depth: entry.getDepth(),
+      children: [],
+    }
+  }
+}
+
+export async function getTree(sources: EntryType[]): Promise<TreeItem[]> {
+  return (await Promise.all(sources.map(buildTreeNavigation))).filter(
+    (ele) => !!ele,
+  )
 }

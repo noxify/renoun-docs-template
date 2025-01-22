@@ -18,23 +18,14 @@ export default withMDX({
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
   images: { unoptimized: true },
+  // experimental: {
+  //   parallelServerCompiles: true,
+  //   webpackBuildWorker: true,
+  // },
   webpack(config, { webpack }) {
     config.resolve.extensionAlias = {
       ".js": [".ts", ".tsx", ".js"],
     }
-
-    /* Silence critical dependency warnings for @ts-morph/common */
-    config.plugins.push(
-      new webpack.ContextReplacementPlugin(
-        /\/(@ts-morph\/common)\//,
-        (data) => {
-          for (const dependency of data.dependencies) {
-            delete dependency.critical
-          }
-          return data
-        },
-      ),
-    )
 
     return config
   },

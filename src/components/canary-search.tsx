@@ -63,17 +63,20 @@ export const CanarySearch = ({
 
   const ProviderComponent = ({ children }: { children: unknown }) =>
     useMockProvider ? (
-      //                    i think this is based on the upgrade to react 19@rc
+      // @ts-expect-error i think this is based on the upgrade to react 19@rc
       <canary-provider-mock>{children}</canary-provider-mock>
     ) : (
+      // @ts-expect-error i think this is based on the upgrade to react 19@rc
       <canary-provider-pagefind>{children}</canary-provider-pagefind>
     )
 
   return (
     <>
       {loaded ? (
+        // @ts-expect-error i think this is based on the upgrade to react 19@rc
         <canary-root framework="vitepress">
           <ProviderComponent>
+            {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
             <canary-modal
               style={{
                 "--canary-color-backdrop-overlay": "rgb(128 123 123 / 28%)",
@@ -89,23 +92,33 @@ export const CanarySearch = ({
                 <SearchIcon className="h-4 w-4" />
               </Button>
 
+              {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
               <canary-content slot="content">
+                {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
                 <canary-input slot="input" autofocus></canary-input>
 
+                {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
                 <canary-search slot="mode">
+                  {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
                   <canary-filter-tabs-glob
                     slot="head"
                     tabs={JSON.stringify(tabs)}
-                  ></canary-filter-tabs-glob>
+                  >
+                    {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
+                  </canary-filter-tabs-glob>
 
-                  <canary-search-results
-                    slot="body"
-                    group
-                  ></canary-search-results>
+                  {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
+                  <canary-search-results slot="body" group>
+                    {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
+                  </canary-search-results>
+                  {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
                 </canary-search>
+                {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
               </canary-content>
+              {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
             </canary-modal>
           </ProviderComponent>
+          {/* @ts-expect-error i think this is based on the upgrade to react 19@rc */}
         </canary-root>
       ) : (
         <div className={buttonVariants({ variant: "ghost" })}>

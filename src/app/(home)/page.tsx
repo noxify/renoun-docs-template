@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { MoveUpRightIcon } from "lucide-react"
 
-export default async function Home() {
+export default function Home() {
   return (
     <div className="flex min-h-[88vh] flex-col items-center justify-center px-2 py-8 text-center sm:min-h-[91vh]">
       <Link

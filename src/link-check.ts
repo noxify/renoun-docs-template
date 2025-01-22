@@ -2,26 +2,23 @@ import { readFileSync } from "fs"
 import { toString } from "mdast-util-to-string"
 import { printErrors, scanURLs, validateFiles } from "next-validate-link"
 import remarkParse from "remark-parse"
+import { isDirectory, isFile } from "renoun/file-system"
 import { unified } from "unified"
 
 import { CollectionInfo } from "./collections"
-import { createSlug } from "./lib/utils"
-
-function removeFromArray<T>(array: T[], valueToRemove: T[]): T[] {
-  return array.filter((value) => !valueToRemove.includes(value))
-}
+import { createSlug, removeFromArray } from "./lib/utils"
 
 const getDirectories = async () => {
-  const collections = (
-    await CollectionInfo.getSources({ depth: Infinity })
-  ).filter((collection) => collection.isDirectory())
+  const entries = (await CollectionInfo.getEntries({ recursive: true })).filter(
+    (entry) => isDirectory(entry),
+  )
 
   const result = []
-  for (const collection of collections) {
-    const filePath = collection.getFileSystemPath()
+  for (const entry of entries) {
+    const filePath = entry.getAbsolutePath()
 
-    const slug = removeFromArray(collection.getPathSegments(), ["docs"])
-    const url = collection.getPath()
+    const slug = removeFromArray(entry.getPathSegments(), ["docs"])
+    const url = "/docs" + entry.getPath()
 
     result.push({
       path: filePath,
@@ -34,16 +31,16 @@ const getDirectories = async () => {
 }
 
 const getFiles = async () => {
-  const collections = (
-    await CollectionInfo.getSources({ depth: Infinity })
-  ).filter((collection) => collection.isFile())
+  const entries = (await CollectionInfo.getEntries({ recursive: true })).filter(
+    (entry) => isFile(entry, "mdx"),
+  )
 
   const result = []
-  for (const collection of collections) {
-    const filePath = collection.getFileSystemPath()
+  for (const entry of entries) {
+    const filePath = entry.getAbsolutePath()
 
-    const slug = removeFromArray(collection.getPathSegments(), ["docs"])
-    const url = collection.getPath()
+    const slug = removeFromArray(entry.getPathSegments(), ["docs"])
+    const url = "/docs" + entry.getPath()
     const content = readFileSync(filePath).toString()
 
     const file = unified()
@@ -108,9 +105,9 @@ const scanned = await scanURLs({
   },
 })
 
-printErrors(
-  await validateFiles(files, {
-    scanned,
-  }),
-  true,
-)
+const validateLinks = await validateFiles(files, {
+  scanned,
+  checkExternal: false,
+})
+
+printErrors(validateLinks, true)

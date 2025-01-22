@@ -17,7 +17,7 @@ import {
 
 interface Item {
   title: string
-  path: string
+  path: string[]
 }
 
 type ElementItem = { type: "element" } & Item
@@ -46,7 +46,7 @@ function groupBreadcrumb(input: Item[]): (ElementItem | GroupItem)[] {
 export function SiteBreadcrumb({
   items,
 }: {
-  items: { title: string; path: string }[]
+  items: { title: string; path: string[] }[]
 }) {
   const breadcrumbItems = groupBreadcrumb(items)
 
@@ -60,7 +60,9 @@ export function SiteBreadcrumb({
               {item.type == "element" && (
                 <BreadcrumbItem>
                   <BreadcrumbLink asChild>
-                    <Link href={item.path}>{item.title}</Link>
+                    <Link href={`/${item.path.join("/")}`} prefetch={true}>
+                      {item.title}
+                    </Link>
                   </BreadcrumbLink>
                 </BreadcrumbItem>
               )}
@@ -78,7 +80,12 @@ export function SiteBreadcrumb({
                           asChild
                           className="cursor-pointer"
                         >
-                          <Link href={subItem.path}>{subItem.title}</Link>
+                          <Link
+                            href={`/${subItem.path.join("/")}`}
+                            prefetch={true}
+                          >
+                            {subItem.title}
+                          </Link>
                         </DropdownMenuItem>
                       ))}
                     </DropdownMenuContent>

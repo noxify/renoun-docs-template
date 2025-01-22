@@ -23,26 +23,33 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode
 }>) {
-  const collections = await CollectionInfo.getSources({ depth: Infinity })
+  const collections = await CollectionInfo.getEntries({
+    recursive: false,
+    includeIndexAndReadme: true,
+  })
 
-  // here we're generating the items for the dropdown menu in the sidebar
-  // it's used to provide a short link for the user to switch easily between the different collections
-  // it expects an `index.mdx` file in each collection at the root level ( e.g. `aria-docs/index.mdx`)
-  const collectionMeta = collections
-    .filter((ele) => ele.getDepth() === 1)
-    .filter((ele) => ele.isFile())
+  const availableCollections = []
 
-  const availableCollections = await Promise.all(
-    collectionMeta.map(async (collection) => {
-      const meta = await collection.getExport("frontmatter").getValue()
-      return {
-        name: meta?.title ?? collection.getTitle(),
-        pattern: `/docs/${meta?.alias ?? collection.getPathSegments()[1]}/**`,
-      }
-    }),
-  )
+  for (const collection of collections) {
+    try {
+      const indexFile = await collection.getFile("index", "mdx")
 
-  availableCollections.unshift({ name: "All", pattern: "**/*" })
+      const frontmatter = await indexFile.getExportValue("frontmatter")
+
+      availableCollections.push({
+        name: frontmatter.title ?? indexFile.getTitle(),
+        pattern: `/docs/${frontmatter.alias ?? collection.getPathSegments()[1]}/**`,
+      })
+    } catch (e: unknown) {
+      console.log(e)
+    }
+  }
+
+  availableCollections.unshift({
+    name: "All",
+    pattern: "**/*",
+  })
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head />

@@ -1,41 +1,23 @@
-import type { DocsSource } from "@/collections"
+import type { EntryType } from "@/collections"
+import type { EntryGroup, FileSystemEntry } from "renoun/file-system"
 import Link from "next/link"
 import { CollectionInfo } from "@/collections"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
+import { isFile } from "renoun/file-system"
 
-export default async function Siblings({
-  source,
-  collectionName,
-}: {
-  source: DocsSource | undefined
-  collectionName: string
-}) {
-  if (!source) {
-    return <></>
-  }
+export default async function Siblings({ source }: { source: EntryType }) {
+  const [previousPage, nextPage] = await getSiblings(source, {
+    entryGroup: CollectionInfo,
+  })
 
-  const collections = await CollectionInfo.getSources({ depth: Infinity })
-
-  const collectionItems = collections
-    .filter((collection) => collection.getPathSegments()[1] === collectionName)
-    .filter((ele) => ele.getDepth() >= 2)
-
-  const currentCollectionItem = collectionItems.find(
-    (ele) => ele.getPath() === source.getPath(),
-  )
-
-  if (!currentCollectionItem) {
-    return <></>
-  }
-
-  const [previousPage, nextPage] = await currentCollectionItem.getSiblings()
-
-  const previousPageFrontmatter = previousPage?.isFile()
-    ? await previousPage.getExport("frontmatter").getValue()
+  const previousPageFrontmatter = previousPage
+    ? isFile(previousPage, "mdx")
+      ? await previousPage.getExportValue("frontmatter")
+      : null
     : null
 
-  const nextPageFrontmatter = nextPage?.isFile()
-    ? await nextPage.getExport("frontmatter").getValue()
+  const nextPageFrontmatter = isFile(nextPage, "mdx")
+    ? await nextPage.getExportValue("frontmatter")
     : null
 
   return (
@@ -44,10 +26,11 @@ export default async function Siblings({
       data-pagefind-ignore
     >
       <div className="flex w-0 flex-1">
-        {previousPage && previousPage.getDepth() > 1 && (
+        {previousPage && (
           <>
             <Link
-              href={previousPage.getPath()}
+              prefetch={true}
+              href={`/docs${previousPage.getPath()}`}
               className="text-gray-700"
               title={`Go to previous page: ${previousPageFrontmatter?.navTitle ?? previousPage.getTitle()}`}
             >
@@ -68,10 +51,11 @@ export default async function Siblings({
       </div>
 
       <div className="-mt-px flex w-0 flex-1 justify-end">
-        {nextPage && nextPage.getDepth() > 1 && (
+        {nextPage && (
           <>
             <Link
-              href={nextPage.getPath()}
+              prefetch={true}
+              href={`/docs${nextPage.getPath()}`}
               className="text-gray-700"
               title={`Go to next page: ${nextPageFrontmatter?.navTitle ?? nextPage.getTitle()}`}
             >
@@ -90,4 +74,46 @@ export default async function Siblings({
       </div>
     </nav>
   )
+}
+
+// inspired by
+// * https://github.com/souporserious/renoun/blob/main/packages/renoun/src/file-system/index.tsx#L497
+async function getSiblings<
+  GroupTypes extends Record<string, unknown> = Record<string, unknown>,
+>(
+  source: EntryType,
+  options: {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    entryGroup: EntryGroup<GroupTypes, FileSystemEntry<any>[]>
+    includeAll?: boolean
+  },
+): Promise<[EntryType | undefined, EntryType | undefined]> {
+  let entries = await options.entryGroup.getEntries({
+    recursive: true,
+    includeIndexAndReadme: false,
+  })
+
+  if (!options.includeAll) {
+    entries = entries.filter(
+      (ele) => ele.getPathSegments()[0] == source.getPathSegments()[0],
+    )
+  }
+
+  let currentPath = ""
+
+  if (isFile(source) && source.getBaseName() === "index") {
+    currentPath = source.getParent().getPath()
+  } else {
+    currentPath = source.getPath()
+  }
+
+  const currentIndex = entries.findIndex((ele) => ele.getPath() === currentPath)
+
+  const previousElement =
+    currentIndex > 0 ? entries[currentIndex - 1] : undefined
+
+  const nextElement =
+    currentIndex < entries.length - 1 ? entries[currentIndex + 1] : undefined
+
+  return [previousElement, nextElement]
 }
