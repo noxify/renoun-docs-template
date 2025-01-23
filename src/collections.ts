@@ -24,16 +24,18 @@ export const headingSchema = z.array(
   }),
 )
 
+export const docSchema = {
+  frontmatter: frontmatterSchema,
+  headings: headingSchema,
+}
+
 export const AriaDocsCollection = new Directory({
   path: "content/docs/aria-docs",
   // base path is required, otherwise we can't build the correct slugs in the `generateStaticParams`
   basePath: "aria-docs",
   loaders: {
     mdx: withSchema(
-      {
-        frontmatter: frontmatterSchema,
-        headings: headingSchema,
-      },
+      docSchema,
       (path) => import(`@content/docs/aria-docs/${path}.mdx`),
     ),
   },
@@ -45,10 +47,7 @@ export const RenounDocsCollection = new Directory({
   basePath: "renoun-docs",
   loaders: {
     mdx: withSchema(
-      {
-        frontmatter: frontmatterSchema,
-        headings: headingSchema,
-      },
+      docSchema,
       (path) => import(`@content/docs/renoun-docs/${path}.mdx`),
     ),
   },
@@ -60,10 +59,7 @@ export const TestCollection = new Directory({
   basePath: "test-collection",
   loaders: {
     mdx: withSchema(
-      {
-        frontmatter: frontmatterSchema,
-        headings: headingSchema,
-      },
+      docSchema,
       (path) => import(`@content/docs/test-collection/${path}.mdx`),
     ),
   },
