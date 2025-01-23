@@ -15,7 +15,7 @@ export default function Home() {
       <h1 className="mb-4 text-3xl font-bold sm:text-7xl">
         An example app to built your documentation based on renoun.
       </h1>
-      <p className="mb-8 max-w-[800px] text-muted-foreground sm:text-xl">
+      <p className="text-muted-foreground mb-8 max-w-[800px] sm:text-xl">
         This feature-packed documentation template, built with Next.js, offers a
         sleek and responsive design, perfect for all your project documentation
         needs.

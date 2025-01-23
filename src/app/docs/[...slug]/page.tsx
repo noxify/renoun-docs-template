@@ -209,7 +209,7 @@ async function FileContent({ source }: { source: EntryType }) {
               >
                 {frontmatter.title ?? source.getTitle()}
               </h1>
-              <p className="mb-8 text-pretty text-lg font-medium text-gray-500 sm:text-xl/8">
+              <p className="mb-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
                 {frontmatter.description ?? ""}
               </p>
               <article>
@@ -220,7 +220,7 @@ async function FileContent({ source }: { source: EntryType }) {
                     // remove backtick from inline code block
                     "prose-code:before:hidden prose-code:after:hidden",
                     // use full width
-                    "max-w-auto w-full min-w-full",
+                    "w-full max-w-auto min-w-full",
                     "grow",
 
                     "prose-table:my-0",
@@ -234,9 +234,9 @@ async function FileContent({ source }: { source: EntryType }) {
                     "prose-h4:text-xl prose-h4:font-semibold prose-h4:tracking-tight",
 
                     "prose-blockquote:mt-6 prose-blockquote:border-l-2 prose-blockquote:pl-6 prose-blockquote:italic",
-                    "prose-p:leading-7 prose-p:[&:not(:first-child)]:mt-6",
+                    "prose-p:leading-7 not-first:prose-p:mt-6",
 
-                    "prose-ul:ml-6 prose-ul:list-disc prose-ul:[&>li]:mt-2 prose-ul:[&>ul]:my-2 prose-ul:[&>ul]:ml-0",
+                    "prose-ul:ml-6 prose-ul:list-disc [&>li]:prose-ul:mt-2 [&>ul]:prose-ul:my-2 [&>ul]:prose-ul:ml-0",
                   )}
                 >
                   <Content />
@@ -251,7 +251,7 @@ async function FileContent({ source }: { source: EntryType }) {
               <Comments />
             </div>
           </div>
-          <div className="hidden w-[19.5rem] xl:sticky xl:top-[4.75rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.75rem)] xl:flex-none xl:overflow-y-auto xl:pb-16 xl:pr-6">
+          <div className="hidden w-[19.5rem] xl:sticky xl:top-[4.75rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.75rem)] xl:flex-none xl:overflow-y-auto xl:pr-6 xl:pb-16">
             <TableOfContents toc={headings} />
 
             <div className="my-6 grid gap-y-4 border-t pt-6">
@@ -259,14 +259,14 @@ async function FileContent({ source }: { source: EntryType }) {
                 <a
                   href={file.getEditUrl()}
                   target="_blank"
-                  className="flex items-center text-sm text-muted-foreground no-underline transition-colors hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground flex items-center text-sm no-underline transition-colors"
                 >
                   Edit this page <ExternalLinkIcon className="ml-2 h-4 w-4" />
                 </a>
               </div>
 
               {lastUpdate && (
-                <div className="text-sm text-muted-foreground">
+                <div className="text-muted-foreground text-sm">
                   Last updated: {format(lastUpdate, "dd.MM.yyyy")}
                 </div>
               )}

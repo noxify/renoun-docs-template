@@ -33,7 +33,7 @@ export default function RailroadWrapper({
       <section>
         <div>
           <div className="dot-background rounded-md border p-8 dark:border-gray-700">
-            <div className="border bg-background p-4">
+            <div className="bg-background border p-4">
               <div dangerouslySetInnerHTML={{ __html: result.toString() }} />
             </div>
           </div>

@@ -38,7 +38,7 @@ export function DataTableColumnHeader<TData, TValue>({
             }
             variant="ghost"
             size="sm"
-            className="h-8 w-full justify-between data-[state=open]:bg-accent"
+            className="data-[state=open]:bg-accent h-8 w-full justify-between"
           >
             <span>{title}</span>
             {column.getCanSort() && column.getIsSorted() === "desc" ? (
@@ -58,7 +58,7 @@ export function DataTableColumnHeader<TData, TValue>({
                 onClick={() => column.toggleSorting(false)}
               >
                 <ArrowUpIcon
-                  className="mr-2 size-3.5 text-muted-foreground/70"
+                  className="text-muted-foreground/70 mr-2 size-3.5"
                   aria-hidden="true"
                 />
                 Sort ascending
@@ -68,7 +68,7 @@ export function DataTableColumnHeader<TData, TValue>({
                 onClick={() => column.toggleSorting(true)}
               >
                 <ArrowDownIcon
-                  className="mr-2 size-3.5 text-muted-foreground/70"
+                  className="text-muted-foreground/70 mr-2 size-3.5"
                   aria-hidden="true"
                 />
                 Sort descending

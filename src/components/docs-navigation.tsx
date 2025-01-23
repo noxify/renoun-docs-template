@@ -43,10 +43,10 @@ export function Navigation({
                 onClick={isMobile ? () => toggleSidebar() : undefined}
                 href={item.path}
                 className={cn(
-                  "flex h-8 min-w-8 flex-1 items-center p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                  "text-muted-foreground ring-ring hover:text-accent-foreground flex h-8 min-w-8 flex-1 items-center p-1.5 text-sm outline-hidden transition-all focus-visible:ring-2",
                   highlightActive && current({ pathname, item })
-                    ? "rounded-sm bg-muted"
-                    : "hover:rounded-sm hover:bg-muted",
+                    ? "bg-muted rounded-sm"
+                    : "hover:bg-muted hover:rounded-sm",
                 )}
               >
                 <div className="line-clamp-1 pr-6">{item.title}</div>
@@ -84,16 +84,16 @@ function CollapsibleItem({
             href={item.path}
             onClick={isMobile ? () => toggleSidebar() : undefined}
             className={cn(
-              "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+              "text-muted-foreground ring-ring hover:text-accent-foreground flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm outline-hidden transition-all focus-visible:ring-2",
               current({ pathname, item })
-                ? "rounded-sm bg-muted text-accent-foreground/80"
-                : "hover:rounded-sm hover:bg-muted",
+                ? "bg-muted text-accent-foreground/80 rounded-sm"
+                : "hover:bg-muted hover:rounded-sm",
             )}
           >
             {current({ pathname, item }) && item.depth > 3 && (
               <div
                 aria-hidden="true"
-                className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-foreground/90"
+                className="bg-foreground/90 absolute top-0 bottom-0 -left-[9px] z-50 w-[1px]"
               ></div>
             )}
             <div className="line-clamp-1 pr-6">{item.title}</div>
@@ -102,15 +102,15 @@ function CollapsibleItem({
           <CollapsibleTrigger asChild>
             <Button
               variant="ghost"
-              className="absolute right-1 h-6 w-6 rounded-md p-0 ring-ring transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
+              className="ring-ring absolute right-1 h-6 w-6 rounded-md p-0 transition-all focus-visible:ring-2 data-[state=open]:rotate-90"
             >
-              <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              <ChevronRight className="text-muted-foreground h-4 w-4" />
               <span className="sr-only">Toggle</span>
             </Button>
           </CollapsibleTrigger>
         </div>
         <CollapsibleContent className="py-0.5 pl-2">
-          <ul className="grid gap-y-1 border-l border-accent pl-2">
+          <ul className="border-accent grid gap-y-1 border-l pl-2">
             {item.children?.map((subItem) => {
               if ((subItem.children ?? []).length > 0) {
                 return (
@@ -127,16 +127,16 @@ function CollapsibleItem({
                     href={subItem.path}
                     onClick={isMobile ? () => toggleSidebar() : undefined}
                     className={cn(
-                      "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                      "text-muted-foreground ring-ring hover:text-accent-foreground flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm outline-hidden transition-all focus-visible:ring-2",
                       current({ pathname, item: subItem })
-                        ? "text-accent-foreground hover:rounded-sm hover:bg-muted"
-                        : "hover:rounded-sm hover:bg-muted",
+                        ? "text-accent-foreground hover:bg-muted hover:rounded-sm"
+                        : "hover:bg-muted hover:rounded-sm",
                     )}
                   >
                     {current({ pathname, item: subItem }) && (
                       <div
                         aria-hidden="true"
-                        className="absolute -left-[9px] bottom-0 top-0 z-50 w-[1px] bg-accent-foreground/70"
+                        className="bg-accent-foreground/70 absolute top-0 bottom-0 -left-[9px] z-50 w-[1px]"
                       ></div>
                     )}
                     <div className="line-clamp-1">{subItem.title}</div>
