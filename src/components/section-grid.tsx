@@ -2,6 +2,7 @@ import type { getSections } from "@/collections"
 import Link from "next/link"
 import { getFileContent } from "@/collections"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { isHidden } from "@/lib/navigation"
 import { removeFromArray } from "@/lib/utils"
 import { isDirectory } from "renoun/file-system"
 
@@ -17,6 +18,9 @@ export default async function SectionGrid({
   const elements = []
 
   for (const section of sections) {
+    if (isHidden(section)) {
+      continue
+    }
     if (isDirectory(section)) {
       elements.push({
         title: section.getTitle(),
@@ -55,7 +59,7 @@ export default async function SectionGrid({
         return (
           <Card
             key={index}
-            className="group transition-colors hover:bg-muted/50"
+            className="group hover:bg-muted/50 transition-colors"
           >
             <Link href={ele.path} prefetch={true}>
               <CardHeader>

@@ -2,8 +2,9 @@ import type { EntryType } from "@/collections"
 import type { EntryGroup, FileSystemEntry } from "renoun/file-system"
 import Link from "next/link"
 import { CollectionInfo } from "@/collections"
+import { isHidden } from "@/lib/navigation"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
-import { isFile } from "renoun/file-system"
+import { isDirectory, isFile } from "renoun/file-system"
 
 export default async function Siblings({ source }: { source: EntryType }) {
   const [previousPage, nextPage] = await getSiblings(source, {
@@ -35,12 +36,12 @@ export default async function Siblings({ source }: { source: EntryType }) {
               title={`Go to previous page: ${previousPageFrontmatter?.navTitle ?? previousPage.getTitle()}`}
             >
               <div className="group flex shrink-0 items-center gap-x-4">
-                <ChevronLeftIcon className="h-5 w-5 flex-none text-gray-500 transition-colors duration-200 group-hover:text-foreground dark:text-gray-400" />
+                <ChevronLeftIcon className="group-hover:text-foreground h-5 w-5 flex-none text-gray-500 transition-colors duration-200 dark:text-gray-400" />
                 <div className="flex flex-col items-start">
                   <p className="text-xs leading-5 text-gray-500">
                     Previous page
                   </p>
-                  <p className="text-sm font-medium leading-5 text-gray-500 transition-colors duration-200 group-hover:text-foreground dark:text-gray-400">
+                  <p className="group-hover:text-foreground text-sm leading-5 font-medium text-gray-500 transition-colors duration-200 dark:text-gray-400">
                     {previousPage.getTitle()}
                   </p>
                 </div>
@@ -62,11 +63,11 @@ export default async function Siblings({ source }: { source: EntryType }) {
               <div className="group flex shrink-0 items-center gap-x-4">
                 <div className="flex flex-col items-end">
                   <p className="text-xs leading-5 text-gray-500">Next page</p>
-                  <p className="text-sm leading-5 text-gray-500 transition-colors duration-200 group-hover:text-foreground dark:text-gray-400">
+                  <p className="group-hover:text-foreground text-sm leading-5 text-gray-500 transition-colors duration-200 dark:text-gray-400">
                     {nextPage.getTitle()}
                   </p>
                 </div>
-                <ChevronRightIcon className="h-5 w-5 flex-none text-gray-500 transition-colors duration-200 group-hover:text-foreground dark:text-gray-400" />
+                <ChevronRightIcon className="group-hover:text-foreground h-5 w-5 flex-none text-gray-500 transition-colors duration-200 dark:text-gray-400" />
               </div>
             </Link>
           </>
@@ -98,6 +99,10 @@ async function getSiblings<
       (ele) => ele.getPathSegments()[0] == source.getPathSegments()[0],
     )
   }
+
+  entries = entries.filter(
+    (ele) => !isHidden(ele) && (isDirectory(ele) || isFile(ele, "mdx")),
+  )
 
   let currentPath = ""
 
