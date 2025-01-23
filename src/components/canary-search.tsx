@@ -124,7 +124,7 @@ export const CanarySearch = ({
         <div className={buttonVariants({ variant: "ghost" })}>
           <svg
             aria-hidden="true"
-            className="h-4 w-4 animate-spin fill-foreground/80 text-foreground/50"
+            className="fill-foreground/80 text-foreground/50 h-4 w-4 animate-spin"
             viewBox="0 0 100 101"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

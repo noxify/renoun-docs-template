@@ -45,9 +45,9 @@ export function TableOfContents({ toc }: TocProps) {
                   item.depth == 2 ? "pl-0" : "",
                   item.depth == 3 ? "pl-4" : "",
 
-                  "inline-block no-underline transition-colors hover:text-foreground",
+                  "hover:text-foreground inline-block no-underline transition-colors",
                   item.id === `${activeHeading}`
-                    ? "font-medium text-foreground"
+                    ? "text-foreground font-medium"
                     : "text-muted-foreground",
                 )}
               >
@@ -68,20 +68,20 @@ export function MobileTableOfContents({ toc }: TocProps) {
   const filteredToc = toc.filter((item) => item.depth > 1 && item.depth <= 4)
 
   return (
-    <div className="fixed left-0 top-12 z-20 h-[calc(theme(height.12)+1px)] w-full border-b bg-background px-2 py-2.5 lg:left-[theme(width.64)] lg:w-[calc(theme(width.full)-theme(width.64))] xl:hidden">
+    <div className="bg-background fixed top-12 left-0 z-20 h-[calc(theme(height.12)+1px)] w-full border-b px-2 py-2.5 lg:left-[theme(width.64)] lg:w-[calc(theme(width.full)-theme(width.64))] xl:hidden">
       <DropdownMenu>
-        <DropdownMenuTrigger className="w-full rounded-md ring-ring hover:bg-accent hover:text-accent-foreground focus-visible:outline-hidden focus-visible:ring-2 data-[state=open]:bg-accent">
+        <DropdownMenuTrigger className="ring-ring hover:bg-accent hover:text-accent-foreground data-[state=open]:bg-accent w-full rounded-md focus-visible:ring-2 focus-visible:outline-hidden">
           <div className="flex items-center gap-1.5 overflow-hidden px-2 py-1.5 text-left text-sm transition-all">
-            <SquareChartGanttIcon className="ml-auto h-4 w-4 text-muted-foreground/50" />
+            <SquareChartGanttIcon className="text-muted-foreground/50 ml-auto h-4 w-4" />
             <div className="line-clamp-1 flex-1 pr-2 font-medium">
               {filteredToc.find((item) => item.id === activeHeading)?.text ??
                 "Table of contents"}
             </div>
-            <ChevronsUpDown className="ml-auto h-4 w-4 text-muted-foreground/50" />
+            <ChevronsUpDown className="text-muted-foreground/50 ml-auto h-4 w-4" />
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="max-w-auto w-full min-w-full"
+          className="w-full max-w-auto min-w-full"
           align="start"
           side="bottom"
           sideOffset={4}

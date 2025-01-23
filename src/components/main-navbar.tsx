@@ -28,7 +28,7 @@ export function Navbar({
   tabs: { name: string; pattern: string }[]
 }) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60">
+    <header className="bg-background/95 supports-backdrop-filter:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur-sm">
       <div className="px-2">
         <nav
           className="mx-auto flex h-12 items-center justify-between"
@@ -38,7 +38,7 @@ export function Navbar({
             <div className="flex">
               <Logo />
             </div>
-            <div className="hidden items-center gap-5 text-sm font-medium text-muted-foreground lg:flex">
+            <div className="text-muted-foreground hidden items-center gap-5 text-sm font-medium lg:flex">
               <NavMenu />
             </div>
           </div>
@@ -63,7 +63,7 @@ export function Navbar({
 export function Logo() {
   return (
     <Link href="/" className="flex items-center gap-2.5">
-      <HexagonIcon className="h-7 w-7 fill-current text-muted-foreground" />
+      <HexagonIcon className="text-muted-foreground h-7 w-7 fill-current" />
       <h2 className="text-md font-bold">renoun Template</h2>
     </Link>
   )
