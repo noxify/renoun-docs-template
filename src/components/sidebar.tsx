@@ -48,7 +48,7 @@ export function SiteSidebar({
       {!hideSwitcher && (
         <SidebarHeader>
           <DropdownMenu>
-            <DropdownMenuTrigger className="w-full rounded-md ring-ring hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 data-[state=open]:bg-accent">
+            <DropdownMenuTrigger className="w-full rounded-md ring-ring hover:bg-accent hover:text-accent-foreground focus-visible:outline-hidden focus-visible:ring-2 data-[state=open]:bg-accent">
               <div className="flex items-center gap-1.5 overflow-hidden px-2 py-1.5 text-left text-sm transition-all">
                 <div className="line-clamp-1 flex-1 pr-2 font-medium">
                   {
@@ -104,7 +104,7 @@ export function SiteSidebar({
                     href={item.path}
                     prefetch={true}
                     className={cn(
-                      "flex min-w-8 flex-1 items-center p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                      "flex min-w-8 flex-1 items-center p-1.5 text-sm text-muted-foreground outline-hidden ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
                       current({ pathname, item })
                         ? "rounded-sm bg-muted"
                         : "hover:rounded-sm hover:bg-muted",

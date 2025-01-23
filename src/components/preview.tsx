@@ -10,7 +10,7 @@ export function Preview({ children }: { children: ReactNode }) {
           <div className="border bg-background p-4">{children}</div>
         </div>
         <CodeBlock
-          className={{ container: "!mx-[1px] !rounded-t-none" }}
+          className={{ container: "mx-[1px]! rounded-t-none!" }}
           allowErrors
           showLineNumbers
           value={reactElementToJSXString(children)}

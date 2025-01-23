@@ -43,7 +43,7 @@ export function Navigation({
                 onClick={isMobile ? () => toggleSidebar() : undefined}
                 href={item.path}
                 className={cn(
-                  "flex h-8 min-w-8 flex-1 items-center p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                  "flex h-8 min-w-8 flex-1 items-center p-1.5 text-sm text-muted-foreground outline-hidden ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
                   highlightActive && current({ pathname, item })
                     ? "rounded-sm bg-muted"
                     : "hover:rounded-sm hover:bg-muted",
@@ -84,7 +84,7 @@ function CollapsibleItem({
             href={item.path}
             onClick={isMobile ? () => toggleSidebar() : undefined}
             className={cn(
-              "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+              "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-hidden ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
               current({ pathname, item })
                 ? "rounded-sm bg-muted text-accent-foreground/80"
                 : "hover:rounded-sm hover:bg-muted",
@@ -127,7 +127,7 @@ function CollapsibleItem({
                     href={subItem.path}
                     onClick={isMobile ? () => toggleSidebar() : undefined}
                     className={cn(
-                      "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-none ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
+                      "flex h-8 min-w-8 flex-1 items-center gap-2 p-1.5 text-sm text-muted-foreground outline-hidden ring-ring transition-all hover:text-accent-foreground focus-visible:ring-2",
                       current({ pathname, item: subItem })
                         ? "text-accent-foreground hover:rounded-sm hover:bg-muted"
                         : "hover:rounded-sm hover:bg-muted",

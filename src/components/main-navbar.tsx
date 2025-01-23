@@ -28,7 +28,7 @@ export function Navbar({
   tabs: { name: string; pattern: string }[]
 }) {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur-sm supports-backdrop-filter:bg-background/60">
       <div className="px-2">
         <nav
           className="mx-auto flex h-12 items-center justify-between"

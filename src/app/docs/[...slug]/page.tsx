@@ -234,9 +234,9 @@ async function FileContent({ source }: { source: EntryType }) {
                     "prose-h4:text-xl prose-h4:font-semibold prose-h4:tracking-tight",
 
                     "prose-blockquote:mt-6 prose-blockquote:border-l-2 prose-blockquote:pl-6 prose-blockquote:italic",
-                    "prose-p:leading-7 prose-p:[&:not(:first-child)]:mt-6",
+                    "prose-p:leading-7 not-first:prose-p:mt-6",
 
-                    "prose-ul:ml-6 prose-ul:list-disc prose-ul:[&>li]:mt-2 prose-ul:[&>ul]:my-2 prose-ul:[&>ul]:ml-0",
+                    "prose-ul:ml-6 prose-ul:list-disc [&>li]:prose-ul:mt-2 [&>ul]:prose-ul:my-2 [&>ul]:prose-ul:ml-0",
                   )}
                 >
                   <Content />

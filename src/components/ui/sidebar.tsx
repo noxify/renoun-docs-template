@@ -84,7 +84,7 @@ const Sidebar = React.forwardRef<
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-10 w-64 transition-all duration-300 ease-in-out [[data-sidebar=closed]_&]:left-[calc(theme(width.64)*-1)]",
+          "fixed inset-y-0 left-0 z-10 w-64 transition-all duration-300 ease-in-out in-data-[sidebar=closed]:left-[calc(theme(width.64)*-1)]",
           defaultHidden ? "hidden" : "hidden lg:block",
         )}
       >

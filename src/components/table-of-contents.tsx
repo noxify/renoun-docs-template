@@ -70,7 +70,7 @@ export function MobileTableOfContents({ toc }: TocProps) {
   return (
     <div className="fixed left-0 top-12 z-20 h-[calc(theme(height.12)+1px)] w-full border-b bg-background px-2 py-2.5 lg:left-[theme(width.64)] lg:w-[calc(theme(width.full)-theme(width.64))] xl:hidden">
       <DropdownMenu>
-        <DropdownMenuTrigger className="w-full rounded-md ring-ring hover:bg-accent hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 data-[state=open]:bg-accent">
+        <DropdownMenuTrigger className="w-full rounded-md ring-ring hover:bg-accent hover:text-accent-foreground focus-visible:outline-hidden focus-visible:ring-2 data-[state=open]:bg-accent">
           <div className="flex items-center gap-1.5 overflow-hidden px-2 py-1.5 text-left text-sm transition-all">
             <SquareChartGanttIcon className="ml-auto h-4 w-4 text-muted-foreground/50" />
             <div className="line-clamp-1 flex-1 pr-2 font-medium">

@@ -145,7 +145,7 @@ export function useMDXComponents() {
 
       return (
         <CodeBlock
-          className={{ container: "!my-4" }}
+          className={{ container: "my-4!" }}
           allowErrors
           value={value}
           language={language ?? "plaintext"}
