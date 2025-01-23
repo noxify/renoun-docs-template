@@ -29,6 +29,8 @@ export const docSchema = {
   headings: headingSchema,
 }
 
+export const allowedExtensions = ["mdx", "tsx", "ts"]
+
 export const AriaDocsCollection = new Directory({
   path: "content/docs/aria-docs",
   // base path is required, otherwise we can't build the correct slugs in the `generateStaticParams`
@@ -38,6 +40,8 @@ export const AriaDocsCollection = new Directory({
       docSchema,
       (path) => import(`@content/docs/aria-docs/${path}.mdx`),
     ),
+    tsx: withSchema((path) => import(`@content/docs/aria-docs/${path}.tsx`)),
+    ts: withSchema((path) => import(`@content/docs/aria-docs/${path}.ts`)),
   },
 })
 
@@ -50,6 +54,8 @@ export const RenounDocsCollection = new Directory({
       docSchema,
       (path) => import(`@content/docs/renoun-docs/${path}.mdx`),
     ),
+    tsx: withSchema((path) => import(`@content/docs/renoun-docs/${path}.tsx`)),
+    ts: withSchema((path) => import(`@content/docs/renoun-docs/${path}.ts`)),
   },
 })
 
@@ -61,6 +67,12 @@ export const TestCollection = new Directory({
     mdx: withSchema(
       docSchema,
       (path) => import(`@content/docs/test-collection/${path}.mdx`),
+    ),
+    tsx: withSchema(
+      (path) => import(`@content/docs/test-collection/${path}.tsx`),
+    ),
+    ts: withSchema(
+      (path) => import(`@content/docs/test-collection/${path}.ts`),
     ),
   },
 })
@@ -76,12 +88,10 @@ export type DirectoryType = Awaited<
 
 export async function getDirectoryContent(source: EntryType) {
   // first, try to get the file based on the given path
-  try {
-    return await CollectionInfo.getDirectory(source.getPathSegments())
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (e: unknown) {
-    return null
-  }
+
+  return await CollectionInfo.getDirectory(source.getPathSegments()).catch(
+    () => null,
+  )
 }
 
 /**
@@ -94,20 +104,15 @@ export async function getDirectoryContent(source: EntryType) {
  */
 export async function getFileContent(source: EntryType) {
   // first, try to get the file based on the given path
-  try {
-    return await CollectionInfo.getFile(source.getPathSegments(), "mdx")
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  } catch (e: unknown) {
-    try {
+
+  return await CollectionInfo.getFile(source.getPathSegments(), "mdx").catch(
+    async () => {
       return await CollectionInfo.getFile(
         [...source.getPathSegments(), "index"],
         "mdx",
-      )
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    } catch (e: unknown) {
-      return null
-    }
-  }
+      ).catch(() => null)
+    },
+  )
 }
 
 /**

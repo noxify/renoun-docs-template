@@ -11,10 +11,10 @@ import {
 import { ExternalLinkIcon } from "lucide-react"
 import { CodeBlock, CodeInline } from "renoun/components"
 
-import DataTableBuilder from "./components/data-table-builder"
+import { DataTableBuilder } from "./components/data-table-builder"
 import MermaidWrapper from "./components/mermaid-wrapper"
 import RailroadWrapper from "./components/railroad-wrapper"
-import TableBuilder from "./components/table-builder"
+import { TableBuilder } from "./components/table-builder"
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert"
 import { Stepper, StepperItem } from "./components/ui/stepper"
 import {

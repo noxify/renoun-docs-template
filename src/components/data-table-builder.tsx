@@ -22,12 +22,12 @@ import {
 import { DataTableColumnHeader } from "./data-table-column-header"
 import { DataTablePagination } from "./data-table-pagination"
 
-interface DataTableProps<TData> {
+export interface DataTableProps<TData> {
   columns: { id: string; title: string }[]
   data: TData[]
 }
 
-export default function DataTableBuilder<TData>({
+export function DataTableBuilder<TData>({
   columns,
   data,
 }: DataTableProps<TData>) {

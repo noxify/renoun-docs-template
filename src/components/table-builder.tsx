@@ -9,11 +9,16 @@ import {
   TableRow,
 } from "./ui/table"
 
-export default function TableBuilder({
+export interface TableBuilderColumnProps {
+  title: string
+  options?: React.ComponentProps<typeof TableHead>
+}
+
+export function TableBuilder({
   columns,
   data,
 }: {
-  columns: { title: string; options?: React.ComponentProps<typeof TableHead> }[]
+  columns: TableBuilderColumnProps[]
   data: {
     value: ReactNode
     options?: React.ComponentProps<typeof TableCell>

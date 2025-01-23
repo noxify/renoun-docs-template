@@ -158,7 +158,12 @@ async function DirectoryContent({ source }: { source: EntryType }) {
                   "w-full max-w-full",
                 )}
               >
-                <h1>{source.getTitle()}</h1>
+                <h1
+                  className="no-prose mb-2 scroll-m-20 text-4xl font-light tracking-tight lg:text-5xl"
+                  data-pagefind-meta="title"
+                >
+                  {source.getTitle()}
+                </h1>
               </div>
 
               <SectionGrid sections={sections} />
