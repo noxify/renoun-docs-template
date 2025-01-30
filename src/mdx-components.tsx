@@ -109,10 +109,11 @@ export function useMDXComponents() {
       </section>
     ),
     // Inline code
-    code: (props: CodeInlineProps) => {
+    // adding the children prop as workaround (?)
+    code: (props: CodeInlineProps & { children: string }) => {
       return (
         <CodeInline
-          value={props.value}
+          value={props.children}
           //language={props.language}
           allowErrors
           css={{
