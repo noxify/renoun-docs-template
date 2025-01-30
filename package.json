@@ -9,7 +9,7 @@
     "deps:update": "pnpm update -i -L -r",
     "dev": "renoun next dev",
     "format": "prettier --check . --ignore-path .gitignore --ignore-path .prettierignore",
-    "format:fix": "prettier --check --write . --ignore-path .gitignore",
+    "format:fix": "prettier --check --write . --ignore-path .gitignore --ignore-path .prettierignore",
     "generate-pagefind": "pagefind --site out --output-path out/pagefind",
     "info": "next info",
     "lint": "eslint",

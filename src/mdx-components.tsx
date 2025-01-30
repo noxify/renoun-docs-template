@@ -1,5 +1,6 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import type { BaseCodeBlockProps, MDXComponents } from "renoun/components"
+import type { CodeBlockProps, CodeInlineProps } from "renoun/components"
+import type { MDXComponents } from "renoun/mdx"
 import Image from "next/image"
 import Link from "next/link"
 import {
@@ -108,10 +109,10 @@ export function useMDXComponents() {
       </section>
     ),
     // Inline code
-    code: (props) => {
+    code: (props: CodeInlineProps) => {
       return (
         <CodeInline
-          value={props.children}
+          value={props.value}
           //language={props.language}
           allowErrors
           css={{
@@ -128,7 +129,7 @@ export function useMDXComponents() {
     },
     // Code block
     pre: (
-      props: BaseCodeBlockProps & {
+      props: CodeBlockProps & {
         value: string
         focusLines?: string
         highlightLines?: string
@@ -150,10 +151,10 @@ export function useMDXComponents() {
           value={value}
           language={language ?? "plaintext"}
           allowCopy
-          filename={filename ? filename : undefined}
+          filename={filename ?? undefined}
           showLineNumbers={showLineNumbers ?? false}
-          highlightedLines={highlightLines ? highlightLines : undefined}
-          focusedLines={focusLines ? focusLines : undefined}
+          highlightedLines={highlightLines ?? undefined}
+          focusedLines={focusLines ?? undefined}
           showToolbar={filename ? true : false}
         />
       )
