@@ -1,5 +1,5 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react"
-import type { CodeBlockProps, CodeInlineProps } from "renoun/components"
+import type { CodeBlockProps } from "renoun/components"
 import type { MDXComponents } from "renoun/mdx"
 import Image from "next/image"
 import Link from "next/link"
@@ -10,7 +10,7 @@ import {
   AccordionTrigger as BaseAccordionTrigger,
 } from "@/components/ui/accordion"
 import { ExternalLinkIcon } from "lucide-react"
-import { CodeBlock, CodeInline } from "renoun/components"
+import { CodeBlock, CodeInline, parseCodeProps } from "renoun/components"
 
 import { DataTableBuilder } from "./components/data-table-builder"
 import MermaidWrapper from "./components/mermaid-wrapper"
@@ -108,13 +108,12 @@ export function useMDXComponents() {
         </div>
       </section>
     ),
+
     // Inline code
-    // adding the children prop as workaround (?)
-    code: (props: CodeInlineProps & { children: string }) => {
+    code: (props) => {
       return (
         <CodeInline
-          value={props.children}
-          //language={props.language}
+          {...parseCodeProps(props)}
           allowErrors
           css={{
             backgroundColor: "hsl(var(--secondary))",
