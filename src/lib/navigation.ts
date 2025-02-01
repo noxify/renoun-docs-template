@@ -37,8 +37,13 @@ async function buildTreeNavigation(entry: EntryType): Promise<TreeItem | null> {
     return null
   }
   if (isDirectory(entry)) {
+    const file = await getFileContent(entry)
+    let frontmatter = null
+    if (file) {
+      frontmatter = await file.getExportValue("frontmatter")
+    }
     return {
-      title: entry.getTitle(),
+      title: frontmatter?.navTitle ?? entry.getTitle(),
       path: `/docs${entry.getPath()}`,
       isFile: isFile(entry),
       slug: entry.getPathSegments(),
