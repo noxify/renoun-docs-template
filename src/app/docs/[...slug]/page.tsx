@@ -66,6 +66,7 @@ const getBreadcrumbItems = cache(async (slug: string[]) => {
       }
 
       frontmatter = await file?.getExportValue("frontmatter")
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (e: unknown) {
       continue
     }

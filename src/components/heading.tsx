@@ -1,4 +1,4 @@
-import { ElementType, ReactNode } from "react"
+import type { ElementType, ReactNode } from "react"
 
 type IntrinsicElement = keyof JSX.IntrinsicElements
 type PolymorphicComponentProps<T extends IntrinsicElement> = {
