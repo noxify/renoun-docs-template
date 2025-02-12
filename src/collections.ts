@@ -14,6 +14,7 @@ export const frontmatterSchema = z.object({
   navTitle: z.string().optional(),
   entrypoint: z.string().optional(),
   alias: z.string().optional(),
+  showToc: z.boolean().optional().default(true),
 })
 
 export const headingSchema = z.array(
@@ -85,6 +86,16 @@ export type EntryType = Awaited<ReturnType<typeof CollectionInfo.getEntry>>
 export type DirectoryType = Awaited<
   ReturnType<typeof CollectionInfo.getDirectory>
 >
+
+export function getTitle(
+  collection: EntryType,
+  frontmatter: z.infer<typeof frontmatterSchema>,
+  includeTitle = false,
+) {
+  return includeTitle
+    ? (frontmatter.navTitle ?? frontmatter.title ?? collection.getTitle())
+    : (frontmatter.navTitle ?? collection.getTitle())
+}
 
 export async function getDirectoryContent(source: EntryType) {
   // first, try to get the file based on the given path

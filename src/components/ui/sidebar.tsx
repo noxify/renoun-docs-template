@@ -22,7 +22,7 @@ const SidebarLayout = React.forwardRef<
       ref={ref}
       data-sidebar={state}
       className={cn(
-        "bg-accent/50 top-20 flex min-h-screen pl-0 transition-all duration-300 ease-in-out data-[sidebar=closed]:pl-0 sm:pl-[calc(theme(width.64))]",
+        "bg-accent/50 top-20 flex min-h-screen pl-0 transition-all duration-300 ease-in-out data-[sidebar=closed]:pl-0 sm:pl-[calc(theme(width.72))]",
         className,
       )}
       {...props}
@@ -84,7 +84,7 @@ const Sidebar = React.forwardRef<
 
       <aside
         className={cn(
-          "fixed inset-y-0 left-0 z-10 w-64 transition-all duration-300 ease-in-out in-data-[sidebar=closed]:left-[calc(theme(width.64)*-1)]",
+          "fixed inset-y-0 left-0 z-10 w-72 transition-all duration-300 ease-in-out in-data-[sidebar=closed]:left-[calc(theme(width.72)*-1)]",
           defaultHidden ? "hidden" : "hidden lg:block",
         )}
       >

@@ -1,7 +1,14 @@
-import type { EntryType } from "@/collections"
+import type { EntryType, frontmatterSchema } from "@/collections"
 import type { Metadata } from "next"
+import type { z } from "zod"
+import { cache } from "react"
 import { notFound } from "next/navigation"
-import { CollectionInfo, getFileContent, getSections } from "@/collections"
+import {
+  CollectionInfo,
+  getFileContent,
+  getSections,
+  getTitle,
+} from "@/collections"
 import { SiteBreadcrumb } from "@/components/breadcrumb"
 import { Comments } from "@/components/comments"
 import SectionGrid from "@/components/section-grid"
@@ -36,47 +43,42 @@ interface PageProps {
   params: Promise<{ slug: string[] }>
 }
 
-async function getBreadcrumbItems(slug: string[]) {
-  // we do not want to have "docs" as breadcrumb element
-  // also, we do not need the index file in our breadcrumb
-  const combinations = removeFromArray(slug, ["docs", "index"]).reduce(
-    (acc: string[][], curr) => acc.concat(acc.map((sub) => [...sub, curr])),
-    [[]],
+const getBreadcrumbItems = cache(async (slug: string[]) => {
+  // we do not want to have "index" as breadcrumb element
+  const cleanedSlug = removeFromArray(slug, ["index"])
+
+  const combinations = cleanedSlug.map((_, index) =>
+    cleanedSlug.slice(0, index + 1),
   )
 
   const items = []
 
   for (const currentPageSegement of combinations) {
-    let collection
+    let collection: EntryType
+    let file: Awaited<ReturnType<typeof getFileContent>>
+    let frontmatter: z.infer<typeof frontmatterSchema> | undefined
     try {
       collection = await CollectionInfo.getEntry(currentPageSegement)
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      if (collection.getPathSegments().includes("index")) {
+        file = await getFileContent(collection.getParent())
+      } else {
+        file = await getFileContent(collection)
+      }
+
+      frontmatter = await file?.getExportValue("frontmatter")
     } catch (e: unknown) {
       continue
     }
 
-    if (isDirectory(collection)) {
+    if (!frontmatter) {
       items.push({
         title: collection.getTitle(),
         path: ["docs", ...collection.getPathSegments()],
       })
     } else {
-      const file = await getFileContent(collection)
-
-      if (!file) {
-        continue
-      }
-      const frontmatter = await file.getExportValue("frontmatter")
-
-      // in case we have an index file inside a directory
-      // we have also to fetch the directory name, otherwise we get "Index" as title
-      // if there is no `frontmatter.navTitle` defined
-      const parentTitle = collection.getPathSegments().includes("index")
-        ? collection.getParent().getTitle()
-        : null
-
+      const title = getTitle(collection, frontmatter, true)
       items.push({
-        title: frontmatter.navTitle ?? parentTitle ?? collection.getTitle(),
+        title,
         path: [
           "docs",
           ...removeFromArray(collection.getPathSegments(), ["index"]),
@@ -86,17 +88,13 @@ async function getBreadcrumbItems(slug: string[]) {
   }
 
   return items
-}
-
-async function getParentTitle(slug: string[]) {
-  const elements = await getBreadcrumbItems(slug)
-
-  return elements.map((ele) => ele.title)
-}
+})
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const params = await props.params
-  const titles = await getParentTitle(params.slug)
+  const breadcrumbItems = await getBreadcrumbItems(params.slug)
+
+  const titles = breadcrumbItems.map((ele) => ele.title)
 
   return {
     title: titles.join(" - "),
@@ -122,13 +120,21 @@ export default async function DocsPage(props: PageProps) {
   // if we can't find an index file, but we have a valid directory
   // use the directory component for rendering
   if (!file && isDirectory(collection)) {
-    return <DirectoryContent source={collection} />
+    return (
+      <>
+        <DirectoryContent source={collection} />
+      </>
+    )
   }
 
   // if we have a valid file ( including the index file )
   // use the file component for rendering
   if (file) {
-    return <FileContent source={collection} />
+    return (
+      <>
+        <FileContent source={collection} />
+      </>
+    )
   }
 
   // seems to be an invalid path
@@ -143,8 +149,8 @@ async function DirectoryContent({ source }: { source: EntryType }) {
   return (
     <>
       <div className="container py-6">
-        <div className={cn("flex flex-col gap-y-8")}>
-          <div>
+        <div className={cn("gap-8 xl:grid")}>
+          <div className="mx-auto w-full 2xl:w-6xl">
             <SiteBreadcrumb items={breadcrumbItems} />
 
             <article data-pagefind-body>
@@ -156,6 +162,7 @@ async function DirectoryContent({ source }: { source: EntryType }) {
                   "prose-code:before:hidden prose-code:after:hidden",
                   // use full width
                   "w-full max-w-full",
+                  "prose-a:text-indigo-400 prose-a:hover:text-white",
                 )}
               >
                 <h1
@@ -197,24 +204,34 @@ async function FileContent({ source }: { source: EntryType }) {
   return (
     <>
       <div className="container py-6">
-        {headings.length > 0 && <MobileTableOfContents toc={headings} />}
+        {headings.length > 0 && frontmatter.showToc && (
+          <MobileTableOfContents toc={headings} />
+        )}
 
         <div
-          className={cn("gap-8 xl:grid xl:grid-cols-[1fr_300px]", {
-            "mt-12 xl:mt-0": headings.length > 0,
+          className={cn("gap-8 xl:grid", {
+            "mt-12 xl:mt-0": frontmatter.showToc && headings.length > 0,
+            "xl:grid-cols-[1fr_300px]":
+              frontmatter.showToc && headings.length > 0,
+            "xl:grid-cols-1": !frontmatter.showToc || headings.length == 0,
           })}
         >
-          <div>
+          <div
+            className={cn("mx-auto", {
+              "w-full 2xl:w-6xl": !frontmatter.showToc || headings.length == 0,
+              "w-full 2xl:w-4xl": frontmatter.showToc && headings.length > 0,
+            })}
+          >
             <SiteBreadcrumb items={breadcrumbItems} />
 
             <div data-pagefind-body>
               <h1
-                className="no-prose mb-2 scroll-m-20 text-4xl font-light tracking-tight lg:text-5xl"
+                className="no-prose mb-2 scroll-m-20 text-3xl font-light tracking-tight sm:text-4xl md:text-5xl"
                 data-pagefind-meta="title"
               >
                 {frontmatter.title ?? source.getTitle()}
               </h1>
-              <p className="mb-8 text-lg font-medium text-pretty text-gray-500 sm:text-xl/8">
+              <p className="text-muted-foreground mb-8 text-lg font-medium text-pretty sm:text-xl/8">
                 {frontmatter.description ?? ""}
               </p>
               <article>
@@ -256,27 +273,29 @@ async function FileContent({ source }: { source: EntryType }) {
               <Comments />
             </div>
           </div>
-          <div className="hidden w-[19.5rem] xl:sticky xl:top-[4.75rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.75rem)] xl:flex-none xl:overflow-y-auto xl:pr-6 xl:pb-16">
-            <TableOfContents toc={headings} />
+          {frontmatter.showToc && headings.length > 0 ? (
+            <div className="hidden w-[19.5rem] xl:sticky xl:top-[4.75rem] xl:-mr-6 xl:block xl:h-[calc(100vh-4.75rem)] xl:flex-none xl:overflow-y-auto xl:pr-6 xl:pb-16">
+              <TableOfContents toc={headings} />
 
-            <div className="my-6 grid gap-y-4 border-t pt-6">
-              <div>
-                <a
-                  href={file.getEditUrl()}
-                  target="_blank"
-                  className="text-muted-foreground hover:text-foreground flex items-center text-sm no-underline transition-colors"
-                >
-                  Edit this page <ExternalLinkIcon className="ml-2 h-4 w-4" />
-                </a>
-              </div>
-
-              {lastUpdate && (
-                <div className="text-muted-foreground text-sm">
-                  Last updated: {format(lastUpdate, "dd.MM.yyyy")}
+              <div className="my-6 grid gap-y-4 border-t pt-6">
+                <div>
+                  <a
+                    href={file.getEditUrl()}
+                    target="_blank"
+                    className="text-muted-foreground hover:text-foreground flex items-center text-sm no-underline transition-colors"
+                  >
+                    Edit this page <ExternalLinkIcon className="ml-2 h-4 w-4" />
+                  </a>
                 </div>
-              )}
+
+                {lastUpdate && (
+                  <div className="text-muted-foreground text-sm">
+                    Last updated: {format(lastUpdate, "dd.MM.yyyy")}
+                  </div>
+                )}
+              </div>
             </div>
-          </div>
+          ) : null}
         </div>
       </div>
     </>

@@ -12,7 +12,8 @@ import {
 import { ExternalLinkIcon } from "lucide-react"
 import { CodeBlock, CodeInline, parseCodeProps } from "renoun/components"
 
-import { DataTableBuilder } from "./components/data-table-builder"
+import { DataTableBuilder } from "./components/data-table/data-table-builder"
+import { Heading } from "./components/heading"
 import MermaidWrapper from "./components/mermaid-wrapper"
 import RailroadWrapper from "./components/railroad-wrapper"
 import { TableBuilder } from "./components/table-builder"
@@ -33,6 +34,24 @@ type AnchorProps = ComponentPropsWithoutRef<"a">
 
 export function useMDXComponents() {
   return {
+    h1: (props) => {
+      return <Heading level={1} {...props} />
+    },
+    h2: (props) => {
+      return <Heading level={2} {...props} />
+    },
+    h3: (props) => {
+      return <Heading level={3} {...props} />
+    },
+    h4: (props) => {
+      return <Heading level={4} {...props} />
+    },
+    h5: (props) => {
+      return <Heading level={5} {...props} />
+    },
+    h6: (props) => {
+      return <Heading level={6} {...props} />
+    },
     // links ( relative, absolute, remote, mails )
     a: ({ href, children, ...props }: AnchorProps) => {
       if (!href) {

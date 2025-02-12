@@ -12,6 +12,7 @@ import {
   SidebarItem,
   SidebarLabel,
 } from "@/components/ui/sidebar"
+import { useIsMobile } from "@/hooks/use-mobile"
 import { current } from "@/lib/helpers"
 import { cn } from "@/lib/utils"
 import { ChevronsUpDown } from "lucide-react"
@@ -42,6 +43,7 @@ export function SiteSidebar({
   defaultHidden?: boolean
 }) {
   const pathname = usePathname()
+  const isMobile = useIsMobile()
 
   return (
     <Sidebar className="lg:mt-12" defaultHidden={defaultHidden}>
@@ -60,9 +62,9 @@ export function SiteSidebar({
               </div>
             </DropdownMenuTrigger>
             <DropdownMenuContent
-              className="w-64"
+              className="w-72"
               align="start"
-              side="right"
+              side={isMobile ? "bottom" : "right"}
               sideOffset={4}
             >
               <DropdownMenuLabel className="text-muted-foreground text-xs">
