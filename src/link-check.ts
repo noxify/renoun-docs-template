@@ -1,24 +1,25 @@
 import { readFileSync } from "fs"
+import path from "path"
 import { toString } from "mdast-util-to-string"
 import { printErrors, scanURLs, validateFiles } from "next-validate-link"
 import remarkParse from "remark-parse"
 import { isDirectory, isFile } from "renoun/file-system"
 import { unified } from "unified"
 
-import { CollectionInfo } from "./collections"
+import { DocumentationGroup } from "./collections"
 import { createSlug, removeFromArray } from "./lib/utils"
 
 const getDirectories = async () => {
-  const entries = (await CollectionInfo.getEntries({ recursive: true })).filter(
-    (entry) => isDirectory(entry),
-  )
+  const entries = (
+    await DocumentationGroup.getEntries({ recursive: true })
+  ).filter((entry) => isDirectory(entry))
 
   const result = []
   for (const entry of entries) {
     const filePath = entry.getAbsolutePath()
 
-    const slug = removeFromArray(entry.getPathSegments(), ["docs"])
-    const url = "/docs" + entry.getPath()
+    const slug = [...entry.getPathSegments()]
+    const url = `/${path.join("docs", ...slug)}`
 
     result.push({
       path: filePath,
@@ -31,16 +32,19 @@ const getDirectories = async () => {
 }
 
 const getFiles = async () => {
-  const entries = (await CollectionInfo.getEntries({ recursive: true })).filter(
-    (entry) => isFile(entry, "mdx"),
-  )
+  const entries = (
+    await DocumentationGroup.getEntries({
+      recursive: true,
+      includeIndexAndReadme: true,
+    })
+  ).filter((entry) => isFile(entry, "mdx"))
 
   const result = []
   for (const entry of entries) {
     const filePath = entry.getAbsolutePath()
 
-    const slug = removeFromArray(entry.getPathSegments(), ["docs"])
-    const url = "/docs" + entry.getPath()
+    const slug = removeFromArray(entry.getPathSegments(), ["index"])
+    const url = `/${path.join("docs", ...slug)}`
     const content = readFileSync(filePath).toString()
 
     const file = unified()
@@ -90,20 +94,26 @@ const getFiles = async () => {
 }
 
 const files = await getFiles()
+
 const directories = await getDirectories()
 
 const scanned = await scanURLs({
   pages: ["docs/[...slug]/page.tsx"],
+
   populate: {
     "docs/[...slug]": [
       ...files.map((collection) => ({
         value: collection.slug,
         hashes: collection.headings,
       })),
-      ...directories.map((collection) => ({ value: collection.slug })),
+      ...directories.map((collection) => ({
+        value: collection.slug,
+      })),
     ],
   },
 })
+
+// console.dir(scanned)
 
 const validateLinks = await validateFiles(files, {
   scanned,

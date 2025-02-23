@@ -1,14 +1,13 @@
 import type { EntryType } from "@/collections"
 import type { EntryGroup, FileSystemEntry } from "renoun/file-system"
 import Link from "next/link"
-import { CollectionInfo } from "@/collections"
-import { isHidden } from "@/lib/navigation"
+import { DocumentationGroup, isHidden } from "@/collections"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
 import { isDirectory, isFile } from "renoun/file-system"
 
 export default async function Siblings({ source }: { source: EntryType }) {
   const [previousPage, nextPage] = await getSiblings(source, {
-    entryGroup: CollectionInfo,
+    entryGroup: DocumentationGroup,
   })
 
   const previousPageFrontmatter = previousPage
@@ -20,6 +19,10 @@ export default async function Siblings({ source }: { source: EntryType }) {
   const nextPageFrontmatter = isFile(nextPage, "mdx")
     ? await nextPage.getExportValue("frontmatter")
     : null
+
+  if (!previousPage && !nextPage) {
+    return <></>
+  }
 
   return (
     <nav
@@ -36,13 +39,14 @@ export default async function Siblings({ source }: { source: EntryType }) {
               title={`Go to previous page: ${previousPageFrontmatter?.navTitle ?? previousPage.getTitle()}`}
             >
               <div className="group flex shrink-0 items-center gap-x-4">
-                <ChevronLeftIcon className="group-hover:text-foreground h-5 w-5 flex-none text-gray-500 transition-colors duration-200 dark:text-gray-400" />
+                <ChevronLeftIcon className="h-5 w-5 flex-none text-gray-500 transition-colors duration-200 group-hover:text-indigo-400 dark:text-gray-400 dark:group-hover:text-white" />
                 <div className="flex flex-col items-start">
                   <p className="text-xs leading-5 text-gray-500">
                     Previous page
                   </p>
-                  <p className="group-hover:text-foreground text-sm leading-5 font-medium text-gray-500 transition-colors duration-200 dark:text-gray-400">
-                    {previousPage.getTitle()}
+                  <p className="text-sm leading-5 font-medium text-gray-500 transition-colors duration-200 group-hover:text-indigo-400 dark:text-gray-400 dark:group-hover:text-white">
+                    {previousPageFrontmatter?.navTitle ??
+                      previousPage.getTitle()}
                   </p>
                 </div>
               </div>
@@ -63,11 +67,11 @@ export default async function Siblings({ source }: { source: EntryType }) {
               <div className="group flex shrink-0 items-center gap-x-4">
                 <div className="flex flex-col items-end">
                   <p className="text-xs leading-5 text-gray-500">Next page</p>
-                  <p className="group-hover:text-foreground text-sm leading-5 text-gray-500 transition-colors duration-200 dark:text-gray-400">
-                    {nextPage.getTitle()}
+                  <p className="group-hover:text-foreground text-sm leading-5 text-gray-500 transition-colors duration-200 dark:text-gray-400 dark:group-hover:text-white">
+                    {nextPageFrontmatter?.navTitle ?? nextPage.getTitle()}
                   </p>
                 </div>
-                <ChevronRightIcon className="group-hover:text-foreground h-5 w-5 flex-none text-gray-500 transition-colors duration-200 dark:text-gray-400" />
+                <ChevronRightIcon className="group-hover:text-foreground h-5 w-5 flex-none text-gray-500 transition-colors duration-200 dark:text-gray-400 dark:group-hover:text-white" />
               </div>
             </Link>
           </>

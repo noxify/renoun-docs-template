@@ -1,7 +1,10 @@
-import { CollectionInfo } from "@/collections"
+import { cache } from "react"
+import { DocumentationGroup } from "@/collections"
 import { SiteSidebar } from "@/components/sidebar"
 import { SidebarLayout } from "@/components/ui/sidebar"
 import { getTree } from "@/lib/navigation"
+
+const CollectionInfo = cache(() => DocumentationGroup)
 
 export default async function DocsLayout(
   props: Readonly<{
@@ -16,12 +19,12 @@ export default async function DocsLayout(
   // based on our configuration in `src/collections`,
   // `collections` returns the complete list of all the available pages
   // and depths ( starting at 1 which defines the root level ( e.g. 'aria-docs' or `renoun-docs`))
-  const rootCollections = await CollectionInfo.getEntries({
+  const rootCollections = await CollectionInfo().getEntries({
     recursive: false,
     includeIndexAndReadme: true,
   })
 
-  const recursiveCollections = await CollectionInfo.getEntries({
+  const recursiveCollections = await CollectionInfo().getEntries({
     recursive: true,
   })
 
@@ -35,7 +38,8 @@ export default async function DocsLayout(
       const frontmatter = await indexFile.getExportValue("frontmatter")
 
       return {
-        title: frontmatter.title ?? collection.getTitle(),
+        title:
+          frontmatter.navTitle ?? frontmatter.title ?? collection.getTitle(),
         // if you don't want to redirect the user to a specific page
         // and you haven't defined an entrypoint, then we will use the current path as an entry point
         entrypoint: frontmatter.entrypoint ?? collection.getPath(),
@@ -46,7 +50,6 @@ export default async function DocsLayout(
       }
     }),
   )
-
   const tree = recursiveCollections
     // to get only the relevant menu entries, we have to filter the list of collections
     // based on the provided slug ( via `params.slug` ) and the path segments for the current source in the iteration
