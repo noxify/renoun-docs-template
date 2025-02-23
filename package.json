@@ -15,6 +15,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "lint:links": "node --import ./src/register.js --import tsx/esm src/link-check.ts",
+    "nextbuild": "next build && pnpm generate-pagefind",
     "preview": "tsx src/localserver.ts",
     "renoun-test": "tsx src/test.ts",
     "typecheck": "tsc --noEmit",
