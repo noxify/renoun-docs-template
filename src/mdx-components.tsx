@@ -129,55 +129,55 @@ export function useMDXComponents() {
     ),
 
     // Inline code
-    code: (props) => {
-      return (
-        <CodeInline
-          {...parseCodeProps(props)}
-          allowErrors
-          css={{
-            backgroundColor: "hsl(var(--secondary))",
-            color: "auto",
-            boxShadow: "none",
-            display: "inline",
-          }}
-          paddingX="auto"
-          paddingY="auto"
-          className="border px-2 py-0.5 text-xs"
-        />
-      )
-    },
+    // code: (props) => {
+    //   return (
+    //     <CodeInline
+    //       {...parseCodeProps(props)}
+    //       allowErrors
+    //       css={{
+    //         backgroundColor: "hsl(var(--secondary))",
+    //         color: "auto",
+    //         boxShadow: "none",
+    //         display: "inline",
+    //       }}
+    //       paddingX="auto"
+    //       paddingY="auto"
+    //       className="border px-2 py-0.5 text-xs"
+    //     />
+    //   )
+    // },
     // Code block
-    pre: (
-      props: CodeBlockProps & {
-        value: string
-        focusLines?: string
-        highlightLines?: string
-      },
-    ) => {
-      const {
-        focusLines,
-        highlightLines,
-        showLineNumbers,
-        filename,
-        language,
-        value,
-      } = props
+    // pre: (
+    //   props: CodeBlockProps & {
+    //     value: string
+    //     focusLines?: string
+    //     highlightLines?: string
+    //   },
+    // ) => {
+    //   const {
+    //     focusLines,
+    //     highlightLines,
+    //     showLineNumbers,
+    //     filename,
+    //     language,
+    //     value,
+    //   } = props
 
-      return (
-        <CodeBlock
-          className={{ container: "my-4!" }}
-          allowErrors
-          value={value}
-          language={language ?? "plaintext"}
-          allowCopy
-          filename={filename ?? undefined}
-          showLineNumbers={showLineNumbers ?? false}
-          highlightedLines={highlightLines ?? undefined}
-          focusedLines={focusLines ?? undefined}
-          showToolbar={filename ? true : false}
-        />
-      )
-    },
+    //   return (
+    //     <CodeBlock
+    //       className={{ container: "my-4!" }}
+    //       allowErrors
+    //       value={value}
+    //       language={language ?? "plaintext"}
+    //       allowCopy
+    //       filename={filename ?? undefined}
+    //       showLineNumbers={showLineNumbers ?? false}
+    //       highlightedLines={highlightLines ?? undefined}
+    //       focusedLines={focusLines ?? undefined}
+    //       showToolbar={filename ? true : false}
+    //     />
+    //   )
+    // },
     Note: ({ title, children }: { title?: string; children: ReactNode }) => {
       return (
         <Alert variant={"default"} className="my-4">
@@ -374,5 +374,11 @@ export function useMDXComponents() {
     }: React.ComponentProps<typeof DataTableBuilder>) => {
       return <DataTableBuilder columns={columns} data={data} />
     },
+    Table: Table,
+    TableHead: TableHead,
+    TableHeader: TableHeader,
+    TableRow: TableRow,
+    TableCell: TableCell,
+    TableBody: TableBody,
   } satisfies MDXComponents
 }

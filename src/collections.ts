@@ -1,91 +1,27 @@
-import {
-  Directory,
-  EntryGroup,
-  isDirectory,
-  isFile,
-  withSchema,
-} from "renoun/file-system"
-import z from "zod"
+import type { z } from "zod"
+import { cache } from "react"
+import { EntryGroup, isDirectory, isFile } from "renoun/file-system"
 
-export const frontmatterSchema = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
-  tags: z.array(z.string()).optional(),
-  navTitle: z.string().optional(),
-  entrypoint: z.string().optional(),
-  alias: z.string().optional(),
-  showToc: z.boolean().optional().default(true),
+import type { frontmatterSchema } from "./validations"
+import { removeFromArray } from "./lib/utils"
+import { generateDirectories } from "./sources"
+
+export const DocumentationGroup = new EntryGroup({
+  entries: generateDirectories(),
 })
 
-export const headingSchema = z.array(
-  z.object({
-    depth: z.number(),
-    text: z.string(),
-    id: z.string(),
-  }),
-)
-
-export const docSchema = {
-  frontmatter: frontmatterSchema,
-  headings: headingSchema,
-}
-
-export const allowedExtensions = ["mdx", "tsx", "ts"]
-
-export const AriaDocsCollection = new Directory({
-  path: "content/docs/aria-docs",
-  // base path is required, otherwise we can't build the correct slugs in the `generateStaticParams`
-  basePath: "aria-docs",
-  loaders: {
-    mdx: withSchema(
-      docSchema,
-      (path) => import(`@content/docs/aria-docs/${path}.mdx`),
-    ),
-    tsx: withSchema((path) => import(`@content/docs/aria-docs/${path}.tsx`)),
-    ts: withSchema((path) => import(`@content/docs/aria-docs/${path}.ts`)),
-  },
-})
-
-export const RenounDocsCollection = new Directory({
-  path: "content/docs/renoun-docs",
-  // base path is required, otherwise we can't build the correct slugs in the `generateStaticParams`
-  basePath: "renoun-docs",
-  loaders: {
-    mdx: withSchema(
-      docSchema,
-      (path) => import(`@content/docs/renoun-docs/${path}.mdx`),
-    ),
-    tsx: withSchema((path) => import(`@content/docs/renoun-docs/${path}.tsx`)),
-    ts: withSchema((path) => import(`@content/docs/renoun-docs/${path}.ts`)),
-  },
-})
-
-export const TestCollection = new Directory({
-  path: "content/docs/test-collection",
-  // base path is required, otherwise we can't build the correct slugs in the `generateStaticParams`
-  basePath: "test-collection",
-  loaders: {
-    mdx: withSchema(
-      docSchema,
-      (path) => import(`@content/docs/test-collection/${path}.mdx`),
-    ),
-    tsx: withSchema(
-      (path) => import(`@content/docs/test-collection/${path}.tsx`),
-    ),
-    ts: withSchema(
-      (path) => import(`@content/docs/test-collection/${path}.ts`),
-    ),
-  },
-})
-
-export const CollectionInfo = new EntryGroup({
-  entries: [AriaDocsCollection, RenounDocsCollection, TestCollection],
-})
-
-export type EntryType = Awaited<ReturnType<typeof CollectionInfo.getEntry>>
+export type EntryType = Awaited<ReturnType<typeof DocumentationGroup.getEntry>>
 export type DirectoryType = Awaited<
-  ReturnType<typeof CollectionInfo.getDirectory>
+  ReturnType<typeof DocumentationGroup.getDirectory>
 >
+
+export async function getDirectoryContent(source: EntryType) {
+  // first, try to get the file based on the given path
+
+  return await DocumentationGroup.getDirectory(source.getPathSegments()).catch(
+    () => null,
+  )
+}
 
 export function getTitle(
   collection: EntryType,
@@ -96,15 +32,6 @@ export function getTitle(
     ? (frontmatter.navTitle ?? frontmatter.title ?? collection.getTitle())
     : (frontmatter.navTitle ?? collection.getTitle())
 }
-
-export async function getDirectoryContent(source: EntryType) {
-  // first, try to get the file based on the given path
-
-  return await CollectionInfo.getDirectory(source.getPathSegments()).catch(
-    () => null,
-  )
-}
-
 /**
  * Helper function to get the file content for a given source entry
  * This function will try to get the file based on the given path and the "mdx" extension
@@ -113,18 +40,19 @@ export async function getDirectoryContent(source: EntryType) {
  *
  * @param source {EntryType} the source entry to get the file content for
  */
-export async function getFileContent(source: EntryType) {
+export const getFileContent = cache(async (source: EntryType) => {
   // first, try to get the file based on the given path
 
-  return await CollectionInfo.getFile(source.getPathSegments(), "mdx").catch(
-    async () => {
-      return await CollectionInfo.getFile(
-        [...source.getPathSegments(), "index"],
-        "mdx",
-      ).catch(() => null)
-    },
-  )
-}
+  return await DocumentationGroup.getFile(
+    source.getPathSegments(),
+    "mdx",
+  ).catch(async () => {
+    return await DocumentationGroup.getFile(
+      [...source.getPathSegments(), "index"],
+      "mdx",
+    ).catch(() => null)
+  })
+})
 
 /**
  * Helper function to get the sections for a given source entry
@@ -140,7 +68,7 @@ export async function getSections(source: EntryType) {
     if (isDirectory(source)) {
       return (
         await (
-          await CollectionInfo.getDirectory(source.getPathSegments())
+          await DocumentationGroup.getDirectory(source.getPathSegments())
         ).getEntries()
       ).filter((ele) => ele.getPath() !== source.getPath())
     }
@@ -152,8 +80,65 @@ export async function getSections(source: EntryType) {
   } else {
     return (
       await (
-        await CollectionInfo.getDirectory(source.getPathSegments())
+        await DocumentationGroup.getDirectory(source.getPathSegments())
       ).getEntries()
     ).filter((ele) => ele.getPath() !== source.getPath())
   }
+}
+
+export const getBreadcrumbItems = cache(async (slug: string[]) => {
+  // we do not want to have "index" as breadcrumb element
+  const cleanedSlug = removeFromArray(slug, ["index"])
+
+  const combinations = cleanedSlug.map((_, index) =>
+    cleanedSlug.slice(0, index + 1),
+  )
+
+  const items = []
+
+  for (const currentPageSegement of combinations) {
+    let collection: EntryType
+    let file: Awaited<ReturnType<typeof getFileContent>>
+    let frontmatter: z.infer<typeof frontmatterSchema> | undefined
+    try {
+      collection = await DocumentationGroup.getEntry(currentPageSegement)
+      if (collection.getPathSegments().includes("index")) {
+        file = await getFileContent(collection.getParent())
+      } else {
+        file = await getFileContent(collection)
+      }
+
+      frontmatter = await file?.getExportValue("frontmatter")
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    } catch (e: unknown) {
+      continue
+    }
+
+    if (!frontmatter) {
+      items.push({
+        title: collection.getTitle(),
+        path: ["docs", ...collection.getPathSegments()],
+      })
+    } else {
+      const title = getTitle(collection, frontmatter, true)
+      items.push({
+        title,
+        path: [
+          "docs",
+          ...removeFromArray(collection.getPathSegments(), ["index"]),
+        ],
+      })
+    }
+  }
+
+  return items
+})
+
+/**
+ * Checks if an entry is hidden (starts with an underscore)
+ *
+ * @param entry {EntryType} the entry to check for visibility
+ */
+export function isHidden(entry: EntryType) {
+  return entry.getBaseName().startsWith("_")
 }
