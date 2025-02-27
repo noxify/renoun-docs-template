@@ -374,5 +374,11 @@ export function useMDXComponents() {
     }: React.ComponentProps<typeof DataTableBuilder>) => {
       return <DataTableBuilder columns={columns} data={data} />
     },
+    Table: Table,
+    TableHead: TableHead,
+    TableHeader: TableHeader,
+    TableRow: TableRow,
+    TableCell: TableCell,
+    TableBody: TableBody,
   } satisfies MDXComponents
 }
