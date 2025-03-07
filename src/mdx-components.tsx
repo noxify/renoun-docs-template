@@ -163,6 +163,15 @@ export function useMDXComponents() {
         value,
       } = props
 
+      if (language === "mermaid") {
+        return <MermaidWrapper chart={value} />
+      }
+
+      // @ts-expect-error `railroad` is not a real language
+      if (language === "railroad") {
+        return <RailroadWrapper content={value} />
+      }
+
       return (
         <CodeBlock
           className={{ container: "my-4!" }}
