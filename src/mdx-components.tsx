@@ -10,13 +10,17 @@ import {
   AccordionTrigger as BaseAccordionTrigger,
 } from "@/components/ui/accordion"
 import { ExternalLinkIcon } from "lucide-react"
-import { CodeBlock, CodeInline, parseCodeProps } from "renoun/components"
+import {
+  CodeBlock,
+  CodeInline,
+  parseCodeProps,
+  parsePreProps,
+} from "renoun/components"
 
 import { DataTableBuilder } from "./components/data-table/data-table-builder"
 import { Heading } from "./components/heading"
 import MermaidWrapper from "./components/mermaid-wrapper"
 import RailroadWrapper from "./components/railroad-wrapper"
-import { TableBuilder } from "./components/table-builder"
 import { Alert, AlertDescription, AlertTitle } from "./components/ui/alert"
 import { Stepper, StepperItem } from "./components/ui/stepper"
 import {
@@ -147,34 +151,22 @@ export function useMDXComponents() {
       )
     },
     // Code block
-    pre: (
-      props: CodeBlockProps & {
-        value: string
-        focusLines?: string
-        highlightLines?: string
-      },
-    ) => {
-      const {
-        focusLines,
-        highlightLines,
-        showLineNumbers,
-        filename,
-        language,
-        value,
-      } = props
+    pre: (props: CodeBlockProps) => {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+      const { language, children } = parsePreProps(props)
+
+      if (language === "mermaid") {
+        return <MermaidWrapper chart={children as string} />
+      }
+
+      if (language === "railroad") {
+        return <RailroadWrapper content={children as string} />
+      }
 
       return (
         <CodeBlock
+          {...parsePreProps(props)}
           className={{ container: "my-4!" }}
-          allowErrors
-          value={value}
-          language={language ?? "plaintext"}
-          allowCopy
-          filename={filename ?? undefined}
-          showLineNumbers={showLineNumbers ?? false}
-          highlightedLines={highlightLines ?? undefined}
-          focusedLines={focusLines ?? undefined}
-          showToolbar={filename ? true : false}
         />
       )
     },
@@ -364,8 +356,14 @@ export function useMDXComponents() {
     TableBuilder: ({
       columns,
       data,
-    }: React.ComponentProps<typeof TableBuilder>) => {
-      return <TableBuilder columns={columns} data={data} />
+    }: React.ComponentProps<typeof DataTableBuilder>) => {
+      return (
+        <DataTableBuilder
+          columns={columns}
+          data={data}
+          options={{ pagination: false, sorting: false }}
+        />
+      )
     },
 
     DataTableBuilder: ({

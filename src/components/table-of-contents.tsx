@@ -81,7 +81,7 @@ export function MobileTableOfContents({ toc }: TocProps) {
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent
-          className="w-full max-w-auto min-w-full"
+          className="max-w-auto w-full min-w-full"
           align="start"
           side="bottom"
           sideOffset={4}

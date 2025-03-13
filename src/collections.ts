@@ -1,5 +1,4 @@
 import type { z } from "zod"
-import { cache } from "react"
 import { EntryGroup, isDirectory, isFile } from "renoun/file-system"
 
 import type { frontmatterSchema } from "./validations"
@@ -7,7 +6,7 @@ import { removeFromArray } from "./lib/utils"
 import { generateDirectories } from "./sources"
 
 export const DocumentationGroup = new EntryGroup({
-  entries: generateDirectories(),
+  entries: [...generateDirectories()],
 })
 
 export type EntryType = Awaited<ReturnType<typeof DocumentationGroup.getEntry>>
@@ -15,23 +14,23 @@ export type DirectoryType = Awaited<
   ReturnType<typeof DocumentationGroup.getDirectory>
 >
 
-export async function getDirectoryContent(source: EntryType) {
-  // first, try to get the file based on the given path
-
-  return await DocumentationGroup.getDirectory(source.getPathSegments()).catch(
-    () => null,
-  )
-}
-
+/**
+ * Helper function to get the title for an element in the sidebar/navigation
+ * @param collection {EntryType} the collection to get the title for
+ * @param frontmatter {z.infer<typeof frontmatterSchema>} the frontmatter to get the title from
+ * @param includeTitle? {boolean} whether to include the title in the returned string
+ * @returns {string} the title to be displayed in the sidebar/navigation
+ */
 export function getTitle(
   collection: EntryType,
   frontmatter: z.infer<typeof frontmatterSchema>,
   includeTitle = false,
-) {
+): string {
   return includeTitle
     ? (frontmatter.navTitle ?? frontmatter.title ?? collection.getTitle())
     : (frontmatter.navTitle ?? collection.getTitle())
 }
+
 /**
  * Helper function to get the file content for a given source entry
  * This function will try to get the file based on the given path and the "mdx" extension
@@ -40,7 +39,7 @@ export function getTitle(
  *
  * @param source {EntryType} the source entry to get the file content for
  */
-export const getFileContent = cache(async (source: EntryType) => {
+export const getFileContent = async (source: EntryType) => {
   // first, try to get the file based on the given path
 
   return await DocumentationGroup.getFile(
@@ -52,7 +51,7 @@ export const getFileContent = cache(async (source: EntryType) => {
       "mdx",
     ).catch(() => null)
   })
-})
+}
 
 /**
  * Helper function to get the sections for a given source entry
@@ -86,7 +85,12 @@ export async function getSections(source: EntryType) {
   }
 }
 
-export const getBreadcrumbItems = cache(async (slug: string[]) => {
+/**
+ * Helper function to get the breadcrumb items for a given slug
+ *
+ * @param slug {string[]} the slug to get the breadcrumb items for
+ */
+export const getBreadcrumbItems = async (slug: string[]) => {
   // we do not want to have "index" as breadcrumb element
   const cleanedSlug = removeFromArray(slug, ["index"])
 
@@ -132,7 +136,7 @@ export const getBreadcrumbItems = cache(async (slug: string[]) => {
   }
 
   return items
-})
+}
 
 /**
  * Checks if an entry is hidden (starts with an underscore)

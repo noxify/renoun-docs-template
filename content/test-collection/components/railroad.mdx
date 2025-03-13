@@ -30,6 +30,27 @@ The component uses https://github.com/tabatkins/railroad-diagrams
   />
 </Preview>
 
+### Alternative via markdown syntax
+
+````
+```railroad
+Diagram(
+  Optional('+', 'skip'),
+  Choice(0,
+    NonTerminal('name-start char'),
+    NonTerminal('escape')
+  ),
+  ZeroOrMore(
+    Choice(0,
+      NonTerminal('name char'),
+      NonTerminal('escape')
+    )
+  )
+)
+```
+
+````
+
 ## example 2
 
 <Preview>
@@ -59,6 +80,30 @@ The component uses https://github.com/tabatkins/railroad-diagrams
 
 <Railroad
   wrapped={true}
+  content={`
+    Diagram(
+      Optional(
+        Choice(0,'Let','Set')
+        ),
+        NonTerminal('variable'),
+        Terminal('='),
+        Choice(0,
+          NonTerminal('expression'),
+          Sequence(Optional('New'),NonTerminal('object')
+        )
+      )
+    )
+  `}
+/>
+
+## Live example without background
+
+```tsx
+<Railroad wrapped={false} content="..." />
+```
+
+<Railroad
+  wrapped={false}
   content={`
     Diagram(
       Optional(

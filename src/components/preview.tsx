@@ -13,11 +13,12 @@ export function Preview({ children }: { children: ReactNode }) {
           className={{ container: "mx-[1px]! rounded-t-none!" }}
           allowErrors
           showLineNumbers
-          value={reactElementToJSXString(children)}
           allowCopy
           showToolbar={false}
           language="tsx"
-        />
+        >
+          {reactElementToJSXString(children)}
+        </CodeBlock>
       </div>
     </section>
   )
