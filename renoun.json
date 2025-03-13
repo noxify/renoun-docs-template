@@ -7,5 +7,23 @@
   },
   "siteUrl": "https://renoun-docs-template.vercel.app",
 
-  "theme": "theme.json"
+  "theme": "theme.json",
+  "languages": [
+    "css",
+    "javascript",
+    "jsx",
+    "typescript",
+    "tsx",
+    "markdown",
+    "mdx",
+    "shellscript",
+    "json",
+    "html",
+    "python",
+    "graphql",
+    "yaml",
+    "sql",
+    "xml",
+    "docker"
+  ]
 }

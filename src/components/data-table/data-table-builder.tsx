@@ -25,11 +25,19 @@ import { DataTablePagination } from "./data-table-pagination"
 export interface DataTableProps<TData> {
   columns: { id: string; title: string }[]
   data: TData[]
+  options?: {
+    pagination: boolean
+    sorting: boolean
+  }
 }
 
 export function DataTableBuilder<TData>({
   columns,
   data,
+  options = {
+    pagination: true,
+    sorting: true,
+  },
 }: DataTableProps<TData>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const columnHelper = createColumnHelper<TData>()
@@ -43,6 +51,8 @@ export function DataTableBuilder<TData>({
         header: ({ column }) => (
           <DataTableColumnHeader column={column} title={columnDef.title} />
         ),
+
+        enableSorting: options.sorting,
       })
     }),
   ]
@@ -51,12 +61,19 @@ export function DataTableBuilder<TData>({
     data,
     columns: tableColumns,
     getCoreRowModel: getCoreRowModel(),
-    getPaginationRowModel: getPaginationRowModel(),
-    onSortingChange: setSorting,
-    getSortedRowModel: getSortedRowModel(),
-    state: {
-      sorting,
-    },
+    ...(options.pagination
+      ? { getPaginationRowModel: getPaginationRowModel() }
+      : { manualPagination: true }),
+
+    ...(options.sorting
+      ? {
+          onSortingChange: setSorting,
+          getSortedRowModel: getSortedRowModel(),
+          state: {
+            sorting,
+          },
+        }
+      : { manualSorting: true }),
   })
 
   return (
@@ -90,14 +107,16 @@ export function DataTableBuilder<TData>({
                     key={row.id}
                     data-state={row.getIsSelected() && "selected"}
                   >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
+                    {row.getVisibleCells().map((cell) => {
+                      return (
+                        <TableCell key={cell.id}>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      )
+                    })}
                   </TableRow>
                 ))
               ) : (
@@ -115,7 +134,7 @@ export function DataTableBuilder<TData>({
         </div>
       </div>
 
-      <DataTablePagination table={table} />
+      {options.pagination ? <DataTablePagination table={table} /> : <></>}
     </div>
   )
 }

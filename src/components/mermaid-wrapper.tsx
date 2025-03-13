@@ -5,10 +5,10 @@
 "use client"
 
 import type { MermaidConfig } from "mermaid"
-import type { MutableRefObject, ReactElement } from "react"
+import type { ReactElement, RefObject } from "react"
 import { useEffect, useId, useRef, useState } from "react"
 
-function useIsVisible(ref: MutableRefObject<HTMLElement>) {
+function useIsVisible(ref: RefObject<HTMLElement>) {
   const [isIntersecting, setIsIntersecting] = useState(false)
 
   useEffect(() => {

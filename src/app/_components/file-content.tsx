@@ -70,7 +70,7 @@ export async function FileContent({ source }: { source: EntryType }) {
                     // remove backtick from inline code block
                     "prose-code:before:hidden prose-code:after:hidden",
                     // use full width
-                    "w-full max-w-auto min-w-full",
+                    "max-w-auto w-full min-w-full",
                     "grow",
 
                     "prose-table:my-0",

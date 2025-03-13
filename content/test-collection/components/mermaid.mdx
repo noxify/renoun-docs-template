@@ -22,6 +22,17 @@ The component uses
   />
 </Preview>
 
+### Alternative via markdown syntax
+
+````
+
+```mermaid
+graph TB
+a-->b
+```
+
+````
+
 ## Flowchart
 
 <Preview>
@@ -60,8 +71,8 @@ The component uses
 
 <Preview>
 
-  <Mermaid 
-    content={`  
+  <Mermaid
+    content={`
       graph TD
         Bat(fa:fa-car-battery Batteries) -->|150a 50mm| ShutOff
         Bat -->|150a 50mm| Shunt
@@ -113,11 +124,11 @@ The component uses
 
 </Preview>
 
-## Example without preview container
+## Example without preview container and not wrapped
 
-<Mermaid 
-    wrapped={true}
-    content={`  
+<Mermaid
+    wrapped={false}
+    content={`
       graph TD
         Bat(fa:fa-car-battery Batteries) -->|150a 50mm| ShutOff
         Bat -->|150a 50mm| Shunt
