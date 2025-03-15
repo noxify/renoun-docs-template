@@ -8,6 +8,7 @@ import { SiteSidebar } from "@/components/sidebar"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
 import { PackageInstallScript } from "renoun/components"
+import { ThemeStyles } from "renoun/components/Theme/Theme"
 
 export const metadata: Metadata = {
   title: {
@@ -33,9 +34,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head />
       <body>
+        <ThemeStyles />
         <PackageInstallScript />
         <ThemeProvider
-          attribute="class"
+          attribute={["class", "data-theme"]}
           defaultTheme="system"
           enableSystem
           disableTransitionOnChange
