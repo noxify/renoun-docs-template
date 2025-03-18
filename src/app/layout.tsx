@@ -7,8 +7,7 @@ import { Navbar } from "@/components/main-navbar"
 import { SiteSidebar } from "@/components/sidebar"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
-import { PackageInstallScript } from "renoun/components"
-import { ThemeStyles } from "renoun/components/Theme/Theme"
+import { PackageInstallScript, ThemeStyles } from "renoun/components"
 
 export const metadata: Metadata = {
   title: {
