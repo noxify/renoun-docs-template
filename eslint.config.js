@@ -5,7 +5,7 @@ import { fixupPluginRules, includeIgnoreFile } from "@eslint/compat"
 import eslint from "@eslint/js"
 import nextPlugin from "@next/eslint-plugin-next"
 import importPlugin from "eslint-plugin-import-x"
-import packageJson from "eslint-plugin-package-json/configs/recommended"
+import packageJson from "eslint-plugin-package-json"
 import reactPlugin from "eslint-plugin-react"
 import hooksPlugin from "eslint-plugin-react-hooks"
 import tseslint from "typescript-eslint"
@@ -41,11 +41,11 @@ export default tseslint.config(
   // Ignore files not tracked by VCS and any config files
   includeIgnoreFile(path.join(import.meta.dirname, "./.gitignore")),
   { ignores: ["**/*.config.*"] },
+  packageJson.configs.recommended,
   {
-    ...packageJson,
     rules: {
-      ...packageJson.rules,
       "package-json/valid-package-def": "off",
+      "package-json/require-description": "off",
     },
   },
   {

@@ -12,7 +12,7 @@ export const frontmatterSchema = z.object({
 
 export const headingSchema = z.array(
   z.object({
-    depth: z.number(),
+    level: z.number(),
     text: z.string(),
     id: z.string(),
   }),

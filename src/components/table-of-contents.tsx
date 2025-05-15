@@ -15,7 +15,7 @@ import {
 export interface TableOfContents {
   text: string
   id: string
-  depth: number
+  level: number
 }
 
 interface TocProps {
@@ -30,7 +30,7 @@ export function TableOfContents({ toc }: TocProps) {
     return null
   }
 
-  const filteredToc = toc.filter((item) => item.depth > 1 && item.depth < 4)
+  const filteredToc = toc.filter((item) => item.level > 1 && item.level < 4)
 
   return (
     <div className="space-y-2">
@@ -42,8 +42,8 @@ export function TableOfContents({ toc }: TocProps) {
               <a
                 href={`#${item.id}`}
                 className={cn(
-                  item.depth == 2 ? "pl-0" : "",
-                  item.depth == 3 ? "pl-4" : "",
+                  item.level == 2 ? "pl-0" : "",
+                  item.level == 3 ? "pl-4" : "",
 
                   "hover:text-foreground inline-block no-underline transition-colors",
                   item.id === `${activeHeading}`
@@ -65,7 +65,7 @@ export function MobileTableOfContents({ toc }: TocProps) {
   const itemIds = toc.map((item) => item.id)
   const activeHeading = useActiveItem(itemIds)
 
-  const filteredToc = toc.filter((item) => item.depth > 1 && item.depth <= 4)
+  const filteredToc = toc.filter((item) => item.level > 1 && item.level <= 4)
 
   return (
     <div className="bg-background fixed top-12 left-0 z-20 h-[calc(theme(height.12)+1px)] w-full border-b px-2 py-2.5 lg:left-[theme(width.72)] lg:w-[calc(theme(width.full)-theme(width.72))] xl:hidden">
@@ -98,9 +98,9 @@ export function MobileTableOfContents({ toc }: TocProps) {
                 href={`#${tocItem.id}`}
                 className={cn(
                   "cursor-pointer",
-                  tocItem.depth == 2 ? "pl-2" : "",
-                  tocItem.depth == 3 ? "pl-4" : "",
-                  tocItem.depth == 4 ? "pl-6" : "",
+                  tocItem.level == 2 ? "pl-2" : "",
+                  tocItem.level == 3 ? "pl-4" : "",
+                  tocItem.level == 4 ? "pl-6" : "",
                 )}
               >
                 {tocItem.text}
