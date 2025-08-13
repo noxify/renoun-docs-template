@@ -6,7 +6,7 @@ import Siblings from "@/components/siblings"
 import { cn } from "@/lib/utils"
 
 export async function DirectoryContent({ source }: { source: EntryType }) {
-  const breadcrumbItems = await getBreadcrumbItems(source.getPathSegments())
+  const breadcrumbItems = await getBreadcrumbItems(source.getPathnameSegments())
 
   const sections = await getSections(source)
 

@@ -25,7 +25,7 @@ export async function FileContent({ source }: { source: EntryType }) {
   const headings = await file.getExportValue("headings")
   const createdAt = await source.getFirstCommitDate()
   const lastUpdate = await source.getLastCommitDate()
-  const breadcrumbItems = await getBreadcrumbItems(file.getPathSegments())
+  const breadcrumbItems = await getBreadcrumbItems(file.getPathnameSegments())
 
   const sections = await getSections(source)
   const Content = await file.getExportValue("default")

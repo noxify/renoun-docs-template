@@ -2,7 +2,7 @@ name: CI
 
 on:
   push:
-    branches: 
+    branches:
       - "*"
       - "!main"
 
@@ -26,5 +26,3 @@ jobs:
 
       - name: build
         run: pnpm build
-
-

@@ -21,7 +21,7 @@ export default async function DocsLayout(
   // and depths ( starting at 1 which defines the root level ( e.g. 'aria-docs' or `renoun-docs`))
   const rootCollections = await CollectionInfo().getEntries({
     recursive: false,
-    includeIndexAndReadme: true,
+    includeIndexAndReadmeFiles: true,
   })
 
   const recursiveCollections = await CollectionInfo().getEntries({
@@ -42,11 +42,11 @@ export default async function DocsLayout(
           frontmatter.navTitle ?? frontmatter.title ?? collection.getTitle(),
         // if you don't want to redirect the user to a specific page
         // and you haven't defined an entrypoint, then we will use the current path as an entry point
-        entrypoint: frontmatter.entrypoint ?? collection.getPath(),
+        entrypoint: frontmatter.entrypoint ?? collection.getPathname(),
         // the alias is used as identifier for the active state in the dropdown
         // not sure if there is a use case to have a different alias than the collection name
-        // as fallback we will use the collection name based on the returned array from `collection.getPathSegments`
-        alias: frontmatter.alias ?? collection.getPathSegments()[1],
+        // as fallback we will use the collection name based on the returned array from `collection.getPathnameSegments`
+        alias: frontmatter.alias ?? collection.getPathnameSegments()[1],
       }
     }),
   )
@@ -54,7 +54,7 @@ export default async function DocsLayout(
     // to get only the relevant menu entries, we have to filter the list of collections
     // based on the provided slug ( via `params.slug` ) and the path segments for the current source in the iteration
     .filter((collection) => {
-      return collection.getPathSegments()[0] === params.slug[0]
+      return collection.getPathnameSegments()[0] === params.slug[0]
     })
     // since we generated the nested tree later in the code ( via `getTree` )
     // we can filter the list of collections based on the depth which should be shown as "root"

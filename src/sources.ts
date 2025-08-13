@@ -6,26 +6,26 @@ type ElementType<T extends readonly unknown[]> =
   T extends readonly (infer ElementType)[] ? ElementType : never
 
 const sources = [
-  "aria-docs", 
-  "renoun-docs", 
+  "aria-docs",
+  "renoun-docs",
   "test-collection",
   "performance-docs",
-  "security-guides", 
+  "security-guides",
   "api-reference",
   "tutorials-hub",
-  "best-practices"
+  "best-practices",
 ] as const
 
 export function generateDirectories() {
   return sources.map((directory) => {
     return new Directory({
       path: `content/${directory}`,
-      basePath: directory,
+      basePathname: directory,
       // hide hidden files ( starts with `_` ) and all asset directories ( `_assets` )
       include: (entry) =>
         !entry.getBaseName().startsWith("_") &&
         !entry.getAbsolutePath().includes("_assets"),
-      loaders: {
+      loader: {
         mdx: withSchema(
           docSchema,
           (path) => import(`../content/${directory}/${path}.mdx`),

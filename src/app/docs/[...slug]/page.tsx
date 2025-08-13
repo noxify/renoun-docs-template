@@ -18,12 +18,12 @@ export async function generateStaticParams() {
 
   const collections = await CollectionInfo().getEntries({
     recursive: true,
-    includeIndexAndReadme: false,
+    includeIndexAndReadmeFiles: false,
   })
 
   for (const collection of collections) {
     slugs.push({
-      slug: removeFromArray(collection.getPathSegments(), ["docs"]),
+      slug: removeFromArray(collection.getPathnameSegments(), ["docs"]),
     })
   }
 

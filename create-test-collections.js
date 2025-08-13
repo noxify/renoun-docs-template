@@ -1,21 +1,21 @@
 #!/usr/bin/env node
-
-import { writeFileSync, mkdirSync } from 'fs';
-import { join } from 'path';
+/* eslint-disable */
+import { mkdirSync, writeFileSync } from "fs"
+import { join } from "path"
 
 // 5 new collections to create
 const newCollections = [
-  'performance-docs',
-  'security-guides', 
-  'api-reference',
-  'tutorials-hub',
-  'best-practices'
-];
+  "performance-docs",
+  "security-guides",
+  "api-reference",
+  "tutorials-hub",
+  "best-practices",
+]
 
 // Template for generating MDX content
 const generateContent = (title, collection, category, index, depth = 0) => {
-  const indent = '  '.repeat(depth);
-  
+  const indent = "  ".repeat(depth)
+
   return `---
 title: "${title}"
 description: "Documentation for ${title} in ${collection}"
@@ -35,7 +35,7 @@ Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor i
 
 \`\`\`javascript
 // Example for ${title}
-function ${title.toLowerCase().replace(/[^a-z0-9]/g, '')}Example() {
+function ${title.toLowerCase().replace(/[^a-z0-9]/g, "")}Example() {
   const config = {
     name: "${title}",
     collection: "${collection}",
@@ -48,7 +48,7 @@ function ${title.toLowerCase().replace(/[^a-z0-9]/g, '')}Example() {
 }
 
 // Usage
-const example = ${title.toLowerCase().replace(/[^a-z0-9]/g, '')}Example();
+const example = ${title.toLowerCase().replace(/[^a-z0-9]/g, "")}Example();
 console.log(example);
 \`\`\`
 
@@ -56,7 +56,7 @@ console.log(example);
 
 \`\`\`json
 {
-  "name": "${title.toLowerCase().replace(/\s+/g, '-')}",
+  "name": "${title.toLowerCase().replace(/\s+/g, "-")}",
   "version": "1.0.0",
   "collection": "${collection}",
   "category": "${category}",
@@ -81,9 +81,9 @@ ${indent}- Feature 5: Error handling and logging
 ### Basic Usage
 
 \`\`\`typescript
-import { ${title.replace(/[^a-zA-Z0-9]/g, '')} } from './${title.toLowerCase().replace(/\s+/g, '-')}';
+import { ${title.replace(/[^a-zA-Z0-9]/g, "")} } from './${title.toLowerCase().replace(/\s+/g, "-")}';
 
-const instance = new ${title.replace(/[^a-zA-Z0-9]/g, '')}({
+const instance = new ${title.replace(/[^a-zA-Z0-9]/g, "")}({
   collection: "${collection}",
   category: "${category}"
 });
@@ -111,7 +111,7 @@ const options = {
   }
 };
 
-const instance = new ${title.replace(/[^a-zA-Z0-9]/g, '')}(options);
+const instance = new ${title.replace(/[^a-zA-Z0-9]/g, "")}(options);
 \`\`\`
 
 ## API Reference
@@ -179,7 +179,7 @@ Performs cleanup operations.
 ## Related Documentation
 
 - [${collection} Overview](../index)
-- [${category} Guide](../${category.toLowerCase().replace(/\s+/g, '-')}/index)
+- [${category} Guide](../${category.toLowerCase().replace(/\s+/g, "-")}/index)
 - [API Reference](../api/index)
 - [Examples](../examples/index)
 
@@ -193,30 +193,38 @@ Performs cleanup operations.
 
 ---
 
-*Last updated: ${new Date().toISOString().split('T')[0]}*
+*Last updated: ${new Date().toISOString().split("T")[0]}*
 *Collection: ${collection}*
 *Category: ${category}*
 *Page: ${index}/100*
-`;
-};
+`
+}
 
-console.log('🚀 Starting generation of 5 new collections with 100 pages each...\n');
+console.log(
+  "🚀 Starting generation of 5 new collections with 100 pages each...\n",
+)
 
 // Generate each collection
 newCollections.forEach((collection, collectionIndex) => {
-  console.log(`📁 Creating collection: ${collection}`);
-  
+  console.log(`📁 Creating collection: ${collection}`)
+
   // Create main collection directory
-  const collectionDir = join('content', collection);
-  mkdirSync(collectionDir, { recursive: true });
-  
+  const collectionDir = join("content", collection)
+  mkdirSync(collectionDir, { recursive: true })
+
   // Create collection index
   const collectionIndexContent = `---
-title: "${collection.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}"
+title: "${collection
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ")}"
 description: "Complete documentation for ${collection}"
 ---
 
-# ${collection.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')}
+# ${collection
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ")}
 
 Welcome to the ${collection} documentation. This collection contains comprehensive guides, tutorials, and reference materials.
 
@@ -242,91 +250,110 @@ This collection is organized into several categories to help you find the inform
 ## Support
 
 If you need help or have questions, please check the troubleshooting sections in each guide or refer to the FAQ.
-`;
-  
-  writeFileSync(join(collectionDir, 'index.mdx'), collectionIndexContent);
-  
+`
+
+  writeFileSync(join(collectionDir, "index.mdx"), collectionIndexContent)
+
   // Define categories with different nesting structures
   const categories = [
-    { name: 'getting-started', pages: 15, maxDepth: 2 },
-    { name: 'guides', pages: 25, maxDepth: 3 },
-    { name: 'reference', pages: 30, maxDepth: 2 },
-    { name: 'examples', pages: 20, maxDepth: 3 },
-    { name: 'advanced', pages: 10, maxDepth: 4 }
-  ];
-  
-  let pageCounter = 1;
-  
-  categories.forEach(category => {
-    console.log(`  📂 Creating category: ${category.name} (${category.pages} pages)`);
-    
-    const categoryDir = join(collectionDir, category.name);
-    mkdirSync(categoryDir, { recursive: true });
-    
+    { name: "getting-started", pages: 15, maxDepth: 2 },
+    { name: "guides", pages: 25, maxDepth: 3 },
+    { name: "reference", pages: 30, maxDepth: 2 },
+    { name: "examples", pages: 20, maxDepth: 3 },
+    { name: "advanced", pages: 10, maxDepth: 4 },
+  ]
+
+  let pageCounter = 1
+
+  categories.forEach((category) => {
+    console.log(
+      `  📂 Creating category: ${category.name} (${category.pages} pages)`,
+    )
+
+    const categoryDir = join(collectionDir, category.name)
+    mkdirSync(categoryDir, { recursive: true })
+
     // Create category index
     const categoryIndexContent = generateContent(
-      `${category.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} Overview`,
+      `${category.name
+        .split("-")
+        .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+        .join(" ")} Overview`,
       collection,
       category.name,
-      0
-    );
-    writeFileSync(join(categoryDir, 'index.mdx'), categoryIndexContent);
-    
+      0,
+    )
+    writeFileSync(join(categoryDir, "index.mdx"), categoryIndexContent)
+
     // Generate pages for this category
-    const pagesPerLevel = Math.ceil(category.pages / category.maxDepth);
-    
+    const pagesPerLevel = Math.ceil(category.pages / category.maxDepth)
+
     for (let depth = 1; depth <= category.maxDepth; depth++) {
-      const pagesAtThisDepth = Math.min(pagesPerLevel, category.pages - (depth - 1) * pagesPerLevel);
-      
-      if (pagesAtThisDepth <= 0) break;
-      
+      const pagesAtThisDepth = Math.min(
+        pagesPerLevel,
+        category.pages - (depth - 1) * pagesPerLevel,
+      )
+
+      if (pagesAtThisDepth <= 0) break
+
       for (let i = 1; i <= pagesAtThisDepth; i++) {
-        let currentDir = categoryDir;
-        let pathSegments = [category.name];
-        
+        let currentDir = categoryDir
+        let pathSegments = [category.name]
+
         // Create nested structure based on depth
         if (depth > 1) {
-          const subDirName = `level-${depth}`;
-          pathSegments.push(subDirName);
-          currentDir = join(currentDir, subDirName);
-          mkdirSync(currentDir, { recursive: true });
-          
+          const subDirName = `level-${depth}`
+          pathSegments.push(subDirName)
+          currentDir = join(currentDir, subDirName)
+          mkdirSync(currentDir, { recursive: true })
+
           // Create index for subdirectory if it doesn't exist
-          const subIndexPath = join(currentDir, 'index.mdx');
+          const subIndexPath = join(currentDir, "index.mdx")
           try {
             const subIndexContent = generateContent(
               `Level ${depth} Overview`,
               collection,
               `${category.name}/level-${depth}`,
               0,
-              depth - 1
-            );
-            writeFileSync(subIndexPath, subIndexContent);
+              depth - 1,
+            )
+            writeFileSync(subIndexPath, subIndexContent)
           } catch (e) {
             // Index might already exist, that's ok
           }
         }
-        
-        const pageTitle = `${category.name.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ')} ${depth > 1 ? `L${depth} ` : ''}Page ${i}`;
-        const fileName = `page-${pageCounter}.mdx`;
-        const filePath = join(currentDir, fileName);
-        
-        const content = generateContent(pageTitle, collection, category.name, pageCounter, depth - 1);
-        writeFileSync(filePath, content);
-        
-        pageCounter++;
+
+        const pageTitle = `${category.name
+          .split("-")
+          .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+          .join(" ")} ${depth > 1 ? `L${depth} ` : ""}Page ${i}`
+        const fileName = `page-${pageCounter}.mdx`
+        const filePath = join(currentDir, fileName)
+
+        const content = generateContent(
+          pageTitle,
+          collection,
+          category.name,
+          pageCounter,
+          depth - 1,
+        )
+        writeFileSync(filePath, content)
+
+        pageCounter++
       }
     }
-  });
-  
-  console.log(`  ✅ Collection ${collection} completed with ${pageCounter - 1} pages\n`);
-});
+  })
 
-console.log('🎉 Generation complete!');
-console.log(`📊 Summary:`);
-console.log(`  - Collections created: ${newCollections.length}`);
-console.log(`  - Total pages generated: ~${newCollections.length * 100}`);
-console.log(`  - Nesting levels: 2-4 levels deep`);
-console.log(`\n📝 Next steps:`);
-console.log(`  1. Update src/sources.ts to include the new collections`);
-console.log(`  2. Run "pnpm build" to test the build with more pages`);
+  console.log(
+    `  ✅ Collection ${collection} completed with ${pageCounter - 1} pages\n`,
+  )
+})
+
+console.log("🎉 Generation complete!")
+console.log(`📊 Summary:`)
+console.log(`  - Collections created: ${newCollections.length}`)
+console.log(`  - Total pages generated: ~${newCollections.length * 100}`)
+console.log(`  - Nesting levels: 2-4 levels deep`)
+console.log(`\n📝 Next steps:`)
+console.log(`  1. Update src/sources.ts to include the new collections`)
+console.log(`  2. Run "pnpm build" to test the build with more pages`)

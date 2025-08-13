@@ -7,7 +7,7 @@ import { Navbar } from "@/components/main-navbar"
 import { SiteSidebar } from "@/components/sidebar"
 import { TailwindIndicator } from "@/components/tailwind-indicator"
 import { ThemeProvider } from "@/components/theme-provider"
-import { PackageInstallScript, ThemeStyles } from "renoun/components"
+import { ThemeStyles } from "renoun/components"
 
 export const metadata: Metadata = {
   title: {
@@ -34,7 +34,6 @@ export default function RootLayout({
       <head />
       <body>
         <ThemeStyles />
-        <PackageInstallScript />
         <ThemeProvider
           attribute={["class", "data-theme"]}
           defaultTheme="system"

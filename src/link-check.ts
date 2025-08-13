@@ -18,7 +18,7 @@ const getDirectories = async () => {
   for (const entry of entries) {
     const filePath = entry.getAbsolutePath()
 
-    const slug = [...entry.getPathSegments()]
+    const slug = [...entry.getPathnameSegments()]
     const url = `/${path.join("docs", ...slug)}`
 
     result.push({
@@ -35,7 +35,7 @@ const getFiles = async () => {
   const entries = (
     await DocumentationGroup.getEntries({
       recursive: true,
-      includeIndexAndReadme: true,
+      includeIndexAndReadmeFiles: true,
     })
   ).filter((entry) => isFile(entry, "mdx"))
 
@@ -43,7 +43,7 @@ const getFiles = async () => {
   for (const entry of entries) {
     const filePath = entry.getAbsolutePath()
 
-    const slug = removeFromArray(entry.getPathSegments(), ["index"])
+    const slug = removeFromArray(entry.getPathnameSegments(), ["index"])
     const url = `/${path.join("docs", ...slug)}`
     const content = readFileSync(filePath).toString()
 

@@ -1,5 +1,5 @@
 import type { EntryType } from "@/collections"
-import type { EntryGroup, FileSystemEntry } from "renoun/file-system"
+import type { Collection, FileSystemEntry } from "renoun/file-system"
 import Link from "next/link"
 import { DocumentationGroup, isHidden } from "@/collections"
 import { ChevronLeftIcon, ChevronRightIcon } from "lucide-react"
@@ -34,7 +34,7 @@ export default async function Siblings({ source }: { source: EntryType }) {
           <>
             <Link
               prefetch={true}
-              href={`/docs${previousPage.getPath()}`}
+              href={`/docs${previousPage.getPathname()}`}
               className="text-gray-700"
               title={`Go to previous page: ${previousPageFrontmatter?.navTitle ?? previousPage.getTitle()}`}
             >
@@ -60,7 +60,7 @@ export default async function Siblings({ source }: { source: EntryType }) {
           <>
             <Link
               prefetch={true}
-              href={`/docs${nextPage.getPath()}`}
+              href={`/docs${nextPage.getPathname()}`}
               className="text-gray-700"
               title={`Go to next page: ${nextPageFrontmatter?.navTitle ?? nextPage.getTitle()}`}
             >
@@ -89,18 +89,18 @@ async function getSiblings<
   source: EntryType,
   options: {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    entryGroup: EntryGroup<GroupTypes, FileSystemEntry<any>[]>
+    entryGroup: Collection<GroupTypes, FileSystemEntry<any>[]>
     includeAll?: boolean
   },
 ): Promise<[EntryType | undefined, EntryType | undefined]> {
   let entries = await options.entryGroup.getEntries({
     recursive: true,
-    includeIndexAndReadme: false,
+    includeIndexAndReadmeFiles: false,
   })
 
   if (!options.includeAll) {
     entries = entries.filter(
-      (ele) => ele.getPathSegments()[0] == source.getPathSegments()[0],
+      (ele) => ele.getPathnameSegments()[0] == source.getPathnameSegments()[0],
     )
   }
 
@@ -111,12 +111,14 @@ async function getSiblings<
   let currentPath = ""
 
   if (isFile(source) && source.getBaseName() === "index") {
-    currentPath = source.getParent().getPath()
+    currentPath = source.getParent().getPathname()
   } else {
-    currentPath = source.getPath()
+    currentPath = source.getPathname()
   }
 
-  const currentIndex = entries.findIndex((ele) => ele.getPath() === currentPath)
+  const currentIndex = entries.findIndex(
+    (ele) => ele.getPathname() === currentPath,
+  )
 
   const previousElement =
     currentIndex > 0 ? entries[currentIndex - 1] : undefined

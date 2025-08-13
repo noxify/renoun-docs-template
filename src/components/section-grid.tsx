@@ -25,7 +25,7 @@ export default async function SectionGrid({
       elements.push({
         title: section.getTitle(),
         description: "",
-        path: `/docs/${removeFromArray(section.getPathSegments(), ["index"]).join("/")}`,
+        path: `/docs/${removeFromArray(section.getPathnameSegments(), ["index"]).join("/")}`,
       })
     } else {
       const file = await getFileContent(section)
@@ -38,14 +38,14 @@ export default async function SectionGrid({
       // in case we have an index file inside a directory
       // we have also to fetch the directory name, otherwise we get "Index" as title
       // if there is no `frontmatter.navTitle` defined
-      const parentTitle = section.getPathSegments().includes("index")
+      const parentTitle = section.getPathnameSegments().includes("index")
         ? section.getParent().getTitle()
         : null
 
       elements.push({
         title: frontmatter.navTitle ?? parentTitle ?? section.getTitle(),
         description: frontmatter.description ?? "",
-        path: `/docs/${removeFromArray(section.getPathSegments(), ["index"]).join("/")}`,
+        path: `/docs/${removeFromArray(section.getPathnameSegments(), ["index"]).join("/")}`,
       })
     }
   }

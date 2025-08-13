@@ -10,12 +10,7 @@ import {
   AccordionTrigger as BaseAccordionTrigger,
 } from "@/components/ui/accordion"
 import { ExternalLinkIcon } from "lucide-react"
-import {
-  CodeBlock,
-  CodeInline,
-  parseCodeProps,
-  parsePreProps,
-} from "renoun/components"
+import { CodeBlock, CodeInline } from "renoun/components"
 
 import { DataTableBuilder } from "./components/data-table/data-table-builder"
 import { Heading } from "./components/heading"
@@ -136,7 +131,7 @@ export function useMDXComponents() {
     code: (props) => {
       return (
         <CodeInline
-          {...parseCodeProps(props)}
+          {...props}
           allowErrors
           css={{
             backgroundColor: "hsl(var(--secondary))",
@@ -152,23 +147,16 @@ export function useMDXComponents() {
     },
     // Code block
     pre: (props: CodeBlockProps) => {
-      // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-      const { language, children } = parsePreProps(props)
-
-      if (language === "mermaid") {
-        return <MermaidWrapper chart={children as string} />
+      if (props.language === "mermaid") {
+        return <MermaidWrapper chart={props.children as string} />
       }
 
-      if (language === "railroad") {
-        return <RailroadWrapper content={children as string} />
+      // @ts-expect-error railroad is not a valid language
+      if (props.language === "railroad") {
+        return <RailroadWrapper content={props.children as string} />
       }
 
-      return (
-        <CodeBlock
-          {...parsePreProps(props)}
-          className={{ container: "my-4!" }}
-        />
-      )
+      return <CodeBlock {...props} className={{ container: "my-4!" }} />
     },
     Note: ({ title, children }: { title?: string; children: ReactNode }) => {
       return (

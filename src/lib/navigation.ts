@@ -34,14 +34,18 @@ async function buildTreeNavigation(entry: EntryType): Promise<TreeItem | null> {
     }
     return {
       title: frontmatter?.navTitle ?? entry.getTitle(),
-      path: `/docs${entry.getPath()}`,
+      path: `/docs${entry.getPathname()}`,
       isFile: isFile(entry),
-      slug: entry.getPathSegments(),
+      slug: entry.getPathnameSegments(),
       depth: entry.getDepth(),
       children: isDirectory(entry)
         ? (
             await Promise.all(
-              (await entry.getEntries()).map(buildTreeNavigation),
+              await Promise.all(
+                ((await entry.getEntries()) as EntryType[]).map(
+                  buildTreeNavigation,
+                ),
+              ),
             )
           ).filter((ele) => !!ele)
         : [],
@@ -55,9 +59,9 @@ async function buildTreeNavigation(entry: EntryType): Promise<TreeItem | null> {
     const frontmatter = await file.getExportValue("frontmatter")
     return {
       title: frontmatter.navTitle ?? entry.getTitle(),
-      path: `/docs${entry.getPath()}`,
+      path: `/docs${entry.getPathname()}`,
       isFile: isFile(entry),
-      slug: entry.getPathSegments(),
+      slug: entry.getPathnameSegments(),
       depth: entry.getDepth(),
       children: [],
     }

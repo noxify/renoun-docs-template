@@ -1,11 +1,11 @@
 import type { z } from "zod"
-import { EntryGroup, isDirectory, isFile } from "renoun/file-system"
+import { Collection, isDirectory, isFile } from "renoun/file-system"
 
 import type { frontmatterSchema } from "./validations"
 import { removeFromArray } from "./lib/utils"
 import { generateDirectories } from "./sources"
 
-export const DocumentationGroup = new EntryGroup({
+export const DocumentationGroup = new Collection({
   entries: [...generateDirectories()],
 })
 
@@ -43,11 +43,11 @@ export const getFileContent = async (source: EntryType) => {
   // first, try to get the file based on the given path
 
   return await DocumentationGroup.getFile(
-    source.getPathSegments(),
+    source.getPathnameSegments(),
     "mdx",
   ).catch(async () => {
     return await DocumentationGroup.getFile(
-      [...source.getPathSegments(), "index"],
+      [...source.getPathnameSegments(), "index"],
       "mdx",
     ).catch(() => null)
   })
@@ -67,9 +67,9 @@ export async function getSections(source: EntryType) {
     if (isDirectory(source)) {
       return (
         await (
-          await DocumentationGroup.getDirectory(source.getPathSegments())
+          await DocumentationGroup.getDirectory(source.getPathnameSegments())
         ).getEntries()
-      ).filter((ele) => ele.getPath() !== source.getPath())
+      ).filter((ele) => ele.getPathname() !== source.getPathname())
     }
 
     if (isFile(source) && source.getBaseName() === "index") {
@@ -79,9 +79,9 @@ export async function getSections(source: EntryType) {
   } else {
     return (
       await (
-        await DocumentationGroup.getDirectory(source.getPathSegments())
+        await DocumentationGroup.getDirectory(source.getPathnameSegments())
       ).getEntries()
-    ).filter((ele) => ele.getPath() !== source.getPath())
+    ).filter((ele) => ele.getPathname() !== source.getPathname())
   }
 }
 
@@ -106,7 +106,7 @@ export const getBreadcrumbItems = async (slug: string[]) => {
     let frontmatter: z.infer<typeof frontmatterSchema> | undefined
     try {
       collection = await DocumentationGroup.getEntry(currentPageSegement)
-      if (collection.getPathSegments().includes("index")) {
+      if (collection.getPathnameSegments().includes("index")) {
         file = await getFileContent(collection.getParent())
       } else {
         file = await getFileContent(collection)
@@ -121,7 +121,7 @@ export const getBreadcrumbItems = async (slug: string[]) => {
     if (!frontmatter) {
       items.push({
         title: collection.getTitle(),
-        path: ["docs", ...collection.getPathSegments()],
+        path: ["docs", ...collection.getPathnameSegments()],
       })
     } else {
       const title = getTitle(collection, frontmatter, true)
@@ -129,7 +129,7 @@ export const getBreadcrumbItems = async (slug: string[]) => {
         title,
         path: [
           "docs",
-          ...removeFromArray(collection.getPathSegments(), ["index"]),
+          ...removeFromArray(collection.getPathnameSegments(), ["index"]),
         ],
       })
     }
