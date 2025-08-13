@@ -5,7 +5,16 @@ import { docSchema } from "./validations"
 type ElementType<T extends readonly unknown[]> =
   T extends readonly (infer ElementType)[] ? ElementType : never
 
-const sources = ["aria-docs", "renoun-docs", "test-collection"] as const
+const sources = [
+  "aria-docs", 
+  "renoun-docs", 
+  "test-collection",
+  "performance-docs",
+  "security-guides", 
+  "api-reference",
+  "tutorials-hub",
+  "best-practices"
+] as const
 
 export function generateDirectories() {
   return sources.map((directory) => {

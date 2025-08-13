@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "renoun next build && pnpm generate-pagefind",
+    "create:pages": "node create-test-collections.js",
     "deps:check": "pnpm outdated -r",
     "deps:update": "pnpm update -i -L -r",
     "dev": "renoun next dev",
