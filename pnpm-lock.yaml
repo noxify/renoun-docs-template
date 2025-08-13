@@ -130,6 +130,9 @@ importers:
       tailwindcss-animate:
         specifier: 1.0.7
         version: 1.0.7(tailwindcss@4.1.11)
+      tm-grammars:
+        specifier: 1.24.3
+        version: 1.24.3
       tm-themes:
         specifier: 1.10.7
         version: 1.10.7
@@ -5101,6 +5104,9 @@ packages:
   tinyglobby@0.2.14:
     resolution: {integrity: sha512-tX5e7OM1HnYr2+a2C/4V0htOcSQcoSTH9KgJnVvNm5zm/cyEWKJ7j7YutsH9CxMdtOkkLFy2AHrMci9IM8IPZQ==}
     engines: {node: '>=12.0.0'}
+
+  tm-grammars@1.24.3:
+    resolution: {integrity: sha512-rpI49uNHDoJKSrMkWQAVI5ZXBbagGj12N3tLdirD9koKbWUtOoQNrcE6LVKZ0vj4rzQHDbSRtWB9XZtaSg2Aug==}
 
   tm-themes@1.10.7:
     resolution: {integrity: sha512-/7UiSrze10BQqlyy43LRT4QmQxCYJKMSlyMM6umKwsDIAQZlFqyj5sDe/qoaiVOvAzv22VsoC0GfcEKxI8J0ng==}
@@ -11440,6 +11446,8 @@ snapshots:
     dependencies:
       fdir: 6.4.6(picomatch@4.0.3)
       picomatch: 4.0.3
+
+  tm-grammars@1.24.3: {}
 
   tm-themes@1.10.7: {}
 

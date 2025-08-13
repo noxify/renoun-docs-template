@@ -145,8 +145,37 @@ export function useMDXComponents() {
         />
       )
     },
+    CodeInline: (props) => {
+      return (
+        <CodeInline
+          {...props}
+          allowErrors
+          css={{
+            backgroundColor: "hsl(var(--secondary))",
+            color: "auto",
+            boxShadow: "none",
+            display: "inline",
+          }}
+          paddingX="auto"
+          paddingY="auto"
+          className="border px-2 py-0.5 text-xs"
+        />
+      )
+    },
     // Code block
     pre: (props: CodeBlockProps) => {
+      if (props.language === "mermaid") {
+        return <MermaidWrapper chart={props.children as string} />
+      }
+
+      // @ts-expect-error railroad is not a valid language
+      if (props.language === "railroad") {
+        return <RailroadWrapper content={props.children as string} />
+      }
+
+      return <CodeBlock {...props} className={{ container: "my-4!" }} />
+    },
+    CodeBlock: (props: CodeBlockProps) => {
       if (props.language === "mermaid") {
         return <MermaidWrapper chart={props.children as string} />
       }
