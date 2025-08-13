@@ -16,7 +16,7 @@ env:
   FORCE_COLOR: 3
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -24,7 +24,7 @@ jobs:
       - name: Setup
         uses: ./.github/setup
 
-      - name: Lint
+      - name: build
         run: pnpm build
 
 
