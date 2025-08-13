@@ -31,7 +31,7 @@ export default withMDX({
   reactStrictMode: true,
   trailingSlash: true,
   poweredByHeader: false,
-
+  staticPageGenerationTimeout: 300,
   pageExtensions: ["js", "jsx", "ts", "tsx", "md", "mdx"],
   eslint: { ignoreDuringBuilds: true },
   typescript: { ignoreBuildErrors: true },
